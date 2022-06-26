@@ -1,8 +1,6 @@
-import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { PortfolioData } from '../../redux/reducers/portfolio/selectors';
-import { Coin } from '../../types/Coin';
 import { Portfolio } from '../../types/Portfolio';
 import { PortfolioLineItem } from '../PortfolioLineItem/PortfolioLineItem';
 import './portfolioList.sass'

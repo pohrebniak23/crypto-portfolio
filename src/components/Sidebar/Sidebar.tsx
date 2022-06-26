@@ -18,7 +18,7 @@ export const Sidebar: React.FC = () => {
                         isActive ? 'sidebar__active' : ''
                       }
                     >
-                      Главная
+                      Home
                     </NavLink>
                   </li>
                   <li>
@@ -28,7 +28,7 @@ export const Sidebar: React.FC = () => {
                         isActive ? 'sidebar__active' : ''
                       }
                     >
-                      Портфолио
+                      Portfolio
                     </NavLink>
                   </li>
                 </ul>

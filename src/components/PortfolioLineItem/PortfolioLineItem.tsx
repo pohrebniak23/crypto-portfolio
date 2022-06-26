@@ -18,7 +18,7 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
     const data = coins.find((item: Coin) => item.id === id) || null;
 
     setCoinData(data);
-  }, [coins]);
+  }, [coins, id]);
 
   return (
     <>

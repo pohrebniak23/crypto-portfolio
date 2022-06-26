@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { allTimeProfit, GainerLooser, topGainerLooser } from "../../helpers/portfolioInfo";
 import { Coin } from "../../types/Coin";
@@ -22,15 +23,21 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
       <div className="portfolio-info__block">
         <div className="portfolio-info__balance">
           <h3 className="portfolio-info__title">
-            Сумма портфеля / изменения за 24ч.
+            Total sum
           </h3>
           <div className={`portfolio-info__sum`}>{sum.toLocaleString()}$</div>
+        </div>
+
+        <div className="portfolio-info__profit">
+          <h3 className="portfolio-info__title">
+            All time profit
+          </h3>
           <div
-            className={
-              profit > 0
-                ? `portfolio-info__profit_right portfolio-info__profit_right_green`
-                : `portfolio-info__profit_right portfolio-info__profit_right_red`
-            }
+            className={classNames(
+              'portfolio-info__profit_right',
+              { 'portfolio-info__profit_right_green': profit > 0 },
+              { 'portfolio-info__profit_right_red': profit < 0 }
+            )}
           >
             <span className={"portfolio-info__profit_green"}>
               {profit.toFixed(2)}$
