@@ -1,0 +1,161 @@
+.portfolio-info
+    border-radius: 20px
+    background: #fff
+    padding: 16px
+    margin-right: 20px
+    width: 320px 
+    min-width: 320px
+    height: max-content
+    &__block
+        display: flex
+        flex-direction: column
+        padding: 16px
+    &__balance
+        display: flex
+        flex-direction: column
+        border-bottom: 1px solid rgba(0, 0, 0, .12)
+        padding-bottom: 6px
+    &__title
+        font-size: 14px 
+        color: rgba(156,163,175,1)
+        margin-bottom: 0
+        margin-top: 0
+        font-weight: 400
+    &__sum
+        font-size: 26px
+        font-weight: 600
+        margin-top: 10px
+        margin-bottom: 8px
+        color: #000
+        transition: .4s
+        &-enter
+            transition: .4s
+            opacity: 0
+        &-enter-activate
+            transition: .4s
+            opacity: 1
+        // &-exit
+        //     transition: .4s
+        //     opacity: 1
+        // &-exit-activate
+        //     transition: .4s
+        //     opacity: 0.01
+
+    &__24h
+        margin-bottom: 10px
+        display: flex
+        align-items: center
+        span
+            margin-left: 5px
+        &_green
+            color: rgba(22,163,74,1)
+            span
+                background: #DCFCE7
+                padding: 4px 
+                color: rgba(22,163,74,1)
+                border-radius: 4px
+        &_red
+            color: rgba(220,38,38,1)
+            span
+                background: rgba(254,226,226,1)
+                padding: 4px 
+                color: rgba(220,38,38,1)
+                border-radius: 4px
+    &__profit
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-top: 14px
+        padding-bottom: 14px
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+        &_right
+            display: flex
+            flex-direction: column
+            align-items: flex-end
+            span
+                font-size: 16px
+                &:last-child
+                    font-size: 14px
+            &_green
+                color: rgba(22,163,74,1)
+            &_red
+                color: rgba(220,38,38,1)
+    &__coins
+        display: flex
+        flex-direction: column
+        margin-top: 14px
+        &:not(:last-child)
+            padding-bottom: 14px
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+    &__line
+        display: flex
+        justify-content: space-between
+        align-items: center
+        &-item
+            display: flex
+            align-items: center
+        &-image
+            width: 32px
+            height: 32px    
+            object-fit: cover
+            margin-right: 10px
+        &-column
+            display: flex
+            flex-direction: column
+            &-end
+                height: 100%
+                align-items: flex-end
+                justify-content: space-between
+        &-ticker
+            font-size: 16px
+            font-weight: 600
+            margin-bottom: 4px
+        &-text
+            font-size: 14px 
+            color: rgba(156,163,175,1)
+            margin-bottom: 0
+            margin-top: 0
+            font-weight: 400
+    &__gainer
+        margin-top: 14px
+        &_green
+            color: rgba(22,163,74,1)
+        &_percent
+            font-size: 14px
+            margin-top: 3px
+    &__loser
+        margin-top: 14px
+        &_red
+            color: rgba(220,38,38,1)
+        &_percent
+            font-size: 14px
+            margin-top: 3px
+
+.portfolio-info__sum.entering,
+.portfolio-info__24h.entering,
+.portfolio-info__profit_right.entering,
+.portfolio-info__gainer.entering,
+.portfolio-info__loser.entering
+    transition: .1s
+    opacity: 0.01
+.portfolio-info__sum.entered,
+.portfolio-info__24h.entered,
+.portfolio-info__profit_right.entered,
+.portfolio-info__gainer.entered,
+.portfolio-info__loser.entered
+    transition: .1s
+    opacity: 1
+.portfolio-info__sum.exiting,
+.portfolio-info__24h.exiting,
+.portfolio-info__profit_right.exiting,
+.portfolio-info__gainer.exiting,
+.portfolio-info__loser.exiting
+    transition: .4s
+    opacity: 0.01
+.portfolio-info__sum.exited,
+.portfolio-info__24h.exited,
+.portfolio-info__profit_right.exited,
+.portfolio-info__gainer.exited,
+.portfolio-info__loser.exited
+    transition: .4s
+    opacity: 1

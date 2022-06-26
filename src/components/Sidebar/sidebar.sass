@@ -1,0 +1,57 @@
+.sidebar
+    min-width: 240px
+    max-width: 240px
+    background: #0C1643
+    // border-right: 1px solid rgba(0, 0, 0, .2)
+    // box-shadow: 1px 1px 15px rgba(0, 0, 0, .05)
+    height: 100vh
+    padding: 0
+    display: flex
+    flex-direction: column
+    &__logo
+        width: 80%
+        max-width: 200px
+        height: auto
+        margin: 0 auto
+        margin-top: 10px
+        img
+            width: 100%
+            height: auto
+            object-fit: cover
+            display: block
+            margin: 0 auto
+    ul 
+        list-style: none
+        padding: 0 10px
+        margin-top: 10px
+        li 
+            &:not(:last-child)
+                margin-bottom: 15px
+            a
+                font-size: 18px
+                padding: 13px 10px
+                border-radius: 8px
+                display: flex
+                align-items: center
+                text-decoration: none
+                color: #fff
+                text-transform: uppercase
+                font-family: sans-serif
+                line-height: 100%
+                font-weight: 600
+                svg
+                    width: 22px
+                    height: auto
+                    margin-right: 10px
+                    path
+                        stroke: #fff
+    &__active
+        background: #E8F0FB
+        color: #0C1643 !important
+        svg
+            path
+                stroke: #0C1643 !important
+
+.sidebarMenu
+    padding-left: 0
+    margin: 0

@@ -1,0 +1,98 @@
+.finance-search
+    position: absolute
+    background: #fff
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 945px
+    box-shadow: 1px 1px 10px 10px rgba(133, 98, 98, 0.08)
+    border-radius: 20px
+    height: calc(100vh - 25%)
+    padding: 20px 30px
+    z-index: -10
+    opacity: 0
+    &_open
+        position: absolute
+        opacity: 1
+        z-index: 4
+    &_close
+        position: absolute
+        right: -10px
+        top: -10px
+        width: 30px
+        height: 30px
+        cursor: pointer
+    &__list
+        display: flex
+        flex-direction: column
+        overflow-y: scroll
+        width: 100%
+        height: calc(100% - 25%)
+        padding-right: 10px
+        margin-top: 20px
+    &::-webkit-scrollbar-thumb
+        width: 3px
+        border-radius: 10px
+        background: rgba(0, 0, 0, 0.7)
+
+    &::-webkit-scrollbar
+        width: 3px
+        border-radius: 10px
+        background: rgba(0, 0, 0, 0.2)
+    &__input
+        width: 300px
+        padding: 10px 14px
+        display: block
+        margin-bottom: 20px
+        font-size: 16px
+        border-radius: 6px
+
+.coin 
+    display: flex 
+    align-items: center 
+    border-bottom: 1px solid #000 
+    width: 100% 
+    padding-bottom: 10px 
+    padding-top: 10px 
+    height: 60px 
+    cursor: pointer 
+    &:hover 
+        background: rgba(52, 28, 191, .04) 
+    &__image 
+        width: 40px 
+        height: auto 
+        margin-right: 20px 
+    &__name 
+        width: 150px 
+        font-family: sans-serif 
+    &__symbol 
+        width: 50px 
+        font-family: sans-serif 
+        margin-right: 50px 
+        text-align: center 
+    &__price 
+        width: 110px 
+        margin-right: 50px 
+        text-align: center 
+    &__count 
+        width: 160px 
+        text-align: center 
+    &__value 
+        width: 120px 
+        text-align: center 
+    &__change-percent 
+        width: 140px 
+        text-align: center 
+        margin-right: 30px 
+        font-family: sans-serif 
+        text-align: center 
+        &_green 
+            color: green 
+        &_red 
+            color: red 
+    &__market-cap 
+        width: 200px 
+    &__add 
+        width: 25px 
+        height: auto 
+        cursor: pointer 
