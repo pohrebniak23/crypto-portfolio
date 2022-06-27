@@ -16,8 +16,6 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
   const gainer: GainerLooser | null = topGainerLooser(coins, portfolio, 'gainer');
   const looser: GainerLooser | null = topGainerLooser(coins, portfolio, 'looser');
 
-  console.log(gainer);
-
   return (
     <div className="portfolio-info">
       <div className="portfolio-info__block">
@@ -25,7 +23,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
           <h3 className="portfolio-info__title">
             Total sum
           </h3>
-          <div className={`portfolio-info__sum`}>{sum.toLocaleString()}$</div>
+          <div className="portfolio-info__sum">{sum.toLocaleString()}$</div>
         </div>
 
         <div className="portfolio-info__profit">
@@ -39,7 +37,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
               { 'portfolio-info__profit_right_red': profit < 0 }
             )}
           >
-            <span className={"portfolio-info__profit_green"}>
+            <span className="portfolio-info__profit_green">
               {profit.toFixed(2)}$
             </span>
             <span>{((profit * 100) / +sum).toFixed(2)}%</span>
@@ -54,7 +52,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
                     Изменения за 24ч.
                   </h3> */}
             </div>
-            <div className={`portfolio-info__line portfolio-info__gainer`}>
+            <div className="portfolio-info__line portfolio-info__gainer">
               <div className="portfolio-info__line-item">
                 <img
                   className="portfolio-info__line-image"
@@ -85,7 +83,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
             <div className="portfolio-info__line">
               <h3 className="portfolio-info__title">Top looser</h3>
             </div>
-            <div className={'portfolio-info__line portfolio-info__loser'} >
+            <div className="portfolio-info__line portfolio-info__loser" >
                   <div className="portfolio-info__line-item">
                     <img
                       className="portfolio-info__line-image"

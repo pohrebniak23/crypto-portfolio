@@ -8,7 +8,7 @@ export const useInterval = (callback, delay) => {
     savedCallback.current = callback;
   }, [callback]);
 
-
+  // eslint-disable-next-line
   useEffect(() => {
     function tick() {
       savedCallback.current();

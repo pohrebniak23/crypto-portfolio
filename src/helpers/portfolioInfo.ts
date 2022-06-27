@@ -57,8 +57,8 @@ export const topGainerLooser = (
             gainer = profit;
             result = {
               coin: item,
-              profit: profit,
-              percent: percent,
+              profit,
+              percent,
             }
           }
         } else if (type === 'looser') {
@@ -66,8 +66,8 @@ export const topGainerLooser = (
             gainer = profit;
             result = {
               coin: item,
-              profit: profit,
-              percent: percent,
+              profit,
+              percent,
             }
           }
         }

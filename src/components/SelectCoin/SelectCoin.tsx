@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BaseEditing, Coins } from "../../redux/reducers/portfolio/selectors";
 import { CoinItem } from "./CoinItem";
 import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
@@ -27,7 +26,8 @@ export const SelectCoin: React.FC = () => {
   };
 
   return (
-    <div
+    <button
+      type="button"
       className={classNames(
         'coin-search',
         { 'coin-search_open': baseEditing },
@@ -43,16 +43,14 @@ export const SelectCoin: React.FC = () => {
           onChange={(e) => searchHandle(e.target.value)}
         />
         <div className="coin-search__list">
-          {filteredCoins.map((coin) => {
-            return (
-              <CoinItem
-                key={coin.id}
-                coin={coin}
-              />
-            );
-          })}
+          {filteredCoins.map((coin) => (
+            <CoinItem
+              key={coin.id}
+              coin={coin}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </button>
   );
 };

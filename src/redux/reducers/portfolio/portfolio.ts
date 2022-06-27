@@ -1,4 +1,4 @@
-import { ActionTypes, PortfolioAction } from "./types";
+import { PortfolioAT, PortfolioAction } from "./types";
 import { Portfolio } from '../../../types/Portfolio'
 
 const initialState = {
@@ -12,15 +12,18 @@ const initialState = {
   portfolio: [],
 }
 
-export const portfolio = (state = initialState, action: PortfolioAction) => {
+export const portfolio = (
+  state = initialState,
+  action: PortfolioAction,
+) => {
   switch (action.type) {
-    case ActionTypes.SET_COINS:
+    case PortfolioAT.SET_COINS:
       return {
         ...state,
         coins: action.payload
       }
 
-    case ActionTypes.EDIT_BASE:
+    case PortfolioAT.EDIT_BASE:
       return {
         ...state,
         selectedCoins: {
@@ -29,7 +32,7 @@ export const portfolio = (state = initialState, action: PortfolioAction) => {
         }
       }
 
-    case ActionTypes.CHANGE_BASE_CURR:
+    case PortfolioAT.CHANGE_BASE_CURR:
       return {
         ...state,
         selectedCoins: {
@@ -38,7 +41,7 @@ export const portfolio = (state = initialState, action: PortfolioAction) => {
         }
       }
 
-    case ActionTypes.ADD_TO_PORTFOLIO: {
+    case PortfolioAT.ADD_TO_PORTFOLIO: {
       if (state.portfolio.length > 0) {
         const isOld = state.portfolio.some((item: Portfolio) => item.id === action.payload.id);
 
@@ -59,11 +62,11 @@ export const portfolio = (state = initialState, action: PortfolioAction) => {
             return item;
             })
           }
-        } else {
-          return {
-            ...state,
-            portfolio: [...state.portfolio, action.payload]
-          }
+        }
+
+        return {
+          ...state,
+          portfolio: [...state.portfolio, action.payload]
         }
       }
 

@@ -1,29 +1,30 @@
+import { AddCrypto } from "../../../types/AddCrypto";
 import { Coin } from "../../../types/Coin";
-import { ActionTypes } from "./types";
+import { PortfolioAT } from "./types";
 
 export const PortfolioAC = {
   setCoins: (coins: Coin[]) => ({
-    type: ActionTypes.SET_COINS,
+    type: PortfolioAT.SET_COINS,
     payload: coins,
   }),
   editingBase: (isEditing: boolean) => ({
-    type: ActionTypes.EDIT_BASE,
+    type: PortfolioAT.EDIT_BASE,
     payload: isEditing,
   }),
   changeBaseCurr: (coinName: string) => ({
-    type: ActionTypes.CHANGE_BASE_CURR,
+    type: PortfolioAT.CHANGE_BASE_CURR,
     payload: coinName,
   }),
   editingQuote: (isEditing: boolean) => ({
-    type: ActionTypes.EDIT_BASE,
+    type: PortfolioAT.EDIT_BASE,
     payload: isEditing,
   }),
   changeQuoteCurr: (coinName: string) => ({
-    type: ActionTypes.CHANGE_QUOTE_CURR,
+    type: PortfolioAT.CHANGE_QUOTE_CURR,
     payload: coinName,
   }),
-  addToPortfolio: (addedCoin: any) => ({
-    type: ActionTypes.ADD_TO_PORTFOLIO,
+  addToPortfolio: (addedCoin: AddCrypto) => ({
+    type: PortfolioAT.ADD_TO_PORTFOLIO,
     payload: addedCoin,
   })
 };

@@ -1,49 +1,50 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
-import { BaseEditing, QuoteEditing } from '../../redux/reducers/portfolio/selectors';
+import {
+  BaseEditing,
+  QuoteEditing,
+} from '../../redux/reducers/portfolio/selectors';
 import { Coin } from '../../types/Coin';
 import './selectCoin.sass';
 
 type Props = {
-  coin: Coin
-}
+  coin: Coin;
+};
 
-export const CoinItem: React.FC<Props> = ({coin}) => {
-
-  const {id, name, image, symbol} = coin;
+export const CoinItem: React.FC<Props> = ({ coin }) => {
+  const { id, name, image, symbol } = coin;
   const baseEditing = useSelector(BaseEditing);
   const quoteEditing = useSelector(QuoteEditing);
 
   const dispatch = useDispatch();
 
-  const changeSelected = (id: string) => {
+  const changeSelected = (coinId: string) => {
     if (baseEditing) {
-      dispatch(PortfolioAC.changeBaseCurr(id));
+      dispatch(PortfolioAC.changeBaseCurr(coinId));
       dispatch(PortfolioAC.editingBase(false));
     }
 
     if (quoteEditing) {
-      dispatch(PortfolioAC.changeQuoteCurr(id));
+      dispatch(PortfolioAC.changeQuoteCurr(coinId));
       dispatch(PortfolioAC.editingQuote(false));
     }
-  }
+  };
 
   return (
-    <>
+    <div className="coinItem">
       {coin && (
-        <div
+        <button
+          type="button"
           className="coin"
-          onClick={() => {changeSelected(id)}}
+          onClick={() => {
+            changeSelected(id);
+          }}
         >
-            <img className="coin__image" src={image} alt="" />
-            <span className="coin__name">
-                {name}
-            </span>
-            <p className="coin__symbol">
-                {symbol}
-            </p>
-            {/* <p className="coin__price">
+          <img className="coin__image" src={image} alt="" />
+          <span className="coin__name">{name}</span>
+          <p className="coin__symbol">{symbol}</p>
+          {/* <p className="coin__price">
                 ${current_price.toLocaleString()}
             </p>
             <p className={priceChange > 0 ? "coin__change-percent coin__change-percent_green" : "coin__change-percent coin__change-percent_red"}>
@@ -53,9 +54,8 @@ export const CoinItem: React.FC<Props> = ({coin}) => {
                 Cap: ${marketCap.toLocaleString()}
             </p>
             <IoIosAddCircle className="coin__add" onClick={() => {changeCoinOnSidebar(name)}} /> */}
-            
-        </div>
+        </button>
       )}
-    </>
-  )
-}
+    </div>
+  );
+};

@@ -1,7 +1,7 @@
 import { AddCrypto } from "../../../types/AddCrypto";
 import { Coin } from "../../../types/Coin";
 
-export enum ActionTypes {
+export enum PortfolioAT {
   SET_COINS = 'SET_COINS',
   EDIT_BASE = 'EDIT_BASE',
   CHANGE_BASE_CURR = 'CHANGE_BASE_CURR',
@@ -11,32 +11,32 @@ export enum ActionTypes {
 }
 
 export interface SetCoinsAction {
-  type: ActionTypes.SET_COINS,
+  type: PortfolioAT.SET_COINS,
   payload: Coin[],
 }
 
 export interface EditBaseAction {
-  type: ActionTypes.EDIT_BASE,
+  type: PortfolioAT.EDIT_BASE,
   payload: boolean,
 }
 
 export interface ChangeBaseCurrAction {
-  type: ActionTypes.CHANGE_BASE_CURR,
+  type: PortfolioAT.CHANGE_BASE_CURR,
   payload: string,
 }
 
 export interface EditQuoteAction {
-  type: ActionTypes.EDIT_QUOTE,
+  type: PortfolioAT.EDIT_QUOTE,
   payload: boolean,
 }
 
 export interface ChangeQuoteCurrAction {
-  type: ActionTypes.CHANGE_QUOTE_CURR,
+  type: PortfolioAT.CHANGE_QUOTE_CURR,
   payload: string,
 }
 
 export interface AddToPortfolioAction {
-  type: ActionTypes.ADD_TO_PORTFOLIO,
+  type: PortfolioAT.ADD_TO_PORTFOLIO,
   payload: AddCrypto;
 }
 
