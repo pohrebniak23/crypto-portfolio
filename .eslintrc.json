@@ -1,0 +1,73 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "airbnb",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "rules": {
+      "import/extensions": [
+         "error",
+         "ignorePackages",
+         {
+           "js": "never",
+           "jsx": "never",
+           "ts": "never",
+           "tsx": "never"
+         }
+      ],
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error"],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "default-param-last": 0,
+      "jsx-a11y/label-has-associated-control": ["error", {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }],
+      "jsx-a11y/label-has-for": ["error", {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }],
+      "import/prefer-default-export": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+      "react/function-component-definition": [
+        2,
+        {
+          "namedComponents": "arrow-function",
+          "unnamedComponents": "arrow-function"
+        }
+      ]
+   },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      }
+    }
+}

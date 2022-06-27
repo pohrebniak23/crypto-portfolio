@@ -1,9 +1,9 @@
-import classNames from "classnames";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Coins } from "../../redux/reducers/portfolio/selectors";
-import { Coin } from "../../types/Coin";
-import { Portfolio } from "../../types/Portfolio";
+import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Coins } from '../../redux/reducers/portfolio/selectors';
+import { Coin } from '../../types/Coin';
+import { Portfolio } from '../../types/Portfolio';
 
 type Props = {
   item: Portfolio;
@@ -15,13 +15,13 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
   const [coinData, setCoinData] = useState<Coin | null>(null);
 
   useEffect(() => {
-    const data = coins.find((item: Coin) => item.id === id) || null;
+    const data = coins.find((coin: Coin) => coin.id === id) || null;
 
     setCoinData(data);
-  }, [coins]);
+  }, [coins, id]);
 
   return (
-    <>
+    <div className="coinLineItem">
       {coinData !== null && (
         <div className="portfolio-list__item" key={item.id}>
           <div className="portfolio-list__name">
@@ -43,15 +43,15 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
           <div className="portfolio-list__24h">
             <div
               className={classNames(
-                "portfolio-list__24h-change",
+                'portfolio-list__24h-change',
                 {
-                  "portfolio-list__24h-change_green":
+                  'portfolio-list__24h-change_green':
                     coinData.price_change_percentage_24h > 0,
                 },
                 {
-                  "portfolio-list__24h-change_red":
+                  'portfolio-list__24h-change_red':
                     coinData.price_change_percentage_24h < 0,
-                }
+                },
               )}
             >
               {coinData.price_change_percentage_24h.toFixed(2)}%
@@ -61,11 +61,15 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
           <div
             className={
               coinData.current_price * coinCount - buyPrice * coinCount > 0
-                ? "portfolio-list__profitAll portfolio-list__profitAll_green"
-                : "portfolio-list__profitAll portfolio-list__profitAll_red"
+                ? 'portfolio-list__profitAll portfolio-list__profitAll_green'
+                : 'portfolio-list__profitAll portfolio-list__profitAll_red'
             }
           >
-            {(coinData.current_price * coinCount - buyPrice * coinCount).toFixed(2)}$
+            {(
+              coinData.current_price * coinCount -
+              buyPrice * coinCount
+            ).toFixed(2)}
+            $
           </div>
 
           <div className="portfolio-list__avgPrice">{buyPrice.toFixed(2)}$</div>
@@ -80,6 +84,6 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };

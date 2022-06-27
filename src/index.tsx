@@ -1,17 +1,28 @@
+import { ThemeProvider, createTheme } from '@mui/material';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { App } from './App';
+import App from './App';
 import store from './redux/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#f4f7fd',
+    }
+  }
+});
+
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </Provider>
 );

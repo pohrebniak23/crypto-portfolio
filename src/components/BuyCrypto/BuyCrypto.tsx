@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PortfolioAC } from "../../redux/reducers/portfolio/action-creators";
 import { BaseCurr, Coins, QuoteCurr } from "../../redux/reducers/portfolio/selectors";
 import { Coin } from "../../types/Coin";
@@ -89,7 +88,8 @@ export const BuyCrypto: React.FC = () => {
                   value={buyCount}
                   onChange={(e: any) => setBuyCount(e.target.value)}
                 />
-                <div
+                <button
+                  type="button"
                   className="transaction__coin"
                   onClick={() => selectNewCoin(changedCurr.BASE)}
                 >
@@ -101,7 +101,7 @@ export const BuyCrypto: React.FC = () => {
                   <div className="transaction__name">
                     {baseObj.symbol.toUpperCase()}
                   </div>
-                </div>
+                </button>
               </div>
             </>
           )}
@@ -136,7 +136,6 @@ export const BuyCrypto: React.FC = () => {
                 <label htmlFor="check" className="transaction__switch-label">Custom price</label>
                 <label className="transaction__switch-block">
                   <input type="checkbox" checked={isCustomPrice} onChange={() => setIsCustomPrice(!isCustomPrice)}/>
-                  <span className="transaction__slider round"></span>
                 </label>
               </div>
             </>

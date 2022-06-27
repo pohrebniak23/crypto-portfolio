@@ -6,6 +6,7 @@ import { SelectCoin } from "../../components/SelectCoin/SelectCoin";
 import { Tabs } from "../../components/Tabs/Tabs";
 import { getCoins } from "../../helpers/portfolio";
 import { walletSum } from "../../helpers/portfolioInfo";
+import { useInterval } from "../../hooks/useInterval";
 import { PortfolioAC } from "../../redux/reducers/portfolio/action-creators";
 import { PortfolioData } from "../../redux/reducers/portfolio/selectors";
 import { Coin } from "../../types/Coin";
@@ -24,19 +25,24 @@ export const Portfolio: React.FC = () => {
       });
   }, [dispatch]);
 
+  useInterval(() => {
+    getCoins()
+      .then((data: any) => {
+        dispatch(PortfolioAC.setCoins(data.data));
+        setCoins(data.data);
+      });
+  }, 15000);
+
   const sum = walletSum(coins, portfolio);
 
   return (
     <div className="finance">
       <div className="finance__content">
         <div className="finance__info">
-          <h1 className="finance__title">Portfolio</h1>
-
-          {portfolio.length > 0 && (
-            <div className="finance__sum">
-              {`Tatal portfolio value: ${sum}`}
-            </div>
-          )}
+          <h1 className="finance__title">Dashboard</h1>
+          <h2 className="finance__subtitle">
+            An overview of cryptocurrencies and markets
+          </h2>
         </div>
 
         {portfolio.length > 0 ? (

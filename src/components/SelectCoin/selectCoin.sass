@@ -1,34 +1,50 @@
-.finance-search
+.coin-search
     position: absolute
-    background: #fff
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-    width: 945px
-    box-shadow: 1px 1px 10px 10px rgba(133, 98, 98, 0.08)
-    border-radius: 20px
-    height: calc(100vh - 25%)
-    padding: 20px 30px
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
     z-index: -10
     opacity: 0
+    background: rgba(0, 0, 0, .4)
+    transition: .4s
     &_open
-        position: absolute
         opacity: 1
         z-index: 4
-    &_close
+    &__title
+        font-size: 24px
+        margin: 0
+        margin-bottom: 14px
+    &__block
+        position: absolute
+        width: 650px
+        top: 50%
+        left: 50%
+        background: #fff
+        box-shadow: 1px 1px 10px 10px rgba(133, 98, 98, 0.08)
+        border-radius: 20px
+        padding: 30px
+        transform: translate(-50%, -50%)
+        height: 600px
+    &__close
         position: absolute
         right: -10px
         top: -10px
         width: 30px
         height: 30px
         cursor: pointer
+        border-radius: 50%
+        background: #000
+        color: #fff
+        display: flex
+        justify-content: center
+        align-content: center
     &__list
         display: flex
         flex-direction: column
         overflow-y: scroll
         width: 100%
-        height: calc(100% - 25%)
-        padding-right: 10px
+        height: 420px
         margin-top: 20px
     &::-webkit-scrollbar-thumb
         width: 3px
@@ -40,12 +56,15 @@
         border-radius: 10px
         background: rgba(0, 0, 0, 0.2)
     &__input
-        width: 300px
-        padding: 10px 14px
+        width: 100%
+        padding: 16px
         display: block
-        margin-bottom: 20px
-        font-size: 16px
+        margin: 0 auto
+        font-size: 18px
         border-radius: 6px
+        background: rgba(52, 28, 191, 0.1)
+        border: none
+        outline: none
 
 .coin 
     display: flex 

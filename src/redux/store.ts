@@ -1,7 +1,9 @@
+import { Dispatch } from "react";
 import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { Coin } from "../types/Coin";
 import { Portfolio } from "../types/Portfolio";
+import { User } from "../types/User";
 import { rootReducer } from "./reducers";
 
 export interface RootState {
@@ -14,6 +16,12 @@ export interface RootState {
       quoteEditing: boolean,
     },
     portfolio: Portfolio[],
+  },
+  auth: {
+    user: User | null,
+    isLoading: boolean,
+    isError: string,
+    isAuth: boolean,
   }
 }
 
@@ -26,3 +34,5 @@ const store = createStore(
 );
 
 export default store;
+
+export const dispatchThunk = store.dispatch as typeof store.dispatch | Dispatch<any>

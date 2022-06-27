@@ -1,28 +1,40 @@
 import React from 'react'
-import { Link, Route, Routes } from 'react-router-dom';
-import { Sidebar } from './components/Sidebar/Sidebar';
+import { useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { PrivateRoute } from './router/PrivateRoute';
+import { PublicRoute } from './router/PublicRoute';
+import { isAuth } from './redux/reducers/auth/selectors';
 import { Home } from './pages/Home/Home';
 import { Portfolio } from './pages/Portfolio/Portfolio';
+import { Login } from './pages/Login/Login';
 import './App.sass';
 
-export const App: React.FC = () => {
+const App: React.FC = () => {
+  const auth = useSelector(isAuth);
+
   return (
     <div className="app">
       <div className="wrapper">
-        <Sidebar />
 
         <Routes >
           <Route
             path="/"
-            element={<Home />}
+            element={<PrivateRoute isAuth={auth} component={Home} />}
+          />
+
+          <Route
+            path="/login"
+            element={<PublicRoute isAuth={auth} component={Login} />}
           />
 
           <Route
             path="/portfolio"
-            element={<Portfolio />}
+            element={<PrivateRoute isAuth={auth} component={Portfolio} />}
           />
         </Routes>
       </div>
     </div>
   );
 };
+
+export default App;
