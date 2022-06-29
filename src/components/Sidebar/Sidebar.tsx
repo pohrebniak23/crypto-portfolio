@@ -1,6 +1,7 @@
-import { Drawer, List, ListItem } from '@mui/material';
+import { Button, Drawer, List, ListItem } from '@mui/material';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
 import {ReactComponent as Logo} from '../../assets/images/logo.svg';
 
 export const Sidebar: React.FC = () => {
@@ -10,6 +11,11 @@ export const Sidebar: React.FC = () => {
     { text: 'Home', to: '/' },
     { text: 'Portfolio', to: '/portfolio' },
   ];
+
+  const logOut = () => {
+    const auth = getAuth();
+    signOut(auth);
+  }
 
   return (
     <Drawer
@@ -32,7 +38,7 @@ export const Sidebar: React.FC = () => {
       <Logo style={{ width: '100%', height: 'auto' }} />
       <List>
         {links.map((item) => (
-          <ListItem disablePadding sx={{ pb: 1.5 }}>
+          <ListItem key={item.to} disablePadding sx={{ pb: 1.5 }}>
             <NavLink
               to={item.to}
               style={isActive => ({
@@ -54,14 +60,20 @@ export const Sidebar: React.FC = () => {
             </NavLink>
           </ListItem>
         ))}
+       
       </List>
 
-      {/* <NavLink
-        to="/portfolio"
-        className={({ isActive }) => (isActive ? 'sidebar__active' : '')}
+      <Button
+        type="button"
+        onClick={logOut}
+        variant="contained"
+        sx={{
+          mt: 'auto',
+          mb: 3
+        }}
       >
-        Portfolio
-      </NavLink> */}
+        Logout
+      </Button>
     </Drawer>
   );
 };

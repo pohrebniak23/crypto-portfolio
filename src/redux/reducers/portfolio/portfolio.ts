@@ -76,6 +76,12 @@ export const portfolio = (
       }
     }
 
+    case PortfolioAT.LOAD_PORTFOLIO:
+      return {
+        ...state,
+        portfolio: [...action.payload]
+      }
+
     default:
       return state
   }

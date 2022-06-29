@@ -8,6 +8,7 @@ export enum PortfolioAT {
   EDIT_QUOTE = 'EDIT_QUOTE',
   CHANGE_QUOTE_CURR = 'CHANGE_QUOTE_CURR',
   ADD_TO_PORTFOLIO = 'ADD_TO_PORTFOLIO',
+  LOAD_PORTFOLIO = 'LOAD_PORTFOLIO',
 }
 
 export interface SetCoinsAction {
@@ -40,10 +41,16 @@ export interface AddToPortfolioAction {
   payload: AddCrypto;
 }
 
+export interface LoadPortfolio {
+  type: PortfolioAT.LOAD_PORTFOLIO,
+  payload: AddCrypto[],
+}
+
 export type PortfolioAction =
   SetCoinsAction |
   AddToPortfolioAction |
   EditBaseAction |
   ChangeBaseCurrAction |
   EditQuoteAction |
-  ChangeQuoteCurrAction;
+  ChangeQuoteCurrAction |
+  LoadPortfolio;

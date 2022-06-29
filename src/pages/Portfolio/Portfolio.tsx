@@ -1,22 +1,41 @@
 import { Box, Paper, Typography } from '@mui/material';
+import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PortfolioInfo } from '../../components/PortfolioInfo/PortfolioInfo';
-import { PortfolioList } from '../../components/PortfolioList/PortfolioList';
+import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { getCoins } from '../../helpers/portfolio';
 import { walletSum } from '../../helpers/portfolioInfo';
 import { useInterval } from '../../hooks/useInterval';
+import { userData } from '../../redux/reducers/auth/selectors';
 import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
 import { PortfolioData } from '../../redux/reducers/portfolio/selectors';
 import { Coin } from '../../types/Coin';
 import './portfolio.sass';
+import { PortfolioContent } from './PortfolioContent';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
   const portfolio = useSelector(PortfolioData);
   const [coins, setCoins] = useState<Coin[] | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const db = getDatabase();
+  const user = useSelector(userData);
+
+  useEffect(() => {
+    if (user) {
+      const starCountRef = ref(db, `users/${user.id}`);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+
+        dispatch(PortfolioAC.loadPortfolio(data.data));
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     getCoins().then((data: any) => {
@@ -47,7 +66,7 @@ export const Portfolio: React.FC = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            mr: 3
+            mr: 3,
           }}
         >
           <Paper
@@ -67,21 +86,10 @@ export const Portfolio: React.FC = () => {
             </Typography>
           </Paper>
 
-          {portfolio.length > 0 ? (
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 3,
-                display: 'flex',
-                mt: 3
-              }}
-            >
-              <PortfolioInfo sum={sum} coins={coins} portfolio={portfolio} />
-              <PortfolioList />
-            </Box>
+          {isLoading ? (
+            <Loader />
           ) : (
-            <Typography variant="h5">Your portfolio is empty</Typography>
+            <PortfolioContent sum={sum} portfolio={portfolio} coins={coins} />
           )}
         </Box>
 
