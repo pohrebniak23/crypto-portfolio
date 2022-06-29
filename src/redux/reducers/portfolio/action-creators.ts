@@ -26,5 +26,9 @@ export const PortfolioAC = {
   addToPortfolio: (addedCoin: AddCrypto) => ({
     type: PortfolioAT.ADD_TO_PORTFOLIO,
     payload: addedCoin,
+  }),
+  loadPortfolio: (crypto: AddCrypto[]) => ({
+    type: PortfolioAT.LOAD_PORTFOLIO,
+    payload: crypto,
   })
 };

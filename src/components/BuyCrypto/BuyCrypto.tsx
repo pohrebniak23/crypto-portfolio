@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, set } from "firebase/database";
+
 import { PortfolioAC } from "../../redux/reducers/portfolio/action-creators";
-import { BaseCurr, Coins, QuoteCurr } from "../../redux/reducers/portfolio/selectors";
+import { BaseCurr, Coins, PortfolioData, QuoteCurr } from "../../redux/reducers/portfolio/selectors";
 import { Coin } from "../../types/Coin";
+import { userData } from "../../redux/reducers/auth/selectors";
+
 
 enum changedCurr {
   BASE = 'BASE',
@@ -11,6 +15,8 @@ enum changedCurr {
 
 export const BuyCrypto: React.FC = () => {
   const dispatch = useDispatch();
+  const user = useSelector(userData);
+  const data = useSelector(PortfolioData);
 
   const coins = useSelector(Coins);
   const baseCurr = useSelector(BaseCurr);
@@ -37,6 +43,13 @@ export const BuyCrypto: React.FC = () => {
     }
   }, [baseObj, quoteObj, buyCount, isCustomPrice]);
 
+  useEffect(() => {
+    if (user && data.length > 0) {
+      const db = getDatabase();
+      set(ref(db, `users/${user.id}`), {data});
+    }
+  }, [data])
+
   const selectNewCoin = (changed: changedCurr) => {
     if (changed === changedCurr.BASE) {
       dispatch(PortfolioAC.editingBase(true))
@@ -51,11 +64,11 @@ export const BuyCrypto: React.FC = () => {
     if (baseObj && quoteObj) {
       const addedObj = {
         id: baseObj.id,
-        buyPrice: !isCustomPrice ? baseObj.current_price : price,
+        buyPrice: !isCustomPrice ? +baseObj.current_price : +price,
         coinCount: buyCount,
       }
 
-      dispatch(PortfolioAC.addToPortfolio(addedObj));
+      dispatch(PortfolioAC.addToPortfolio(addedObj))
     }
   };
 

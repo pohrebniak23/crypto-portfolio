@@ -1,6 +1,7 @@
-import axios from "axios";
-import { User } from "../../../types/User"
-import { AuthAT } from "./types"
+// import axios from "axios";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { User } from "../../../types/User";
+import { AuthAT } from "./types";
 
 export const AuthAC = {
   setAuth: (isAuth: boolean) => ({
@@ -23,24 +24,45 @@ export const AuthAC = {
     try {
       dispatch(AuthAC.setLoading(true));
       setTimeout(async () => {
-        const response = await axios.get<User[]>('./users.json');
-        const mockUser = response.data.find(user => (
-          user.username === username && user.password === password
-        ))
-        if (mockUser) {
-          localStorage.setItem('auth', 'true');
-          localStorage.setItem('username', mockUser.username);
-          dispatch(AuthAC.setAuth(true));
-          dispatch(AuthAC.setUser(mockUser));
-        } else {
-          dispatch(AuthAC.setError('Login or password is incorrect'));
-        }
-
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, username, password)
+          .then((userCredential) => {
+            dispatch(AuthAC.setAuth(true));
+            dispatch(AuthAC.setUser({
+              id: userCredential.user.uid,
+              username: userCredential.user.email,
+            }));
+          })
+          .catch(() => {
+            dispatch(AuthAC.setError('Login or password is incorrect'));
+          })
         dispatch(AuthAC.setLoading(false));
       }, 1000);
 
     } catch (error: any) {
-      // dispatch(AuthAC.setLoading(true))
+      dispatch(AuthAC.setError('Login or password is incorrect'));
+    }
+  },
+  register: (username: string, password: string) => (dispatch: any) => {
+    try {
+      dispatch(AuthAC.setLoading(true));
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+          dispatch(AuthAC.setAuth(true));
+            dispatch(AuthAC.setUser({
+              id: userCredential.user.uid,
+              username: userCredential.user.email,
+            }));
+        })
+        .catch((error: any) => {
+          dispatch(AuthAC.setError(`Registration not completed - ${error}`));
+        });
+
+      dispatch(AuthAC.setError(''));
+      dispatch(AuthAC.setLoading(false));
+    } catch (error: any) {
+      dispatch(AuthAC.setError(`${error}`));
     }
   }
 }

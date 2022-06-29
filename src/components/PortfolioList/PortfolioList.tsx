@@ -61,7 +61,7 @@ export const PortfolioList: React.FC = () => {
           <TableBody>
             {portfolio.length > 0 &&
               portfolio.map((item: Portfolio) => (
-                <PortfolioLineItem item={item} />
+                <PortfolioLineItem key={item.id} item={item} />
               ))}
           </TableBody>
         </Table>
