@@ -6,12 +6,11 @@ import {
   tableCellClasses,
   TableRow,
 } from '@mui/material';
-// import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Coins } from '../../redux/reducers/portfolio/selectors';
+import { useAppSelector } from '../../hooks/redux';
 import { Coin } from '../../types/Coin';
 import { Portfolio } from '../../types/Portfolio';
+import { PopoverMenu } from './PopoverMenu';
 
 type Props = {
   item: Portfolio;
@@ -19,7 +18,7 @@ type Props = {
 
 export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
   const { id, buyPrice, coinCount } = item;
-  const coins = useSelector(Coins);
+  const { coins } = useAppSelector((state) => state.portfolio);
   const [coinData, setCoinData] = useState<Coin | null>(null);
 
   useEffect(() => {
@@ -48,14 +47,17 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
   }));
 
   return coinData !== null ? (
-    <StyledTableRow key={coinData.name} sx={{ border: 'none', backgroundColor: 'unset !important' }}>
+    <StyledTableRow
+      key={coinData.name}
+      sx={{ border: 'none', backgroundColor: 'unset !important' }}
+    >
       <StyledTableCell
         component="th"
         scope="row"
         sx={{ display: 'flex', alignItems: 'center' }}
       >
         <img
-          style={{ width: '40px', height: '40px', marginRight: '16px' }}
+          style={{ width: '40px', height: 'auto', marginRight: '10px' }}
           src={coinData.image}
           alt=""
         />
@@ -121,8 +123,22 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
           </Typography>
         </Box>
       </StyledTableCell>
+
+      <StyledTableCell align="center">
+        <Box>
+          <PopoverMenu id={id} />
+        </Box>
+      </StyledTableCell>
     </StyledTableRow>
   ) : (
-    <Box>Not found</Box>
+    <StyledTableRow>
+      <StyledTableCell
+        component="th"
+        scope="row"
+        sx={{ display: 'flex', alignItems: 'center' }}
+      >
+        Not found
+      </StyledTableCell>
+    </StyledTableRow>
   );
 };

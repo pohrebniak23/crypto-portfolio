@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Dialog,
@@ -7,15 +7,14 @@ import {
   Typography,
   TextField,
 } from '@mui/material';
-import { BaseEditing, Coins } from '../../redux/reducers/portfolio/selectors';
 import { CoinItem } from './CoinItem';
-import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
 import './selectCoin.sass';
+import { useAppSelector } from '../../hooks/redux';
+import { editBase, editQuote } from '../../redux/reducers/Portfolio/PortfolioSlice';
 
 export const SelectCoin: React.FC = () => {
   const dispatch = useDispatch();
-  const coins = useSelector(Coins);
-  const baseEditing = useSelector(BaseEditing);
+  const { coins, selectedCoins } = useAppSelector((state) => state.portfolio);
   const [search, setSearch] = useState('');
 
   const searchHandle = (value: string) => {
@@ -27,13 +26,13 @@ export const SelectCoin: React.FC = () => {
   );
 
   const closeSarch = () => {
-    dispatch(PortfolioAC.editingBase(false));
-    dispatch(PortfolioAC.editingQuote(false));
+    dispatch(editBase(false));
+    dispatch(editQuote(false));
   };
 
   return (
     <Dialog
-      open={baseEditing}
+      open={selectedCoins.baseEditing}
       onClose={closeSarch}
       sx={{
         borderRadius: 4,
@@ -46,7 +45,7 @@ export const SelectCoin: React.FC = () => {
           borderRadius: 4,
         }}
       >
-        <Typography variant="h5" sx={{ p: 0, pb: 2, textAlign: 'center' }} >
+        <Typography variant="h5" sx={{ p: 0, pb: 2, textAlign: 'center' }}>
           Select coin
         </Typography>
         <DialogContent sx={{ p: 0 }}>
@@ -59,7 +58,7 @@ export const SelectCoin: React.FC = () => {
             sx={{
               width: '100%',
               borderRadius: 4,
-              pb: 2
+              pb: 2,
             }}
           />
           <Box

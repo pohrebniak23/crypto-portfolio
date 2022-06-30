@@ -52,6 +52,13 @@
           "some": ["nesting", "id"]
         }
       }],
+      "no-param-reassign": ["error", {
+        "props": "true",
+        "ignorePropertyModificationsFor": [
+          "state"
+        ]
+      }],
+      "import/no-named-as-default": 0,
       "import/prefer-default-export": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],

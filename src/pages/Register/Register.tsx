@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Alert, Box, Container, Grid, TextField, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { AuthAC } from '../../redux/reducers/auth/action-creators';
-import { dispatchThunk } from '../../redux/store';
-import { isError, isLoading } from '../../redux/reducers/auth/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { RegisterAction } from '../../redux/reducers/Auth/ActionCreators';
 
 export const Register: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const onSubmit = (values: any) => {
-    dispatchThunk(AuthAC.register(values.login, values.password));
+    dispatch(RegisterAction(values.login, values.password));
   };
 
-  const loading = useSelector(isLoading);
-  const errorAuth = useSelector(isError);
+  const {isLoading, isError} = useAppSelector(state => state.auth);
 
   const validationSchema = yup.object().shape({
     name: yup
@@ -126,7 +126,7 @@ export const Register: React.FC = () => {
                 <LoadingButton
                   type="submit"
                   fullWidth
-                  loading={loading}
+                  loading={isLoading}
                   variant="contained"
                   disabled={!isValid && !dirty}
                   onClick={() => handleSubmit()}
@@ -134,11 +134,11 @@ export const Register: React.FC = () => {
                 >
                   Register
                 </LoadingButton>
-                {errorAuth.length > 0 && (
+                {isError.length > 0 && (
                   <Alert
                     severity="error"
                     sx={{ mt: 2 }}
-                  >{errorAuth}</Alert>
+                  >{isError}</Alert>
                 )}
               </Box>
             )}
