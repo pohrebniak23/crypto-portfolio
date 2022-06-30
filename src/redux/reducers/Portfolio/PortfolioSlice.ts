@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Coin } from "../../../types/Coin";
 import { Portfolio } from "../../../types/Portfolio";
 
 interface PortfolioState {
-  coins: Coin[],
   selectedCoins: {
     baseCurr: string,
     baseEditing: boolean,
@@ -14,7 +12,6 @@ interface PortfolioState {
 }
 
 const initialState: PortfolioState = {
-  coins: [],
   selectedCoins: {
     baseCurr: 'bitcoin',
     baseEditing: false,
@@ -28,9 +25,6 @@ export const PortfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
   reducers: {
-    setCoins(state, action: PayloadAction<Coin[]>) {
-      state.coins = action.payload
-    },
     editBase(state, action: PayloadAction<boolean>) {
       state.selectedCoins.baseEditing = action.payload
     },
@@ -76,7 +70,6 @@ export const PortfolioSlice = createSlice({
 
 export default PortfolioSlice.reducer;
 export const {
-  setCoins,
   editBase,
   editQuote,
   changeBaseCurr,

@@ -47,7 +47,7 @@ export const PortfolioList: React.FC = () => {
 
       <TableContainer component={Box}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
+          <TableHead sx={{borderBottom: 'unset'}}>
             <TableRow>
               <StyledTableCell sx={{ borderRadius: '10px 0 0 10px' }}>
                 Name

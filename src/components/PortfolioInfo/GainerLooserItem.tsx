@@ -57,7 +57,7 @@ export const GainerLooserItem: React.FC<Props> = ({ title, data, profit }) => (
         >
           {data.profit.toFixed(2)}$
         </Typography>
-        <Typography variant="body2" sx={{ lineHeight: '100%' }}>
+        <Typography variant="body2" sx={{ lineHeight: '100%', textAlign: 'right' }}>
           {data.percent.toFixed(2)}%
         </Typography>
       </Box>

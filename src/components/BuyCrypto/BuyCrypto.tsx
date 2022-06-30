@@ -3,6 +3,7 @@ import { getDatabase, ref, set } from 'firebase/database';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { editBase, editQuote, addToPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { Coin } from '../../types/Coin';
+import { coinsAPI } from '../../services/CoinsService';
 
 enum changedCurr {
   BASE = 'BASE',
@@ -13,7 +14,8 @@ export const BuyCrypto: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const {user} = useAppSelector(state => state.auth);
-  const { coins, portfolio } = useAppSelector((state) => state.portfolio);
+  const { portfolio } = useAppSelector((state) => state.portfolio);
+  const { data: coins} = coinsAPI.useFetchAllCoinsQuery('');
   const {baseCurr, quoteCurr} = useAppSelector((state) => state.portfolio.selectedCoins);
 
   const [buyCount, setBuyCount] = useState<number>(1);
@@ -24,11 +26,13 @@ export const BuyCrypto: React.FC = () => {
   const [quoteObj, setQuoteOjb] = useState<Coin | null>(null);
 
   useEffect(() => {
-    const base = coins.find((coin) => coin.id === baseCurr) || null;
-    const quote = coins.find((coin) => coin.id === quoteCurr) || null;
+    if (coins) {
+      const base = coins.find((coin) => coin.id === baseCurr) || null;
+      const quote = coins.find((coin) => coin.id === quoteCurr) || null;
 
-    setBaseOjb(base);
-    setQuoteOjb(quote);
+      setBaseOjb(base);
+      setQuoteOjb(quote);
+    }
   }, [coins, baseCurr, quoteCurr]);
 
   useEffect(() => {
@@ -69,7 +73,7 @@ export const BuyCrypto: React.FC = () => {
 
   return (
     <div className="tabcontent__item">
-      {coins.length > 0 && (
+      {coins && coins.length > 0 && (
         <div className="transaction__block">
           {baseObj !== null && quoteObj !== null && (
             <div className="transaction__price">

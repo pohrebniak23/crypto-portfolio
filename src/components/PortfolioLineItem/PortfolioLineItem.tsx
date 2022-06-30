@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../../hooks/redux';
+import { coinsAPI } from '../../services/CoinsService';
 import { Coin } from '../../types/Coin';
 import { Portfolio } from '../../types/Portfolio';
 import { PopoverMenu } from './PopoverMenu';
@@ -18,13 +18,15 @@ type Props = {
 
 export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
   const { id, buyPrice, coinCount } = item;
-  const { coins } = useAppSelector((state) => state.portfolio);
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [coinData, setCoinData] = useState<Coin | null>(null);
 
   useEffect(() => {
-    const data = coins.find((coin: Coin) => coin.id === id) || null;
+    if (coins) {
+      const data = coins.find((coin: Coin) => coin.id === id) || null;
 
-    setCoinData(data);
+      setCoinData(data);
+    }
   }, [coins, id]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({

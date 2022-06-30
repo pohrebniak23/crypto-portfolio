@@ -1,30 +1,27 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { getDatabase, onValue, ref } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { getCoins } from '../../helpers/portfolio';
 import { walletSum } from '../../helpers/portfolioInfo';
 import { useAppSelector } from '../../hooks/redux';
-import { useInterval } from '../../hooks/useInterval';
-import { Coin } from '../../types/Coin';
 import './portfolio.sass';
 import { PortfolioContent } from './PortfolioContent';
-import {
-  loadPortfolio,
-  setCoins,
-} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { loadPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
   const { portfolio } = useAppSelector((state) => state.portfolio);
   const { user } = useAppSelector((state) => state.auth);
 
-  const [coinsList, setCoinsList] = useState<Coin[] | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(true);
   const db = getDatabase();
+
+  const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+    pollingInterval: 60000,
+  });
 
   useEffect(() => {
     if (user) {
@@ -33,26 +30,9 @@ export const Portfolio: React.FC = () => {
         const data = snapshot.val();
 
         dispatch(loadPortfolio(data.portfolio));
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
       });
     }
   }, [user, db, dispatch]);
-
-  useEffect(() => {
-    getCoins().then((data: Coin[]) => {
-      dispatch(setCoins(data));
-      setCoinsList(data);
-    });
-  }, [dispatch]);
-
-  useInterval(() => {
-    getCoins().then((data: Coin[]) => {
-      dispatch(setCoins(data));
-      setCoinsList(data);
-    });
-  }, 15000);
 
   const sum = walletSum(coinsList, portfolio);
 
@@ -95,7 +75,6 @@ export const Portfolio: React.FC = () => {
             <PortfolioContent
               sum={sum}
               portfolio={portfolio}
-              coins={coinsList}
             />
           )}
         </Box>

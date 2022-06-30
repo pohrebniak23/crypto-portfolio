@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -10,20 +10,31 @@ import {
 import { CoinItem } from './CoinItem';
 import './selectCoin.sass';
 import { useAppSelector } from '../../hooks/redux';
-import { editBase, editQuote } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import {
+  editBase,
+  editQuote,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { coinsAPI } from '../../services/CoinsService';
+import { Coin } from '../../types/Coin';
 
 export const SelectCoin: React.FC = () => {
   const dispatch = useDispatch();
-  const { coins, selectedCoins } = useAppSelector((state) => state.portfolio);
+  const { selectedCoins } = useAppSelector((state) => state.portfolio);
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [search, setSearch] = useState('');
+  const [filteredCoins, setFiltered] = useState<Coin[] | undefined>(coins);
 
   const searchHandle = (value: string) => {
     setSearch(value);
   };
 
-  const filteredCoins = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  useEffect(() => {
+    setFiltered(
+      coins && coins.filter((coin) =>
+        coin.name.toLowerCase().includes(search.toLowerCase()),
+      ),
+    );
+  }, [search]);
 
   const closeSarch = () => {
     dispatch(editBase(false));
@@ -66,7 +77,7 @@ export const SelectCoin: React.FC = () => {
               height: '420px',
             }}
           >
-            {filteredCoins.map((coin) => (
+            {filteredCoins && filteredCoins.map((coin) => (
               <CoinItem key={coin.id} coin={coin} />
             ))}
           </Box>

@@ -41,10 +41,10 @@ export const Sidebar: React.FC = () => {
           <ListItem key={item.to} disablePadding sx={{ pb: 1.5 }}>
             <NavLink
               to={item.to}
-              style={isActive => ({
-                background: isActive ? '#E8F0FB' : '#000',
-                color: isActive ? '#0C1643' : '#fff',
-                fontSize: '18px',
+              style={({isActive}) => ({
+                background: isActive ? '#0C1643' : '#E8F0FB',
+                color: isActive ? '#fff' : '#0C1643',
+                fontSize: '16px',
                 padding: '13px 10px',
                 borderRadius: '8px',
                 width: '100%',

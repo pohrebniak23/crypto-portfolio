@@ -3,20 +3,14 @@ import React from 'react';
 import { Empty } from '../../components/Empty/Empty';
 import { PortfolioInfo } from '../../components/PortfolioInfo/PortfolioInfo';
 import { PortfolioList } from '../../components/PortfolioList/PortfolioList';
-import { Coin } from '../../types/Coin';
 import { Portfolio } from '../../types/Portfolio';
 
 type Props = {
   sum: number;
-  coins: Coin[] | null;
   portfolio: Portfolio[];
 };
 
-export const PortfolioContent: React.FC<Props> = ({
-  sum,
-  coins,
-  portfolio,
-}) => (
+export const PortfolioContent: React.FC<Props> = ({ sum, portfolio }) =>
   portfolio.length > 0 ? (
     <Box
       sx={{
@@ -27,10 +21,9 @@ export const PortfolioContent: React.FC<Props> = ({
         mt: 3,
       }}
     >
-      <PortfolioInfo sum={sum} coins={coins} portfolio={portfolio} />
+      <PortfolioInfo sum={sum} portfolio={portfolio} />
       <PortfolioList />
     </Box>
   ) : (
     <Empty text="Your portfolio is empty" />
-  )
-);
+  );
