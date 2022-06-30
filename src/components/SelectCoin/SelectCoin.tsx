@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Dialog,
@@ -7,33 +7,43 @@ import {
   Typography,
   TextField,
 } from '@mui/material';
-import { BaseEditing, Coins } from '../../redux/reducers/portfolio/selectors';
 import { CoinItem } from './CoinItem';
-import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
 import './selectCoin.sass';
+import { useAppSelector } from '../../hooks/redux';
+import {
+  editBase,
+  editQuote,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { coinsAPI } from '../../services/CoinsService';
+import { Coin } from '../../types/Coin';
 
 export const SelectCoin: React.FC = () => {
   const dispatch = useDispatch();
-  const coins = useSelector(Coins);
-  const baseEditing = useSelector(BaseEditing);
+  const { selectedCoins } = useAppSelector((state) => state.portfolio);
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [search, setSearch] = useState('');
+  const [filteredCoins, setFiltered] = useState<Coin[] | undefined>(coins);
 
   const searchHandle = (value: string) => {
     setSearch(value);
   };
 
-  const filteredCoins = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  useEffect(() => {
+    setFiltered(
+      coins && coins.filter((coin) =>
+        coin.name.toLowerCase().includes(search.toLowerCase()),
+      ),
+    );
+  }, [search]);
 
   const closeSarch = () => {
-    dispatch(PortfolioAC.editingBase(false));
-    dispatch(PortfolioAC.editingQuote(false));
+    dispatch(editBase(false));
+    dispatch(editQuote(false));
   };
 
   return (
     <Dialog
-      open={baseEditing}
+      open={selectedCoins.baseEditing}
       onClose={closeSarch}
       sx={{
         borderRadius: 4,
@@ -46,7 +56,7 @@ export const SelectCoin: React.FC = () => {
           borderRadius: 4,
         }}
       >
-        <Typography variant="h5" sx={{ p: 0, pb: 2, textAlign: 'center' }} >
+        <Typography variant="h5" sx={{ p: 0, pb: 2, textAlign: 'center' }}>
           Select coin
         </Typography>
         <DialogContent sx={{ p: 0 }}>
@@ -59,7 +69,7 @@ export const SelectCoin: React.FC = () => {
             sx={{
               width: '100%',
               borderRadius: 4,
-              pb: 2
+              pb: 2,
             }}
           />
           <Box
@@ -67,7 +77,7 @@ export const SelectCoin: React.FC = () => {
               height: '420px',
             }}
           >
-            {filteredCoins.map((coin) => (
+            {filteredCoins && filteredCoins.map((coin) => (
               <CoinItem key={coin.id} coin={coin} />
             ))}
           </Box>

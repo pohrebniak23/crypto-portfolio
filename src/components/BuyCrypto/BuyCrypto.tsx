@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getDatabase, ref, set } from "firebase/database";
-
-import { PortfolioAC } from "../../redux/reducers/portfolio/action-creators";
-import { BaseCurr, Coins, PortfolioData, QuoteCurr } from "../../redux/reducers/portfolio/selectors";
-import { Coin } from "../../types/Coin";
-import { userData } from "../../redux/reducers/auth/selectors";
-
+import React, { useEffect, useState } from 'react';
+import { getDatabase, ref, set } from 'firebase/database';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { editBase, editQuote, addToPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { Coin } from '../../types/Coin';
+import { coinsAPI } from '../../services/CoinsService';
 
 enum changedCurr {
   BASE = 'BASE',
@@ -14,13 +11,12 @@ enum changedCurr {
 }
 
 export const BuyCrypto: React.FC = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(userData);
-  const data = useSelector(PortfolioData);
+  const dispatch = useAppDispatch();
 
-  const coins = useSelector(Coins);
-  const baseCurr = useSelector(BaseCurr);
-  const quoteCurr = useSelector(QuoteCurr);
+  const {user} = useAppSelector(state => state.auth);
+  const { portfolio } = useAppSelector((state) => state.portfolio);
+  const { data: coins} = coinsAPI.useFetchAllCoinsQuery('');
+  const {baseCurr, quoteCurr} = useAppSelector((state) => state.portfolio.selectedCoins);
 
   const [buyCount, setBuyCount] = useState<number>(1);
   const [price, setPrice] = useState<number>(1);
@@ -30,53 +26,55 @@ export const BuyCrypto: React.FC = () => {
   const [quoteObj, setQuoteOjb] = useState<Coin | null>(null);
 
   useEffect(() => {
-    const base = coins.find(coin => coin.id === baseCurr) || null;
-    const quote = coins.find(coin => coin.id === quoteCurr) || null
+    if (coins) {
+      const base = coins.find((coin) => coin.id === baseCurr) || null;
+      const quote = coins.find((coin) => coin.id === quoteCurr) || null;
 
-    setBaseOjb(base);
-    setQuoteOjb(quote);
+      setBaseOjb(base);
+      setQuoteOjb(quote);
+    }
   }, [coins, baseCurr, quoteCurr]);
 
   useEffect(() => {
     if (baseObj && quoteObj) {
-      setPrice(+(buyCount * baseObj.current_price).toFixed(3))
+      setPrice(+(buyCount * baseObj.current_price).toFixed(3));
     }
   }, [baseObj, quoteObj, buyCount, isCustomPrice]);
 
   useEffect(() => {
-    if (user && data.length > 0) {
+    if (user && portfolio.length > 0) {
       const db = getDatabase();
-      set(ref(db, `users/${user.id}`), {data});
+
+      set(ref(db, `users/${user.id}`), { portfolio });
     }
-  }, [data])
+  }, [portfolio, user]);
 
   const selectNewCoin = (changed: changedCurr) => {
     if (changed === changedCurr.BASE) {
-      dispatch(PortfolioAC.editingBase(true))
+      dispatch(editBase(true));
     }
 
     if (changed === changedCurr.QUOTE) {
-      dispatch(PortfolioAC.editingQuote(true))
+      dispatch(editQuote(true));
     }
   };
 
-  const addToPortfolio = () => {
+  const addCrypto = () => {
     if (baseObj && quoteObj) {
       const addedObj = {
         id: baseObj.id,
         buyPrice: !isCustomPrice ? +baseObj.current_price : +price,
         coinCount: buyCount,
-      }
+      };
 
-      dispatch(PortfolioAC.addToPortfolio(addedObj))
+      dispatch(addToPortfolio(addedObj));
     }
   };
 
   return (
     <div className="tabcontent__item">
-      {coins.length > 0 && (
+      {coins && coins.length > 0 && (
         <div className="transaction__block">
-
           {baseObj !== null && quoteObj !== null && (
             <div className="transaction__price">
               <label htmlFor="quantity" className="transaction__label">
@@ -87,7 +85,7 @@ export const BuyCrypto: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           {baseObj !== null && (
             <>
               <label htmlFor="quantity" className="transaction__label">
@@ -124,7 +122,7 @@ export const BuyCrypto: React.FC = () => {
               <label htmlFor="quantity" className="transaction__label">
                 Total spent
               </label>
-              <div className="transaction__row" >
+              <div className="transaction__row">
                 <input
                   id="price"
                   type="text"
@@ -146,9 +144,15 @@ export const BuyCrypto: React.FC = () => {
               </div>
 
               <div className="transaction__switch">
-                <label htmlFor="check" className="transaction__switch-label">Custom price</label>
+                <label htmlFor="check" className="transaction__switch-label">
+                  Custom price
+                </label>
                 <label className="transaction__switch-block">
-                  <input type="checkbox" checked={isCustomPrice} onChange={() => setIsCustomPrice(!isCustomPrice)}/>
+                  <input
+                    type="checkbox"
+                    checked={isCustomPrice}
+                    onChange={() => setIsCustomPrice(!isCustomPrice)}
+                  />
                 </label>
               </div>
             </>
@@ -157,7 +161,7 @@ export const BuyCrypto: React.FC = () => {
           <button
             type="button"
             className="transaction__add"
-            onClick={addToPortfolio}
+            onClick={addCrypto}
           >
             Add to portfolio
           </button>

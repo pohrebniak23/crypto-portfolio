@@ -1,7 +1,7 @@
 import { Coin } from "../types/Coin";
 import { Portfolio } from "../types/Portfolio";
 
-export const walletSum = (coins: Coin[] | null, portfolio: Portfolio[]) => {
+export const walletSum = (coins: Coin[] | null | undefined, portfolio: Portfolio[]) => {
   if (coins) {
     return portfolio.reduce((prev, current) => {
       const item = coins.find((finded) => finded.id === current.id) || null;
@@ -16,7 +16,7 @@ export const walletSum = (coins: Coin[] | null, portfolio: Portfolio[]) => {
   return 0;
 }
 
-export const allTimeProfit = (coins: Coin[] | null, portfolio: Portfolio[]) => {
+export const allTimeProfit = (coins: Coin[] | null | undefined, portfolio: Portfolio[]) => {
   if (coins) {
     return portfolio.reduce((prev, current) => {
       const item = coins.find((finded) => finded.id === current.id) || null;
@@ -38,7 +38,7 @@ export type GainerLooser = {
 }
 
 export const topGainerLooser = (
-  coins: Coin[] | null,
+  coins: Coin[] | null | undefined,
   portfolio: Portfolio[],
   type: 'gainer' | 'looser',
 ): GainerLooser | null => {

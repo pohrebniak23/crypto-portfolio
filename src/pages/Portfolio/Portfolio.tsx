@@ -1,57 +1,40 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { getDatabase, onValue, ref } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { getCoins } from '../../helpers/portfolio';
 import { walletSum } from '../../helpers/portfolioInfo';
-import { useInterval } from '../../hooks/useInterval';
-import { userData } from '../../redux/reducers/auth/selectors';
-import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
-import { PortfolioData } from '../../redux/reducers/portfolio/selectors';
-import { Coin } from '../../types/Coin';
+import { useAppSelector } from '../../hooks/redux';
 import './portfolio.sass';
 import { PortfolioContent } from './PortfolioContent';
+import { loadPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
-  const portfolio = useSelector(PortfolioData);
-  const [coins, setCoins] = useState<Coin[] | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const { portfolio } = useAppSelector((state) => state.portfolio);
+  const { user } = useAppSelector((state) => state.auth);
+
   const db = getDatabase();
-  const user = useSelector(userData);
+
+  const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+    pollingInterval: 60000,
+  });
 
   useEffect(() => {
     if (user) {
-      const starCountRef = ref(db, `users/${user.id}`);
-      onValue(starCountRef, (snapshot) => {
+      const usersRef = ref(db, `users/${user.id}`);
+      onValue(usersRef, (snapshot) => {
         const data = snapshot.val();
 
-        dispatch(PortfolioAC.loadPortfolio(data.data));
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
+        dispatch(loadPortfolio(data.portfolio));
       });
     }
-  }, [user]);
+  }, [user, db, dispatch]);
 
-  useEffect(() => {
-    getCoins().then((data: any) => {
-      dispatch(PortfolioAC.setCoins(data.data));
-      setCoins(data.data);
-    });
-  }, [dispatch]);
-
-  useInterval(() => {
-    getCoins().then((data: any) => {
-      dispatch(PortfolioAC.setCoins(data.data));
-      setCoins(data.data);
-    });
-  }, 15000);
-
-  const sum = walletSum(coins, portfolio);
+  const sum = walletSum(coinsList, portfolio);
 
   return (
     <div className="finance">
@@ -89,7 +72,10 @@ export const Portfolio: React.FC = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <PortfolioContent sum={sum} portfolio={portfolio} coins={coins} />
+            <PortfolioContent
+              sum={sum}
+              portfolio={portfolio}
+            />
           )}
         </Box>
 

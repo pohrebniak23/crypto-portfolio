@@ -1,11 +1,11 @@
 import { getAuth } from 'firebase/auth';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { Loader } from '../components/Loader/Loader';
 import { Sidebar } from '../components/Sidebar/Sidebar';
-import { AuthAC } from '../redux/reducers/auth/action-creators';
+import { useAppDispatch } from '../hooks/redux';
+import { setUser } from '../redux/reducers/Auth/AuthSlice';
 
 interface Props {
   component: React.ComponentType;
@@ -14,11 +14,11 @@ interface Props {
 export const PrivateRoute: React.FC<Props> = ({ component }) => {
   const authFunc = getAuth();
   const [auth, loading] = useAuthState(authFunc);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   if (!loading) {
     if (auth !== null && auth !== undefined) {
-      dispatch(AuthAC.setUser({
+      dispatch(setUser({
         username: auth.email,
         id: auth.uid,
       }));

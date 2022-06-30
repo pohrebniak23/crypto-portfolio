@@ -12,14 +12,13 @@ import {
   Box,
 } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { PortfolioData } from '../../redux/reducers/portfolio/selectors';
+import { useAppSelector } from '../../hooks/redux';
 import { Portfolio } from '../../types/Portfolio';
 import { PortfolioLineItem } from '../PortfolioLineItem/PortfolioLineItem';
 import './portfolioList.sass';
 
 export const PortfolioList: React.FC = () => {
-  const portfolio = useSelector(PortfolioData) || null;
+  const { portfolio } = useAppSelector((state) => state.portfolio) || null;
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -48,14 +47,19 @@ export const PortfolioList: React.FC = () => {
 
       <TableContainer component={Box}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
+          <TableHead sx={{borderBottom: 'unset'}}>
             <TableRow>
-              <StyledTableCell sx={{ borderRadius: '10px 0 0 10px' }}>Name</StyledTableCell>
+              <StyledTableCell sx={{ borderRadius: '10px 0 0 10px' }}>
+                Name
+              </StyledTableCell>
               <StyledTableCell>Price</StyledTableCell>
               <StyledTableCell>24H</StyledTableCell>
               <StyledTableCell>Profit/Loss</StyledTableCell>
               <StyledTableCell>Avg. Buy Price</StyledTableCell>
-              <StyledTableCell sx={{ borderRadius: '0 10px 10px 0' }}>Holdings</StyledTableCell>
+              <StyledTableCell>Holdings</StyledTableCell>
+              <StyledTableCell sx={{ borderRadius: '0 10px 10px 0' }}>
+                Actions
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

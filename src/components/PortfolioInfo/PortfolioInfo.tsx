@@ -5,26 +5,29 @@ import {
   GainerLooser,
   topGainerLooser,
 } from '../../helpers/portfolioInfo';
-import { Coin } from '../../types/Coin';
+import { coinsAPI } from '../../services/CoinsService';
 import { Portfolio } from '../../types/Portfolio';
 import { GainerLooserItem } from './GainerLooserItem';
 import './portfolioInfo.sass';
 
 type Props = {
   sum: number | string;
-  coins: Coin[] | null;
   portfolio: Portfolio[];
 };
 
-export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
+export const PortfolioInfo: React.FC<Props> = ({ sum, portfolio }) => {
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
+  
   const profit = allTimeProfit(coins, portfolio);
   const profitPercent = (profit * 100) / +sum;
-  const gainer: GainerLooser | null = topGainerLooser(
+
+
+  const gainer: GainerLooser | null | undefined = topGainerLooser(
     coins,
     portfolio,
     'gainer',
   );
-  const looser: GainerLooser | null = topGainerLooser(
+  const looser: GainerLooser | null | undefined = topGainerLooser(
     coins,
     portfolio,
     'looser',
@@ -70,7 +73,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
           <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {profit.toFixed(2)}$
           </Typography>
-          <Typography variant="body2" sx={{ lineHeight: '100%' }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', textAlign: 'right' }}>
             {profitPercent.toFixed(2)}%
           </Typography>
         </Box>

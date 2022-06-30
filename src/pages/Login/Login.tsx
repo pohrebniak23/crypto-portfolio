@@ -2,21 +2,32 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Alert, Box, Container, Grid, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { AuthAC } from '../../redux/reducers/auth/action-creators';
-import { dispatchThunk } from '../../redux/store';
 import './login.sass';
-import { isError, isLoading } from '../../redux/reducers/auth/selectors';
+import { LoginAction } from '../../redux/reducers/Auth/ActionCreators';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+
+interface LoginData {
+  login: string,
+  password: string,
+};
 
 export const Login: React.FC = () => {
-  const onSubmit = (values: any) => {
-    dispatchThunk(AuthAC.login(values.login, values.password));
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (values: LoginData) => {
+    dispatch(LoginAction(values.login, values.password));
   };
 
-  const loading = useSelector(isLoading);
-  const errorAuth = useSelector(isError);
+  const { isLoading, isError } = useAppSelector((state) => state.auth);
 
   const validationSchema = yup.object().shape({
     login: yup
@@ -106,7 +117,7 @@ export const Login: React.FC = () => {
                 <LoadingButton
                   type="submit"
                   fullWidth
-                  loading={loading}
+                  loading={isLoading}
                   variant="contained"
                   disabled={!isValid && !dirty}
                   onClick={() => handleSubmit()}
@@ -114,25 +125,20 @@ export const Login: React.FC = () => {
                 >
                   Sign in
                 </LoadingButton>
-                {errorAuth.length > 0 && (
-                  <Alert
-                    severity="error"
-                    sx={{ mt: 2 }}
-                  >{errorAuth}</Alert>
+                {isError.length > 0 && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    {isError}
+                  </Alert>
                 )}
               </Box>
             )}
           </Formik>
           <Grid container spacing={2} sx={{ mt: 1.2 }}>
             <Grid item sx={{ fontSize: 14 }}>
-                <Link to="/renew-password">
-                  Forgot password?
-                </Link>
+              <Link to="/renew-password">Forgot password?</Link>
             </Grid>
-            <Grid item sx={{ fontSize: 14, ml: "auto" }}>
-                <Link to="/register">
-                  {`Don't have an account? Register`}
-                </Link>
+            <Grid item sx={{ fontSize: 14, ml: 'auto' }}>
+              <Link to="/register">{`Don't have an account? Register`}</Link>
             </Grid>
           </Grid>
         </Box>

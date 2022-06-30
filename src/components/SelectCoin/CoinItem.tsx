@@ -1,14 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
-import {
-  BaseEditing,
-  QuoteEditing,
-} from '../../redux/reducers/portfolio/selectors';
 import { Coin } from '../../types/Coin';
 import './selectCoin.sass';
+import { changeBaseCurr, changeQuoteCurr, editBase, editQuote } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 type Props = {
   coin: Coin;
@@ -16,20 +12,19 @@ type Props = {
 
 export const CoinItem: React.FC<Props> = ({ coin }) => {
   const { id, name, image, symbol } = coin;
-  const baseEditing = useSelector(BaseEditing);
-  const quoteEditing = useSelector(QuoteEditing);
+  const { baseEditing, quoteEditing } = useAppSelector(state => state.portfolio.selectedCoins)
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const changeSelected = (coinId: string) => {
     if (baseEditing) {
-      dispatch(PortfolioAC.changeBaseCurr(coinId));
-      dispatch(PortfolioAC.editingBase(false));
+      dispatch(changeBaseCurr(coinId));
+      dispatch(editBase(false));
     }
 
     if (quoteEditing) {
-      dispatch(PortfolioAC.changeQuoteCurr(coinId));
-      dispatch(PortfolioAC.editingQuote(false));
+      dispatch(changeQuoteCurr(coinId));
+      dispatch(editQuote(false));
     }
   };
 
