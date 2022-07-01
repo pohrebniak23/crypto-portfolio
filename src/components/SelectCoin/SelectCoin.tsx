@@ -34,7 +34,7 @@ export const SelectCoin: React.FC = () => {
         coin.name.toLowerCase().includes(search.toLowerCase()),
       ),
     );
-  }, [search]);
+  }, [search, coins]);
 
   const closeSarch = () => {
     dispatch(editBase(false));

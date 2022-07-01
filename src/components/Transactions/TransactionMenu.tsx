@@ -4,19 +4,25 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from '../../hooks/redux';
-import { removeFromPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { removeFromPortfolio, toggleTransactions, setTransactionCoin } from '../../redux/reducers/Portfolio/PortfolioSlice';
 
 type Props = {
   id: string,
 };
 
-export const PopoverMenu: React.FC<Props> = ({ id }) => {
+export const TransactionMenu: React.FC<Props> = ({ id }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const removeCrypto = () => {
     setAnchorEl(null);
     dispatch(removeFromPortfolio(id));
+  };
+
+  const openTransactions = () => {
+    setAnchorEl(null);
+    dispatch(toggleTransactions(true));
+    dispatch(setTransactionCoin(id));
   };
 
   return (
@@ -62,7 +68,7 @@ export const PopoverMenu: React.FC<Props> = ({ id }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem selected={false} onClick={() => setAnchorEl(null)}>
+        <MenuItem selected={false} onClick={() => openTransactions()}>
           <ListItemIcon>
             <CompareArrowsIcon fontSize="small" />
           </ListItemIcon>

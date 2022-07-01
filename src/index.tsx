@@ -5,6 +5,13 @@ import { initializeApp } from 'firebase/app';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { setupStore } from './redux/store';
+import "@mui/material/styles/createPalette";
+
+declare module "@mui/material/styles/createPalette" {
+  interface CommonColors {
+    darkPurple: string;
+  }
+}
 
 // eslint-disable-next-line
 const app = initializeApp({
@@ -26,7 +33,28 @@ const theme = createTheme({
     secondary: {
       main: '#f4f7fd',
     },
+    common: {
+      darkPurple: '#0C1643',
+    }
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          backgroundColor: '#0C1643'
+        }
+      }
+    }
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 450,
+      md: 990,
+      lg: 1440,
+      xl: 1900
+    }
+  }
 });
 
 const store = setupStore();

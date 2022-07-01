@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,10 @@ import { walletSum } from '../../helpers/portfolioInfo';
 import { useAppSelector } from '../../hooks/redux';
 import './portfolio.sass';
 import { PortfolioContent } from './PortfolioContent';
-import { loadPortfolio } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import {
+  loadPortfolio,
+  loadTransactions,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
@@ -29,7 +32,10 @@ export const Portfolio: React.FC = () => {
       onValue(usersRef, (snapshot) => {
         const data = snapshot.val();
 
-        dispatch(loadPortfolio(data.portfolio));
+        if (data) {
+          dispatch(loadPortfolio(data.portfolio));
+          dispatch(loadTransactions(data.transactions));
+        }
       });
     }
   }, [user, db, dispatch]);
@@ -52,40 +58,47 @@ export const Portfolio: React.FC = () => {
             mr: 3,
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              py: 2,
-              px: 3,
-              width: '100%',
-              borderRadius: 4,
-            }}
-          >
-            <Typography variant="h4" sx={{ mb: 2 }}>
-              Dashboard
-            </Typography>
-            <Typography variant="subtitle1">
-              An overview of cryptocurrencies and markets
-            </Typography>
-          </Paper>
+          <Grid container spacing={2}>
+            <Grid item sm={12}>
+              <Paper
+                elevation={3}
+                sx={{
+                  py: 2,
+                  px: 3,
+                  width: '100%',
+                  borderRadius: 4,
+                }}
+              >
+                <Typography variant="h5" sx={{ mb: 1 }}>
+                  Dashboard
+                </Typography>
+                <Typography variant="subtitle2">
+                  An overview of cryptocurrencies and markets
+                </Typography>
+              </Paper>
+            </Grid>
 
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <PortfolioContent
-              sum={sum}
-              portfolio={portfolio}
-            />
-          )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <PortfolioContent sum={sum} portfolio={portfolio} />
+            )}
+          </Grid>
         </Box>
 
         <SelectCoin />
 
-        <div className="finance-sidebar">
-          <div className="finance-sidebar__tab">
-            <Tabs />
-          </div>
-        </div>
+        <Paper
+          elevation={3}
+          sx={{
+            py: 2,
+            px: 3,
+            width: '300px',
+            borderRadius: 4,
+          }}
+        >
+          <Tabs />
+        </Paper>
       </Box>
     </div>
   );

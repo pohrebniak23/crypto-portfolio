@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Portfolio } from "../../../types/Portfolio";
+import { Transaction } from "../../../types/Transaction";
 
 interface PortfolioState {
   selectedCoins: {
@@ -9,6 +10,11 @@ interface PortfolioState {
     quoteEditing: boolean,
   },
   portfolio: Portfolio[],
+  transactions: {
+    list: Transaction[],
+    isOpen: boolean,
+    coin: string,
+  },
 }
 
 const initialState: PortfolioState = {
@@ -19,6 +25,11 @@ const initialState: PortfolioState = {
     quoteEditing: false,
   },
   portfolio: [],
+  transactions: {
+    list: [],
+    isOpen: false,
+    coin: '',
+  },
 }
 
 export const PortfolioSlice = createSlice({
@@ -64,6 +75,21 @@ export const PortfolioSlice = createSlice({
     },
     removeFromPortfolio(state, action: PayloadAction<string>) {
       state.portfolio = state.portfolio.filter((item) => item.id !== action.payload);
+    },
+    loadTransactions(state, action: PayloadAction<Transaction[]>) {
+      state.transactions.list = action.payload
+    },
+    addTransaction(state, action: PayloadAction<Transaction>) {
+      state.transactions.list.push(action.payload)
+    },
+    toggleTransactions(state, action: PayloadAction<boolean>) {
+      state.transactions.isOpen = action.payload;
+    },
+    setTransactionCoin(state, action: PayloadAction<string>) {
+      state.transactions.coin = action.payload
+    },
+    removeTransactions(state, action: PayloadAction<string>) {
+      state.transactions.list = state.transactions.list.filter((item) => item.id !== action.payload)
     }
   }
 })
@@ -76,5 +102,10 @@ export const {
   changeQuoteCurr,
   addToPortfolio,
   loadPortfolio,
-  removeFromPortfolio
+  removeFromPortfolio,
+  addTransaction,
+  toggleTransactions,
+  setTransactionCoin,
+  loadTransactions,
+  removeTransactions
 } = PortfolioSlice.actions;
