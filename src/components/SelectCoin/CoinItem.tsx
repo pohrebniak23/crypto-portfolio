@@ -2,8 +2,12 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Coin } from '../../types/Coin';
-import './selectCoin.sass';
-import { changeBaseCurr, changeQuoteCurr, editBase, editQuote } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import {
+  changeBaseCurr,
+  changeQuoteCurr,
+  editBase,
+  editQuote,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 type Props = {
@@ -12,7 +16,9 @@ type Props = {
 
 export const CoinItem: React.FC<Props> = ({ coin }) => {
   const { id, name, image, symbol } = coin;
-  const { baseEditing, quoteEditing } = useAppSelector(state => state.portfolio.selectedCoins)
+  const { baseEditing, quoteEditing } = useAppSelector(
+    (state) => state.portfolio.selectedCoins,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -50,7 +56,7 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
               border: 'none',
               background: 'unset',
               borderBottom: '1px solid #000',
-            }
+            },
           }}
         >
           <img
@@ -58,23 +64,33 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
             src={image}
             alt=""
           />
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start'
-          }}>
-            <Typography variant="body1" sx={{ lineHeight: '100%', color: '#000', mb: 0.5 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{ lineHeight: '100%', color: '#000', mb: 0.5 }}
+            >
               {name}
             </Typography>
-            <Typography variant="body2" sx={{ lineHeight: '100%', color: '#000' }}>
+            <Typography
+              variant="body2"
+              sx={{ lineHeight: '100%', color: '#000' }}
+            >
               {symbol}
             </Typography>
           </Box>
-          <ArrowForwardIosIcon sx={{
-            ml: 'auto',
-            color: '#000'
-          }} />
+          <ArrowForwardIosIcon
+            sx={{
+              ml: 'auto',
+              color: '#000',
+            }}
+          />
         </Button>
       )}
     </div>

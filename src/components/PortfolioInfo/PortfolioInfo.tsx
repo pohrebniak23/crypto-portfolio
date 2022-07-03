@@ -8,7 +8,6 @@ import {
 import { coinsAPI } from '../../services/CoinsService';
 import { Portfolio } from '../../types/Portfolio';
 import { GainerLooserItem } from './GainerLooserItem';
-import './portfolioInfo.sass';
 
 type Props = {
   sum: number | string;
@@ -33,7 +32,7 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, portfolio }) => {
   );
 
   return (
-    <Grid item md={12} lg={6} xl={3}>
+    <Grid>
       <Paper
         elevation={3}
         sx={{

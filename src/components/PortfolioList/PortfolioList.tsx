@@ -14,7 +14,6 @@ import { useAppSelector } from '../../hooks/redux';
 import { Portfolio } from '../../types/Portfolio';
 import { StyledTableCell } from '../Material/StyledTable';
 import { PortfolioLineItem } from '../PortfolioLineItem/PortfolioLineItem';
-import './portfolioList.sass';
 
 export const PortfolioList: React.FC = () => {
   const { portfolio } = useAppSelector((state) => state.portfolio) || null;

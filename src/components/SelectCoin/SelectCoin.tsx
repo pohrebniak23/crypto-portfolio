@@ -8,7 +8,6 @@ import {
   TextField,
 } from '@mui/material';
 import { CoinItem } from './CoinItem';
-import './selectCoin.sass';
 import { useAppSelector } from '../../hooks/redux';
 import {
   editBase,
@@ -30,9 +29,10 @@ export const SelectCoin: React.FC = () => {
 
   useEffect(() => {
     setFiltered(
-      coins && coins.filter((coin) =>
-        coin.name.toLowerCase().includes(search.toLowerCase()),
-      ),
+      coins &&
+        coins.filter((coin) =>
+          coin.name.toLowerCase().includes(search.toLowerCase()),
+        ),
     );
   }, [search, coins]);
 
@@ -77,9 +77,10 @@ export const SelectCoin: React.FC = () => {
               height: '420px',
             }}
           >
-            {filteredCoins && filteredCoins.map((coin) => (
-              <CoinItem key={coin.id} coin={coin} />
-            ))}
+            {filteredCoins &&
+              filteredCoins.map((coin) => (
+                <CoinItem key={coin.id} coin={coin} />
+              ))}
           </Box>
         </DialogContent>
       </Box>

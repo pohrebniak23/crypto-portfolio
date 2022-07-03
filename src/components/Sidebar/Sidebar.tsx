@@ -5,7 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 import {ReactComponent as Logo} from '../../assets/images/logo.svg';
 
 export const Sidebar: React.FC = () => {
-  const drawerWidth = 280;
+  const drawerWidth = 240;
 
   const links = [
     { text: 'Home', to: '/' },
@@ -21,15 +21,15 @@ export const Sidebar: React.FC = () => {
     <Drawer
       sx={{
         width: drawerWidth,
-        height: 'calc(100vh - 32px)',
+        height: 'calc(100vh - 16px)',
+        mr: 1,
         '& .MuiDrawer-paper': {
-          width: drawerWidth - 32,
+          width: drawerWidth,
           boxSizing: 'border-box',
-          backgroundColor: 'secondary.main',
-          height: 'calc(100vh - 32px)',
-          borderRadius: 7,
+          height: 'calc(100vh - 16px)',
+          position: 'static !important',
+          borderRadius: 3,
           padding: 2,
-          margin: 2,
         },
       }}
       variant="permanent"

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from './router/PrivateRoute';
 import { PublicRoute } from './router/PublicRoute';
@@ -10,7 +11,11 @@ import './App.sass';
 
 const App: React.FC = () => (
   <div className="app">
-    <div className="wrapper">
+    <Box sx={{
+      backgroundColor: 'common.darkPurple',
+      p: 1,
+      display: 'flex'
+    }}>
       <Routes>
         <Route path="/" element={<PrivateRoute component={Home} />} />
 
@@ -26,7 +31,7 @@ const App: React.FC = () => (
           element={<PrivateRoute component={Portfolio} />}
         />
       </Routes>
-    </div>
+    </Box>
   </div>
 );
 

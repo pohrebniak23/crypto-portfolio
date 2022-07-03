@@ -20,7 +20,9 @@ export const BuyCrypto: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
-  const { portfolio, transactions } = useAppSelector((state) => state.portfolio);
+  const { portfolio, transactions } = useAppSelector(
+    (state) => state.portfolio,
+  );
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const { baseCurr, quoteCurr } = useAppSelector(
     (state) => state.portfolio.selectedCoins,
@@ -81,24 +83,30 @@ export const BuyCrypto: React.FC = () => {
       };
 
       dispatch(addToPortfolio(addedObj));
-      dispatch(addTransaction({
-        type: 'BUY',
-        date: Date().toLocaleString(),
-        ...addedObj
-      }))
+      dispatch(
+        addTransaction({
+          type: 'BUY',
+          date: Date().toLocaleString(),
+          ...addedObj,
+        }),
+      );
     }
   };
 
   return (
-    <div className="tabcontent__item">
+    <Box sx={{
+      pt: 3
+    }}>
       {coins && coins.length > 0 && (
-        <div className="transaction__block">
+        <Box>
           {baseObj && quoteObj && (
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mb: 2,
-            }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                mb: 2,
+              }}
+            >
               <Typography
                 variant="body2"
                 sx={{
@@ -132,10 +140,15 @@ export const BuyCrypto: React.FC = () => {
                   fontWeight: '600',
                   borderBottom: '1px solid #000',
                   display: isCustomPrice ? 'block' : 'none',
-                  
                 }}
-                inputProps={{style: { textAlign: 'center',
-                lineHeight: '100%', paddingTop: 0, paddingBottom: 0 }}}
+                inputProps={{
+                  style: {
+                    textAlign: 'center',
+                    lineHeight: '100%',
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                  },
+                }}
                 disableUnderline
                 value={customPrice}
                 onChange={(e) => setCustomPrice(e.target.value)}
@@ -174,6 +187,10 @@ export const BuyCrypto: React.FC = () => {
                     src={baseObj.image}
                     alt={baseObj.name}
                     className="transaction__image"
+                    style={{
+                      width: '30px',
+                      marginRight: '6px'
+                    }}
                   />
                   <Typography
                     variant="body1"
@@ -218,6 +235,10 @@ export const BuyCrypto: React.FC = () => {
                     src={quoteObj.image}
                     alt={quoteObj.name}
                     className="transaction__image"
+                    style={{
+                      width: '30px',
+                      marginRight: '6px'
+                    }}
                   />
                   <Typography
                     variant="body1"
@@ -252,12 +273,13 @@ export const BuyCrypto: React.FC = () => {
             sx={{
               mt: 1,
               py: 1,
+              width: '100%'
             }}
           >
             Add to portfolio
           </Button>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
