@@ -47,7 +47,7 @@ export const Transactions: React.FC = () => {
     if (portfolio) {
       setPortfolioData(portfolio.find((item) => item.id === coin));
     }
-  }, [list, coinsList, portfolio]);
+  }, [list, coinsList, portfolio, coin]);
 
   return (
     <Grid item md={12} lg={12} xl={9}>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import { BuyCrypto } from '../BuyCrypto/BuyCrypto';
 import { TabPanel } from './TabPanel';
+import { SellCrypto } from '../SellCrypto/SellCrypto';
 
 export const TabsBlock: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -25,7 +26,7 @@ export const TabsBlock: React.FC = () => {
         <BuyCrypto />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <SellCrypto />
       </TabPanel>
     </>
   );

@@ -62,7 +62,7 @@ export const BuyCrypto: React.FC = () => {
       set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
       set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
     }
-  }, [portfolio]);
+  }, [portfolio, user, transactions.list]);
 
   const selectNewCoin = (changed: changedCurr) => {
     if (changed === changedCurr.BASE) {
@@ -176,7 +176,7 @@ export const BuyCrypto: React.FC = () => {
                   sx={{ pl: 0.5 }}
                   disableUnderline
                   value={buyCount}
-                  onChange={(e: any) => setBuyCount(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBuyCount(+e.target.value)}
                 />
                 <Button
                   variant="text"

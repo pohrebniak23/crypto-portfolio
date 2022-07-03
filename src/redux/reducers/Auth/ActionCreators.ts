@@ -21,7 +21,7 @@ export const LoginAction = (username: string, password: string) => (dispatch: Ap
       dispatch(setAuthLoading(false));
     }, 1000);
 
-  } catch (error: any) {
+  } catch (error) {
     dispatch(setAuthError('Login or password is incorrect'));
   }
 };
@@ -38,13 +38,13 @@ export const RegisterAction = (username: string, password: string) => (dispatch:
             username: userCredential.user.email,
           }));
       })
-      .catch((error: any) => {
+      .catch((error) => {
         dispatch(setAuthError(`Registration not completed - ${error}`));
       });
 
     dispatch(setAuthError(''));
     dispatch(setAuthLoading(false));
-  } catch (error: any) {
+  } catch (error) {
     dispatch(setAuthError(`${error}`));
   }
 }
