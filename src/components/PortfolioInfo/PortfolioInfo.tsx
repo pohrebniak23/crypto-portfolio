@@ -1,114 +1,92 @@
-import classNames from "classnames";
-import React from "react";
-import { allTimeProfit, GainerLooser, topGainerLooser } from "../../helpers/portfolioInfo";
-import { Coin } from "../../types/Coin";
-import { Portfolio } from "../../types/Portfolio";
-import "./portfolioInfo.sass";
+import { Box, Grid, Paper, Typography } from '@mui/material';
+import React from 'react';
+import {
+  allTimeProfit,
+  GainerLooser,
+  topGainerLooser,
+} from '../../helpers/portfolioInfo';
+import { coinsAPI } from '../../services/CoinsService';
+import { Portfolio } from '../../types/Portfolio';
+import { GainerLooserItem } from './GainerLooserItem';
 
 type Props = {
   sum: number | string;
-  coins: Coin[] | null;
   portfolio: Portfolio[];
 };
 
-export const PortfolioInfo: React.FC<Props> = ({ sum, coins, portfolio }) => {
+export const PortfolioInfo: React.FC<Props> = ({ sum, portfolio }) => {
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
+
   const profit = allTimeProfit(coins, portfolio);
-  const gainer: GainerLooser | null = topGainerLooser(coins, portfolio, 'gainer');
-  const looser: GainerLooser | null = topGainerLooser(coins, portfolio, 'looser');
+  const profitPercent = (profit * 100) / +sum;
+
+  const gainer: GainerLooser | null | undefined = topGainerLooser(
+    coins,
+    portfolio,
+    'gainer',
+  );
+  const looser: GainerLooser | null | undefined = topGainerLooser(
+    coins,
+    portfolio,
+    'looser',
+  );
 
   return (
-    <div className="portfolio-info">
-      <div className="portfolio-info__block">
-        <div className="portfolio-info__balance">
-          <h3 className="portfolio-info__title">
+    <Grid>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 3,
+          backgroundColor: '#fff',
+          borderRadius: 4,
+          height: 'max-content',
+        }}
+      >
+        <Box>
+          <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
             Total sum
-          </h3>
-          <div className="portfolio-info__sum">{sum.toLocaleString()}$</div>
-        </div>
+          </Typography>
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            {sum.toLocaleString()} $
+          </Typography>
+        </Box>
 
-        <div className="portfolio-info__profit">
-          <h3 className="portfolio-info__title">
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            pt: 2,
+          }}
+        >
+          <Typography variant="body2" sx={{ color: '#757575' }}>
             All time profit
-          </h3>
-          <div
-            className={classNames(
-              'portfolio-info__profit_right',
-              { 'portfolio-info__profit_right_green': profit > 0 },
-              { 'portfolio-info__profit_right_red': profit < 0 }
-            )}
+          </Typography>
+          <Box
+            sx={{
+              color: profit > 0 ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)',
+            }}
           >
-            <span className="portfolio-info__profit_green">
+            <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
               {profit.toFixed(2)}$
-            </span>
-            <span>{((profit * 100) / +sum).toFixed(2)}%</span>
-          </div>
-        </div>
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ lineHeight: '100%', textAlign: 'right' }}
+            >
+              {profitPercent.toFixed(2)}%
+            </Typography>
+          </Box>
+        </Box>
 
         {gainer !== null && (
-          <div className="portfolio-info__coins">
-            <div className="portfolio-info__line">
-              <h3 className="portfolio-info__title">Top gainer</h3>
-              {/* <h3 className="portfolio-info__title">
-                    Изменения за 24ч.
-                  </h3> */}
-            </div>
-            <div className="portfolio-info__line portfolio-info__gainer">
-              <div className="portfolio-info__line-item">
-                <img
-                  className="portfolio-info__line-image"
-                  src={gainer.coin.image}
-                  alt=""
-                />
-                <div className="portfolio-info__line-column">
-                  <div className="portfolio-info__line-ticker">
-                    {gainer.coin.symbol.toUpperCase()}
-                  </div>
-                  <div className="portfolio-info__line-text">
-                    {gainer.coin.name}
-                  </div>
-                </div>
-              </div>
-              <div className="portfolio-info__line-column portfolio-info__line-column-end portfolio-info__gainer_green">
-                <span>{gainer.profit.toFixed(2)}$</span>
-                <span className="portfolio-info__gainer_percent">
-                  {gainer.percent.toFixed(2)}%
-                </span>
-              </div>
-            </div>
-          </div>
+          <GainerLooserItem title="Top gainer" data={gainer} profit={profit} />
         )}
 
         {looser !== null && (
-          <div className="portfolio-info__coins">
-            <div className="portfolio-info__line">
-              <h3 className="portfolio-info__title">Top looser</h3>
-            </div>
-            <div className="portfolio-info__line portfolio-info__loser" >
-                  <div className="portfolio-info__line-item">
-                    <img
-                      className="portfolio-info__line-image"
-                      src={looser.coin.image}
-                      alt=""
-                    />
-                    <div className="portfolio-info__line-column">
-                      <div className="portfolio-info__line-ticker">
-                        {looser.coin.symbol.toUpperCase()}
-                      </div>
-                      <div className="portfolio-info__line-text">
-                        {looser.coin.name}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="portfolio-info__line-column portfolio-info__line-column-end portfolio-info__loser_red">
-                    <span>{looser.profit.toFixed(2)}$</span>
-                    <span className="portfolio-info__loser_percent">
-                      {looser.percent.toFixed(2)}%
-                    </span>
-                  </div>
-                </div>
-          </div>
+          <GainerLooserItem title="Top looser" data={looser} profit={profit} />
         )}
-      </div>
-    </div>
+      </Paper>
+    </Grid>
   );
 };

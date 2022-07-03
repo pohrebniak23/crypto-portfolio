@@ -1,40 +1,38 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from './router/PrivateRoute';
 import { PublicRoute } from './router/PublicRoute';
-import { isAuth } from './redux/reducers/auth/selectors';
 import { Home } from './pages/Home/Home';
 import { Portfolio } from './pages/Portfolio/Portfolio';
+import { Register } from './pages/Register/Register';
 import { Login } from './pages/Login/Login';
 import './App.sass';
 
-const App: React.FC = () => {
-  const auth = useSelector(isAuth);
+const App: React.FC = () => (
+  <div className="app">
+    <Box sx={{
+      backgroundColor: 'common.darkPurple',
+      p: 1,
+      display: 'flex'
+    }}>
+      <Routes>
+        <Route path="/" element={<PrivateRoute component={Home} />} />
 
-  return (
-    <div className="app">
-      <div className="wrapper">
+        <Route path="/login" element={<PublicRoute component={Login} />} />
 
-        <Routes >
-          <Route
-            path="/"
-            element={<PrivateRoute isAuth={auth} component={Home} />}
-          />
+        <Route
+          path="/register"
+          element={<PublicRoute component={Register} />}
+        />
 
-          <Route
-            path="/login"
-            element={<PublicRoute isAuth={auth} component={Login} />}
-          />
-
-          <Route
-            path="/portfolio"
-            element={<PrivateRoute isAuth={auth} component={Portfolio} />}
-          />
-        </Routes>
-      </div>
-    </div>
-  );
-};
+        <Route
+          path="/portfolio"
+          element={<PrivateRoute component={Portfolio} />}
+        />
+      </Routes>
+    </Box>
+  </div>
+);
 
 export default App;

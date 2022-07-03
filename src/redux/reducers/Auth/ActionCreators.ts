@@ -1,0 +1,50 @@
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { AppDispatch } from "../../store";
+import { setAuth, setAuthError, setAuthLoading, setUser } from "./AuthSlice";
+
+export const LoginAction = (username: string, password: string) => (dispatch: AppDispatch) => {
+  try {
+    dispatch(setAuthLoading(true));
+    setTimeout(async () => {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+          dispatch(setAuth(true));
+          dispatch(setUser({
+            id: userCredential.user.uid,
+            username: userCredential.user.email,
+          }));
+        })
+        .catch(() => {
+          dispatch(setAuthError('Login or password is incorrect'));
+        })
+      dispatch(setAuthLoading(false));
+    }, 1000);
+
+  } catch (error: any) {
+    dispatch(setAuthError('Login or password is incorrect'));
+  }
+};
+
+export const RegisterAction = (username: string, password: string) => (dispatch: AppDispatch) => {
+  try {
+    dispatch(setAuthLoading(true));
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, username, password)
+      .then((userCredential) => {
+        dispatch(setAuth(true));
+          dispatch(setUser({
+            id: userCredential.user.uid,
+            username: userCredential.user.email,
+          }));
+      })
+      .catch((error: any) => {
+        dispatch(setAuthError(`Registration not completed - ${error}`));
+      });
+
+    dispatch(setAuthError(''));
+    dispatch(setAuthLoading(false));
+  } catch (error: any) {
+    dispatch(setAuthError(`${error}`));
+  }
+}

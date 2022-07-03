@@ -1,38 +1,21 @@
-import { Dispatch } from "react";
-import { applyMiddleware, compose, createStore } from "redux";
-import thunk from "redux-thunk";
-import { Coin } from "../types/Coin";
-import { Portfolio } from "../types/Portfolio";
-import { User } from "../types/User";
-import { rootReducer } from "./reducers";
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import { coinsAPI } from '../services/CoinsService';
+import AuthSlice from './reducers/Auth/AuthSlice';
+import PortfolioSlice from './reducers/Portfolio/PortfolioSlice';
 
-export interface RootState {
-  portfolio: {
-    coins: Coin[],
-    selectedCoins: {
-      baseCurr: string,
-      baseEditing: boolean,
-      quoteCurr: string,
-      quoteEditing: boolean,
-    },
-    portfolio: Portfolio[],
-  },
-  auth: {
-    user: User | null,
-    isLoading: boolean,
-    isError: string,
-    isAuth: boolean,
-  }
-}
+const rootReducer = combineReducers({
+  auth: AuthSlice,
+  portfolio: PortfolioSlice,
+  [coinsAPI.reducerPath]: coinsAPI.reducer,
+});
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  || compose;
+export const setupStore = () => configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => (
+    getDefaultMiddleware().concat(coinsAPI.middleware)
+  )
+});
 
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk)),
-);
-
-export default store;
-
-export const dispatchThunk = store.dispatch as typeof store.dispatch | Dispatch<any>
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

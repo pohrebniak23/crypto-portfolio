@@ -1,12 +1,14 @@
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { PortfolioAC } from '../../redux/reducers/portfolio/action-creators';
-import {
-  BaseEditing,
-  QuoteEditing,
-} from '../../redux/reducers/portfolio/selectors';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Coin } from '../../types/Coin';
-import './selectCoin.sass';
+import {
+  changeBaseCurr,
+  changeQuoteCurr,
+  editBase,
+  editQuote,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 type Props = {
   coin: Coin;
@@ -14,47 +16,82 @@ type Props = {
 
 export const CoinItem: React.FC<Props> = ({ coin }) => {
   const { id, name, image, symbol } = coin;
-  const baseEditing = useSelector(BaseEditing);
-  const quoteEditing = useSelector(QuoteEditing);
+  const { baseEditing, quoteEditing } = useAppSelector(
+    (state) => state.portfolio.selectedCoins,
+  );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const changeSelected = (coinId: string) => {
     if (baseEditing) {
-      dispatch(PortfolioAC.changeBaseCurr(coinId));
-      dispatch(PortfolioAC.editingBase(false));
+      dispatch(changeBaseCurr(coinId));
+      dispatch(editBase(false));
     }
 
     if (quoteEditing) {
-      dispatch(PortfolioAC.changeQuoteCurr(coinId));
-      dispatch(PortfolioAC.editingQuote(false));
+      dispatch(changeQuoteCurr(coinId));
+      dispatch(editQuote(false));
     }
   };
 
   return (
-    <div className="coinItem">
+    <div>
       {coin && (
-        <button
-          type="button"
-          className="coin"
+        <Button
           onClick={() => {
             changeSelected(id);
           }}
+          variant="outlined"
+          sx={{
+            border: 'none',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            width: '100%',
+            borderBottom: '1px solid #ddd',
+            py: 2,
+            px: 0,
+            borderRadius: 0,
+            '&:hover': {
+              border: 'none',
+              background: 'unset',
+              borderBottom: '1px solid #000',
+            },
+          }}
         >
-          <img className="coin__image" src={image} alt="" />
-          <span className="coin__name">{name}</span>
-          <p className="coin__symbol">{symbol}</p>
-          {/* <p className="coin__price">
-                ${current_price.toLocaleString()}
-            </p>
-            <p className={priceChange > 0 ? "coin__change-percent coin__change-percent_green" : "coin__change-percent coin__change-percent_red"}>
-                {(priceChange*100/currentPrice).toFixed(2)}%
-            </p>
-            <p className="coin__market-cap">
-                Cap: ${marketCap.toLocaleString()}
-            </p>
-            <IoIosAddCircle className="coin__add" onClick={() => {changeCoinOnSidebar(name)}} /> */}
-        </button>
+          <img
+            style={{ width: '40px', height: 'auto', marginRight: '10px' }}
+            src={image}
+            alt=""
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{ lineHeight: '100%', color: '#000', mb: 0.5 }}
+            >
+              {name}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ lineHeight: '100%', color: '#000' }}
+            >
+              {symbol}
+            </Typography>
+          </Box>
+          <ArrowForwardIosIcon
+            sx={{
+              ml: 'auto',
+              color: '#000',
+            }}
+          />
+        </Button>
       )}
     </div>
   );

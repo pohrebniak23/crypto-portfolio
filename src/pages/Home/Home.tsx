@@ -1,15 +1,31 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { userData } from '../../redux/reducers/auth/selectors'
+import { Box, Typography, Paper } from '@mui/material';
+import React from 'react';
+import { useAppSelector } from '../../hooks/redux';
 
 export const Home: React.FC = () => {
-  const user = useSelector(userData);
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
-    <div className="home">
-      {user !== null && (
-        <h1>Hi {user?.username}</h1>
-      )}
-    </div>
+    <Paper
+      sx={{
+        width: '100%',
+        display: 'flex',
+        borderRadius: 3,
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          borderRadius: 3,
+          p: 2,
+        }}
+      >
+        {user !== null && (
+          <Typography variant="h4">Hi {user.username}</Typography>
+        )}
+      </Box>
+    </Paper>
   );
 };
-

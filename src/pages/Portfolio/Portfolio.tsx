@@ -1,73 +1,164 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { PortfolioInfo } from "../../components/PortfolioInfo/PortfolioInfo";
-import { PortfolioList } from "../../components/PortfolioList/PortfolioList";
-import { SelectCoin } from "../../components/SelectCoin/SelectCoin";
-import { Tabs } from "../../components/Tabs/Tabs";
-import { getCoins } from "../../helpers/portfolio";
-import { walletSum } from "../../helpers/portfolioInfo";
-import { useInterval } from "../../hooks/useInterval";
-import { PortfolioAC } from "../../redux/reducers/portfolio/action-creators";
-import { PortfolioData } from "../../redux/reducers/portfolio/selectors";
-import { Coin } from "../../types/Coin";
-import "./portfolio.sass";
+import {
+  Box,
+  Drawer,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material';
+import { getDatabase, onValue, ref } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Loader } from '../../components/Loader/Loader';
+import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
+import { TabsBlock } from '../../components/Tabs/TabsBlock';
+import { walletSum } from '../../helpers/portfolioInfo';
+import { useAppSelector } from '../../hooks/redux';
+import { PortfolioContent } from './PortfolioContent';
+import {
+  loadPortfolio,
+  loadTransactions,
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
-  const portfolio = useSelector(PortfolioData);
-  const [coins, setCoins] = useState<Coin[] | null>(null);
+  const { portfolio } = useAppSelector((state) => state.portfolio);
+  const { user } = useAppSelector((state) => state.auth);
+  const [rightBarOpen, setRightBarOpen] = useState(false);
+
+  const db = getDatabase();
+
+  const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+    pollingInterval: 60000,
+  });
 
   useEffect(() => {
-    getCoins()
-      .then((data: any) => {
-        dispatch(PortfolioAC.setCoins(data.data));
-        setCoins(data.data);
-      });
-  }, [dispatch]);
+    if (user) {
+      const usersRef = ref(db, `users/${user.id}`);
+      onValue(usersRef, (snapshot) => {
+        const data = snapshot.val();
 
-  useInterval(() => {
-    getCoins()
-      .then((data: any) => {
-        dispatch(PortfolioAC.setCoins(data.data));
-        setCoins(data.data);
+        if (data) {
+          dispatch(loadPortfolio(data.portfolio));
+          dispatch(loadTransactions(data.transactions));
+        }
       });
-  }, 15000);
+    }
+  }, [user, db, dispatch]);
 
-  const sum = walletSum(coins, portfolio);
+  const sum = walletSum(coinsList, portfolio);
+
+  const rightBarHandler = () => {
+    setRightBarOpen(!rightBarOpen);
+  };
 
   return (
-    <div className="finance">
-      <div className="finance__content">
-        <div className="finance__info">
-          <h1 className="finance__title">Dashboard</h1>
-          <h2 className="finance__subtitle">
-            An overview of cryptocurrencies and markets
-          </h2>
-        </div>
+    <Paper
+      sx={{
+        width: '100%',
+        display: 'flex',
+        borderRadius: 3,
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          width: rightBarOpen ? 'calc(100% - 316px)' : '100%',
+          transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item sm={12}>
+            <Paper
+              elevation={3}
+              sx={{
+                py: 2,
+                px: 3,
+                width: '100%',
+                borderRadius: 4,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Box>
+                <Typography variant="h5" sx={{ mb: 1 }}>
+                  Dashboard
+                </Typography>
+                <Typography variant="subtitle2">
+                  An overview of cryptocurrencies and markets
+                </Typography>
+              </Box>
+              {!rightBarOpen && (
+                <IconButton
+                  sx={{
+                    width: '40px',
+                    height: '40px',
+                  }}
+                  onClick={rightBarHandler}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+              {rightBarOpen && (
+                <IconButton
+                  sx={{
+                    width: '40px',
+                    height: '40px',
+                  }}
+                  onClick={rightBarHandler}
+                >
+                  <CloseIcon />
+                </IconButton>
+              )}
+            </Paper>
+          </Grid>
 
-        {portfolio.length > 0 ? (
-          <div className="finance__assets">
-            <PortfolioInfo
-              sum={sum}
-              coins={coins}
-              portfolio={portfolio}
-            />
-            <PortfolioList />
-          </div>
-        ) : (
-          <div className="finance__empty">
-            Your portfolio is empty
-          </div>
-        )}
-      </div>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <PortfolioContent sum={sum} portfolio={portfolio} />
+          )}
+        </Grid>
+      </Box>
 
       <SelectCoin />
 
-      <div className="finance-sidebar">
-          <div className="finance-sidebar__tab">
-            <Tabs />
-          </div>
-        </div>
-    </div>
+      <Drawer
+        open={rightBarOpen}
+        sx={{
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            right: '20px',
+            height: 'calc(100vh - 32px)',
+            top: '16px',
+            backgroundColor: 'transparent',
+            borderRadius: 4,
+            border: 0,
+            p: '4px',
+          },
+        }}
+        variant="persistent"
+        anchor="right"
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            py: 2,
+            px: 3,
+            width: '300px',
+            borderRadius: 4,
+            height: '100%',
+          }}
+        >
+          <TabsBlock />
+        </Paper>
+      </Drawer>
+    </Paper>
   );
 };

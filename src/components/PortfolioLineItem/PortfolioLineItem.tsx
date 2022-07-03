@@ -1,9 +1,10 @@
-import classNames from 'classnames';
+import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Coins } from '../../redux/reducers/portfolio/selectors';
+import { coinsAPI } from '../../services/CoinsService';
 import { Coin } from '../../types/Coin';
 import { Portfolio } from '../../types/Portfolio';
+import { StyledTableCell, StyledTableRow } from '../Material/StyledTable';
+import { PortfolioMenu } from './PortfolioMenu';
 
 type Props = {
   item: Portfolio;
@@ -11,79 +12,110 @@ type Props = {
 
 export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
   const { id, buyPrice, coinCount } = item;
-  const coins = useSelector(Coins);
+  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [coinData, setCoinData] = useState<Coin | null>(null);
 
   useEffect(() => {
-    const data = coins.find((coin: Coin) => coin.id === id) || null;
+    if (coins) {
+      const data = coins.find((coin: Coin) => coin.id === id) || null;
 
-    setCoinData(data);
+      setCoinData(data);
+    }
   }, [coins, id]);
 
-  return (
-    <div className="coinLineItem">
-      {coinData !== null && (
-        <div className="portfolio-list__item" key={item.id}>
-          <div className="portfolio-list__name">
-            <img
-              className="portfolio-list__name-image"
-              src={coinData.image}
-              alt=""
-            />
-            <div className="portfolio-list__name-column">
-              <div className="portfolio-list__name-ticker">
-                {coinData.symbol.toUpperCase()}
-              </div>
-              <div className="portfolio-list__name-text">{coinData.name}</div>
-            </div>
-          </div>
-
-          <div className="portfolio-list__price">{coinData.current_price}$</div>
-
-          <div className="portfolio-list__24h">
-            <div
-              className={classNames(
-                'portfolio-list__24h-change',
-                {
-                  'portfolio-list__24h-change_green':
-                    coinData.price_change_percentage_24h > 0,
-                },
-                {
-                  'portfolio-list__24h-change_red':
-                    coinData.price_change_percentage_24h < 0,
-                },
-              )}
-            >
-              {coinData.price_change_percentage_24h.toFixed(2)}%
-            </div>
-          </div>
-
-          <div
-            className={
-              coinData.current_price * coinCount - buyPrice * coinCount > 0
-                ? 'portfolio-list__profitAll portfolio-list__profitAll_green'
-                : 'portfolio-list__profitAll portfolio-list__profitAll_red'
-            }
+  return coinData !== null ? (
+    <StyledTableRow
+      key={coinData.name}
+      sx={{ border: 'none', backgroundColor: 'unset !important' }}
+    >
+      <StyledTableCell
+        component="th"
+        scope="row"
+        sx={{ display: 'flex', alignItems: 'center' }}
+      >
+        <img
+          style={{ width: '40px', height: 'auto', marginRight: '10px' }}
+          src={coinData.image}
+          alt=""
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ color: '#000', fontWeight: '600' }}
           >
+            {coinData.symbol.toUpperCase()}
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#757575' }}>
+            {coinData.name}
+          </Typography>
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell>
+        <Typography variant="subtitle1">{coinData.current_price} $</Typography>
+      </StyledTableCell>
+      <StyledTableCell>
+        <Box
+          sx={{
+            color:
+              coinData.price_change_percentage_24h > 0
+                ? 'rgba(22,163,74,1)'
+                : 'rgba(220,38,38,1)',
+          }}
+        >
+          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+            {coinData.price_change_percentage_24h.toFixed(2)} %
+          </Typography>
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell>
+        <Box
+          sx={{
+            color:
+              coinData.current_price * coinCount - buyPrice * coinCount > 0
+                ? 'rgba(22,163,74,1)'
+                : 'rgba(220,38,38,1)',
+          }}
+        >
+          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {(
               coinData.current_price * coinCount -
               buyPrice * coinCount
             ).toFixed(2)}
             $
-          </div>
+          </Typography>
+        </Box>
+      </StyledTableCell>
 
-          <div className="portfolio-list__avgPrice">{buyPrice.toFixed(2)}$</div>
+      <StyledTableCell>
+        <Typography>{buyPrice.toFixed(2)}$</Typography>
+      </StyledTableCell>
 
-          <div className="portfolio-list__holdings">
-            <div className="portfolio-list__holdings_sum">
-              $ {(coinCount * coinData.current_price).toLocaleString()}
-            </div>
-            <div className="portfolio-list__holdings_symbol">
-              {coinCount} {coinData.symbol.toUpperCase()}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      <StyledTableCell>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+            $ {(coinCount * coinData.current_price).toLocaleString()}
+          </Typography>
+          <Typography variant="body2" sx={{ lineHeight: '100%' }}>
+            {coinCount} {coinData.symbol.toUpperCase()}
+          </Typography>
+        </Box>
+      </StyledTableCell>
+
+      <StyledTableCell align="center">
+        <Box>
+          <PortfolioMenu id={id} />
+        </Box>
+      </StyledTableCell>
+    </StyledTableRow>
+  ) : (
+    <StyledTableRow>
+      <StyledTableCell
+        component="th"
+        scope="row"
+        sx={{ display: 'flex', alignItems: 'center' }}
+      >
+        Not found
+      </StyledTableCell>
+    </StyledTableRow>
   );
 };
