@@ -51,7 +51,7 @@ export const PortfolioSlice = createSlice({
     loadPortfolio(state, action: PayloadAction<Portfolio[]>) {
       state.portfolio = [...action.payload]
     },
-    addToPortfolio(state, action: PayloadAction<Portfolio>) {
+    buyCoin(state, action: PayloadAction<Portfolio>) {
       if (state.portfolio.length > 0) {
         const isOld = state.portfolio.some((item: Portfolio) => item.id === action.payload.id);
 
@@ -73,13 +73,34 @@ export const PortfolioSlice = createSlice({
         state.portfolio.push(action.payload);
       }
     },
+    sellCoin(state, action: PayloadAction<any>) {
+      if (state.portfolio.length > 0) {
+        const isOld = state.portfolio.some((item: Portfolio) => item.id === action.payload.id);
+
+        if (isOld) {
+          state.portfolio = state.portfolio.map((item: Portfolio) => {
+            if (item.id === action.payload.id) {
+              return {
+                ...item,
+                coinCount: item.coinCount - action.payload.coinCount,
+              }
+            }
+            return item;
+          })
+        } else {
+          state.portfolio.push(action.payload);
+        }
+      } else {
+        state.portfolio.push(action.payload);
+      }
+    },
     removeFromPortfolio(state, action: PayloadAction<string>) {
       state.portfolio = state.portfolio.filter((item) => item.id !== action.payload);
     },
     loadTransactions(state, action: PayloadAction<Transaction[]>) {
       state.transactions.list = action.payload
     },
-    addTransaction(state, action: PayloadAction<Transaction>) {
+    addTransaction(state, action: PayloadAction<any>) {
       state.transactions.list.push(action.payload)
     },
     toggleTransactions(state, action: PayloadAction<boolean>) {
@@ -100,7 +121,8 @@ export const {
   editQuote,
   changeBaseCurr,
   changeQuoteCurr,
-  addToPortfolio,
+  buyCoin,
+  sellCoin,
   loadPortfolio,
   removeFromPortfolio,
   addTransaction,

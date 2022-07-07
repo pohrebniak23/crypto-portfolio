@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { getDatabase, ref, set } from 'firebase/database';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
-  editBase,
-  editQuote,
-  addToPortfolio,
   addTransaction,
-} from '../../redux/reducers/Portfolio/PortfolioSlice';
-import { Coin } from '../../types/Coin';
-import { coinsAPI } from '../../services/CoinsService';
-
-enum changedCurr {
-  BASE = 'BASE',
-  QUOTE = 'QUOTE',
-}
+  buyCoin,
+} from '../../../redux/reducers/Portfolio/PortfolioSlice';
+import { Coin } from '../../../types/Coin';
+import { coinsAPI } from '../../../services/CoinsService';
+import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
+import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
 
 export const BuyCrypto: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const { user } = useAppSelector((state) => state.auth);
-  const { portfolio, transactions } = useAppSelector(
-    (state) => state.portfolio,
-  );
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const { baseCurr, quoteCurr } = useAppSelector(
     (state) => state.portfolio.selectedCoins,
   );
 
-  const [baseObj, setBaseOjb] = useState<Coin | null>(null);
-  const [quoteObj, setQuoteOjb] = useState<Coin | null>(null);
+  const [baseObj, setBaseObj] = useState<Coin | null>(null);
+  const [quoteObj, setQuoteObj] = useState<Coin | null>(null);
+
   const [buyCount, setBuyCount] = useState<number>(1);
   const [price, setPrice] = useState<number>(1);
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
@@ -40,14 +31,14 @@ export const BuyCrypto: React.FC = () => {
       const base = coins.find((coin) => coin.id === baseCurr) || null;
       const quote = coins.find((coin) => coin.id === quoteCurr) || null;
 
-      setBaseOjb(base);
-      setQuoteOjb(quote);
+      setBaseObj(base);
+      setQuoteObj(quote);
     }
   }, [coins, baseCurr, quoteCurr]);
 
   useEffect(() => {
     if (baseObj && quoteObj) {
-      if (customPrice) {
+      if (isCustomPrice) {
         setPrice(+(buyCount * +customPrice).toFixed(3));
       } else {
         setPrice(+(buyCount * baseObj.current_price).toFixed(3));
@@ -55,40 +46,21 @@ export const BuyCrypto: React.FC = () => {
     }
   }, [baseObj, quoteObj, buyCount, isCustomPrice, customPrice]);
 
-  useEffect(() => {
-    if (user && portfolio.length > 0) {
-      const db = getDatabase();
-
-      set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
-      set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
-    }
-  }, [portfolio, user, transactions.list]);
-
-  const selectNewCoin = (changed: changedCurr) => {
-    if (changed === changedCurr.BASE) {
-      dispatch(editBase(true));
-    }
-
-    if (changed === changedCurr.QUOTE) {
-      dispatch(editQuote(true));
-    }
-  };
-
   const addCrypto = () => {
     if (baseObj && quoteObj) {
-      const addedObj = {
+      const addedData = {
         id: baseObj.id,
         buyPrice: !isCustomPrice ? +baseObj.current_price : +customPrice,
         coinCount: +buyCount,
       };
 
-      dispatch(addToPortfolio(addedObj));
+      dispatch(buyCoin(addedData));
       dispatch(
         addTransaction({
           type: 'BUY',
           date: Date().toLocaleString(),
-          ...addedObj,
-        }),
+          ...addedData,
+        })
       );
     }
   };
@@ -178,27 +150,7 @@ export const BuyCrypto: React.FC = () => {
                   value={buyCount}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBuyCount(+e.target.value)}
                 />
-                <Button
-                  variant="text"
-                  sx={{ backgroundColor: 'transparent !important' }}
-                  onClick={() => selectNewCoin(changedCurr.BASE)}
-                >
-                  <img
-                    src={baseObj.image}
-                    alt={baseObj.name}
-                    className="transaction__image"
-                    style={{
-                      width: '30px',
-                      marginRight: '6px'
-                    }}
-                  />
-                  <Typography
-                    variant="body1"
-                    sx={{ color: '#000', fontWeight: '600' }}
-                  >
-                    {baseObj.symbol.toUpperCase()}
-                  </Typography>
-                </Button>
+                <BaseCurrBtn baseObj={baseObj} />
               </Box>
             </>
           )}
@@ -224,29 +176,8 @@ export const BuyCrypto: React.FC = () => {
                   disableUnderline
                   disabled
                   value={price}
-                  onChange={(e) => setPrice(+e.target.value)}
                 />
-                <Button
-                  variant="text"
-                  sx={{ backgroundColor: 'transparent !important' }}
-                  onClick={() => selectNewCoin(changedCurr.QUOTE)}
-                >
-                  <img
-                    src={quoteObj.image}
-                    alt={quoteObj.name}
-                    className="transaction__image"
-                    style={{
-                      width: '30px',
-                      marginRight: '6px'
-                    }}
-                  />
-                  <Typography
-                    variant="body1"
-                    sx={{ color: '#000', fontWeight: '600' }}
-                  >
-                    {quoteObj.symbol.toUpperCase()}
-                  </Typography>
-                </Button>
+                <QuoteCurrBtn quoteObj={quoteObj} />
               </Box>
 
               <Box
