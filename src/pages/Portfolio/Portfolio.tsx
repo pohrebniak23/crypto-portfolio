@@ -25,7 +25,9 @@ import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
-  const { portfolio, transactions } = useAppSelector((state) => state.portfolio);
+  const { portfolio, transactions } = useAppSelector(
+    (state) => state.portfolio,
+  );
   const { user } = useAppSelector((state) => state.auth);
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
@@ -36,29 +38,32 @@ export const Portfolio: React.FC = () => {
   useEffect(() => {
     if (user) {
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `users/${user.id}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
+      get(child(dbRef, `users/${user.id}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
 
-          if (data.portfolio && portfolio.length === 0) {
-            dispatch(loadPortfolio(data.portfolio));
-          }
+            if (data.portfolio && portfolio.length === 0) {
+              dispatch(loadPortfolio(data.portfolio));
+            }
 
-          if (data.transactions) {
-            dispatch(loadTransactions(data.transactions));
+            if (data.transactions) {
+              dispatch(loadTransactions(data.transactions));
+            }
+          } else {
+            console.log('No data available');
           }
-        } else {
-          console.log("No data available");
-        }
-      }).catch((error: any) => {
-        console.error(error);
-      });
+        })
+        .catch((error: any) => {
+          console.error(error);
+        });
     }
   }, []);
 
   useEffect(() => {
     if (user) {
       const db = getDatabase();
+      console.log('change')
 
       set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
       set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
@@ -77,7 +82,7 @@ export const Portfolio: React.FC = () => {
         width: '100%',
         display: 'flex',
         borderRadius: 3,
-        p: 2,
+        p: 1,
       }}
     >
       <Box
@@ -86,9 +91,19 @@ export const Portfolio: React.FC = () => {
           transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
           display: 'flex',
           flexDirection: 'column',
+          overflow: 'hidden'
         }}
       >
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            overflowY: 'scroll',
+            height: 'calc(100vh - 32px)',
+            p: 1,
+            alignContent: 'flex-start'
+          }}
+        >
           <Grid item sm={12}>
             <Paper
               elevation={3}

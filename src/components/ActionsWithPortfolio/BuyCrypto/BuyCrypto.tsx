@@ -38,7 +38,7 @@ export const BuyCrypto: React.FC = () => {
 
   useEffect(() => {
     if (baseObj && quoteObj) {
-      if (customPrice) {
+      if (isCustomPrice) {
         setPrice(+(buyCount * +customPrice).toFixed(3));
       } else {
         setPrice(+(buyCount * baseObj.current_price).toFixed(3));
@@ -176,7 +176,6 @@ export const BuyCrypto: React.FC = () => {
                   disableUnderline
                   disabled
                   value={price}
-                  onChange={(e) => setPrice(+e.target.value)}
                 />
                 <QuoteCurrBtn quoteObj={quoteObj} />
               </Box>

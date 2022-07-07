@@ -38,7 +38,7 @@ export const SellCrypto: React.FC = () => {
 
   useEffect(() => {
     if (baseObj && quoteObj) {
-      if (customPrice) {
+      if (isCustomPrice) {
         setPrice(+(sellCount * +customPrice).toFixed(3));
       } else {
         setPrice(+(sellCount * baseObj.current_price).toFixed(3));
