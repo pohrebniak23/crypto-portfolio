@@ -61,9 +61,8 @@ export const Portfolio: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (user) {
+    if (user && portfolio.length > 0) {
       const db = getDatabase();
-      console.log('change')
 
       set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
       set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
@@ -91,7 +90,7 @@ export const Portfolio: React.FC = () => {
           transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
           display: 'flex',
           flexDirection: 'column',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Grid
@@ -101,7 +100,8 @@ export const Portfolio: React.FC = () => {
             overflowY: 'scroll',
             height: 'calc(100vh - 32px)',
             p: 1,
-            alignContent: 'flex-start'
+            alignContent: 'flex-start',
+            position: 'relative'
           }}
         >
           <Grid item sm={12}>

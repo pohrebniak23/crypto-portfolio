@@ -49,8 +49,9 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
             alignItems: 'center',
             width: '100%',
             borderBottom: '1px solid #ddd',
-            py: 2,
+            py: 1.8,
             px: 0,
+            pr: 2,
             borderRadius: 0,
             '&:hover': {
               border: 'none',
@@ -60,7 +61,7 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
           }}
         >
           <img
-            style={{ width: '40px', height: 'auto', marginRight: '10px' }}
+            style={{ width: '30px', height: 'auto', marginRight: '10px' }}
             src={image}
             alt=""
           />
@@ -73,14 +74,14 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
             }}
           >
             <Typography
-              variant="body1"
+              variant="body2"
               sx={{ lineHeight: '100%', color: '#000', mb: 0.5 }}
             >
               {name}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ lineHeight: '100%', color: '#000' }}
+              sx={{ lineHeight: '100%', color: '#000', fontSize: '12px' }}
             >
               {symbol}
             </Typography>
@@ -89,6 +90,7 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
             sx={{
               ml: 'auto',
               color: '#000',
+              width: '16px'
             }}
           />
         </Button>

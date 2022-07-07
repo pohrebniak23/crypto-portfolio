@@ -72,10 +72,10 @@ export const SelectCoin: React.FC = () => {
         sx={{
           width: '450px',
           p: 3,
-          borderRadius: 4,
+          borderRadius: 8,
         }}
       >
-        <Typography variant="h5" sx={{ p: 0, pb: 2, textAlign: 'center' }}>
+        <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
           Select coin
         </Typography>
         <DialogContent sx={{ p: 0 }}>
@@ -84,16 +84,16 @@ export const SelectCoin: React.FC = () => {
             onChange={(e: any) => searchHandle(e.target.value)}
             id="outlined-basic"
             label="Search"
-            variant="outlined"
+            variant="standard"
             sx={{
               width: '100%',
               borderRadius: 4,
-              pb: 2,
+              pb: 1,
             }}
           />
           <Box
             sx={{
-              height: '420px',
+              height: '350px',
             }}
           >
             {filteredCoins &&
