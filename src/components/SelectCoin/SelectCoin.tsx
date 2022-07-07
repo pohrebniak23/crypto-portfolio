@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -14,27 +14,46 @@ import {
   editQuote,
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
-import { Coin } from '../../types/Coin';
 
 export const SelectCoin: React.FC = () => {
   const dispatch = useDispatch();
   const { selectedCoins } = useAppSelector((state) => state.portfolio);
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [search, setSearch] = useState('');
-  const [filteredCoins, setFiltered] = useState<Coin[] | undefined>(coins);
+  const [coinsPerPage, setCoinsPerPage] = useState(10);
+  const lastCoin = useRef<HTMLDivElement | null>(null);
+
+  const observer = useRef<IntersectionObserver | null>(null);
 
   const searchHandle = (value: string) => {
     setSearch(value);
   };
 
-  useEffect(() => {
-    setFiltered(
-      coins &&
-        coins.filter((coin) =>
+  const filteredCoins = useMemo(() => {
+    if (coins) {
+      return coins
+        .slice(0, coinsPerPage)
+        .filter((coin) =>
           coin.name.toLowerCase().includes(search.toLowerCase()),
-        ),
-    );
-  }, [search, coins]);
+        );
+    }
+
+    return coins;
+  }, [search, coins, coinsPerPage]);
+
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+
+    const callback = function (entries: any) {
+      if (entries[0].isIntersecting) {
+        setCoinsPerPage(coinsPerPage + 10);
+      }
+    };
+    observer.current = new IntersectionObserver(callback);
+    if (lastCoin.current) {
+      observer.current.observe(lastCoin.current);
+    }
+  }, [lastCoin, coinsPerPage, filteredCoins]);
 
   const closeSarch = () => {
     dispatch(editBase(false));
@@ -51,7 +70,7 @@ export const SelectCoin: React.FC = () => {
     >
       <Box
         sx={{
-          width: '500px',
+          width: '450px',
           p: 3,
           borderRadius: 4,
         }}
@@ -81,6 +100,9 @@ export const SelectCoin: React.FC = () => {
               filteredCoins.map((coin) => (
                 <CoinItem key={coin.id} coin={coin} />
               ))}
+            {filteredCoins && (
+              <Box ref={lastCoin} sx={{ height: 2, width: '100%' }} />
+            )}
           </Box>
         </DialogContent>
       </Box>

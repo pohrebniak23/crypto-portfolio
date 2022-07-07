@@ -6,7 +6,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, ref, get, child, set } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,11 +25,9 @@ import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
-  const { portfolio } = useAppSelector((state) => state.portfolio);
+  const { portfolio, transactions } = useAppSelector((state) => state.portfolio);
   const { user } = useAppSelector((state) => state.auth);
   const [rightBarOpen, setRightBarOpen] = useState(false);
-
-  const db = getDatabase();
 
   const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
@@ -37,17 +35,35 @@ export const Portfolio: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      const usersRef = ref(db, `users/${user.id}`);
-      onValue(usersRef, (snapshot) => {
-        const data = snapshot.val();
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `users/${user.id}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
 
-        if (data) {
-          dispatch(loadPortfolio(data.portfolio));
-          dispatch(loadTransactions(data.transactions));
+          if (data.portfolio && portfolio.length === 0) {
+            dispatch(loadPortfolio(data.portfolio));
+          }
+
+          if (data.transactions) {
+            dispatch(loadTransactions(data.transactions));
+          }
+        } else {
+          console.log("No data available");
         }
+      }).catch((error: any) => {
+        console.error(error);
       });
     }
-  }, [user, db, dispatch]);
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const db = getDatabase();
+
+      set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
+      set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
+    }
+  }, [portfolio, user, transactions.list]);
 
   const sum = walletSum(coinsList, portfolio);
 
