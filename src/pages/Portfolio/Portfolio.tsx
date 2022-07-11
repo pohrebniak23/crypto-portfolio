@@ -59,8 +59,6 @@ export const Portfolio: React.FC = () => {
             if (data.transactions) {
               dispatch(loadTransactions(data.transactions));
             }
-          } else {
-            console.log('No data available');
           }
         })
         .catch((error) => {

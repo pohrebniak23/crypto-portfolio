@@ -45,7 +45,6 @@ export const SelectCoin: React.FC = () => {
     if (observer.current) observer.current.disconnect();
 
     const callback = function (entries: any) {
-      console.log(entries)
       if (entries[0].isIntersecting) {
         setCoinsPerPage(coinsPerPage + 10);
       }

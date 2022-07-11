@@ -3,8 +3,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import {ReactComponent as Logo} from '../../assets/images/logo.svg';
+import { useAppDispatch } from '../../hooks/redux';
+import { logout } from '../../redux/reducers/Auth/AuthSlice';
 
 export const Sidebar: React.FC = () => {
+  const dispatch = useAppDispatch();
   const drawerWidth = 240;
 
   const links = [
@@ -14,6 +17,8 @@ export const Sidebar: React.FC = () => {
 
   const logOut = () => {
     const auth = getAuth();
+
+    dispatch(logout());
     signOut(auth);
   }
 
