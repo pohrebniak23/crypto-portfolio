@@ -9,6 +9,7 @@ import { Coin } from '../../../types/Coin';
 import { coinsAPI } from '../../../services/CoinsService';
 import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
 import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
+import { Loader } from '../../Loader/Loader';
 
 export const SellCrypto: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,8 +19,8 @@ export const SellCrypto: React.FC = () => {
     (state) => state.portfolio.selectedCoins,
   );
 
-  const [baseObj, setBaseObj] = useState<Coin | null>(null);
-  const [quoteObj, setQuoteObj] = useState<Coin | null>(null);
+  const [baseCoin, setbaseCoin] = useState<Coin | null>(null);
+  const [quoteCoin, setquoteCoin] = useState<Coin | null>(null);
 
   const [sellCount, setSellCount] = useState<number>(1);
   const [price, setPrice] = useState<number>(1);
@@ -31,26 +32,26 @@ export const SellCrypto: React.FC = () => {
       const base = coins.find((coin) => coin.id === baseCurr) || null;
       const quote = coins.find((coin) => coin.id === quoteCurr) || null;
 
-      setBaseObj(base);
-      setQuoteObj(quote);
+      setbaseCoin(base);
+      setquoteCoin(quote);
     }
   }, [coins, baseCurr, quoteCurr]);
 
   useEffect(() => {
-    if (baseObj && quoteObj) {
+    if (baseCoin && quoteCoin) {
       if (isCustomPrice) {
         setPrice(+(sellCount * +customPrice).toFixed(3));
       } else {
-        setPrice(+(sellCount * baseObj.current_price).toFixed(3));
+        setPrice(+(sellCount * baseCoin.current_price).toFixed(3));
       }
     }
-  }, [baseObj, quoteObj, sellCount, isCustomPrice, customPrice]);
+  }, [baseCoin, quoteCoin, sellCount, isCustomPrice, customPrice]);
 
   const sellCrypto = () => {
-    if (baseObj && quoteObj) {
+    if (baseCoin && quoteCoin) {
       const addedData = {
-        id: baseObj.id,
-        sellPrice: !isCustomPrice ? +baseObj.current_price : +customPrice,
+        id: baseCoin.id,
+        sellPrice: !isCustomPrice ? +baseCoin.current_price : +customPrice,
         coinCount: +sellCount,
       };
 
@@ -71,9 +72,9 @@ export const SellCrypto: React.FC = () => {
         pt: 3,
       }}
     >
-      {coins && coins.length > 0 && (
+      {baseCoin && quoteCoin ? (
         <Box>
-          {baseObj && quoteObj && (
+          {baseCoin && quoteCoin && (
             <Box
               sx={{
                 display: 'flex',
@@ -89,7 +90,7 @@ export const SellCrypto: React.FC = () => {
                   textAlign: 'center',
                 }}
               >
-                {`${baseObj.name} price`}
+                {`${baseCoin.name} price`}
               </Typography>
               <Typography
                 variant="h5"
@@ -101,7 +102,7 @@ export const SellCrypto: React.FC = () => {
                   display: !isCustomPrice ? 'block' : 'none',
                 }}
               >
-                {`$${baseObj.current_price}`}
+                {`$${baseCoin.current_price}`}
               </Typography>
               <Input
                 placeholder="0.00"
@@ -130,78 +131,69 @@ export const SellCrypto: React.FC = () => {
             </Box>
           )}
 
-          {baseObj && (
-            <>
-              <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                Quantity
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: 'rgba(52, 28, 191, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '6px 8px',
-                  borderRadius: '10px',
-                  mb: 2,
-                }}
-              >
-                <Input
-                  placeholder="0.00"
-                  sx={{ pl: 0.5 }}
-                  disableUnderline
-                  value={sellCount}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setSellCount(+e.target.value)
-                  }
-                />
-                <BaseCurrBtn baseObj={baseObj} />
-              </Box>
-            </>
-          )}
+          <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+            Quantity
+          </Typography>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(52, 28, 191, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '6px 8px',
+              borderRadius: '10px',
+              mb: 2,
+            }}
+          >
+            <Input
+              placeholder="0.00"
+              sx={{ pl: 0.5 }}
+              disableUnderline
+              value={sellCount}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSellCount(+e.target.value)
+              }
+            />
+            <BaseCurrBtn baseCoin={baseCoin} />
+          </Box>
+          <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+            Total spent
+          </Typography>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(52, 28, 191, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '6px 8px',
+              borderRadius: '10px',
+              mb: 2,
+            }}
+          >
+            <Input
+              placeholder="0.00"
+              sx={{ pl: 0.5 }}
+              disableUnderline
+              disabled
+              value={price}
+              onChange={(e) => setPrice(+e.target.value)}
+            />
+            <QuoteCurrBtn quoteCoin={quoteCoin} />
+          </Box>
 
-          {quoteObj !== null && (
-            <>
-              <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                Total spent
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: 'rgba(52, 28, 191, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '6px 8px',
-                  borderRadius: '10px',
-                  mb: 2,
-                }}
-              >
-                <Input
-                  placeholder="0.00"
-                  sx={{ pl: 0.5 }}
-                  disableUnderline
-                  disabled
-                  value={price}
-                  onChange={(e) => setPrice(+e.target.value)}
-                />
-                <QuoteCurrBtn quoteObj={quoteObj} />
-              </Box>
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                  Custom price
-                </Typography>
-                <Switch
-                  checked={isCustomPrice}
-                  onChange={() => setIsCustomPrice(!isCustomPrice)}
-                />
-              </Box>
-            </>
-          )}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+              Custom price
+            </Typography>
+            <Switch
+              checked={isCustomPrice}
+              onChange={() => setIsCustomPrice(!isCustomPrice)}
+            />
+          </Box>
 
           <Button
             variant="contained"
@@ -212,9 +204,11 @@ export const SellCrypto: React.FC = () => {
               width: '100%',
             }}
           >
-            Add to portfolio
+            Sell
           </Button>
         </Box>
+      ) : (
+        <Loader />
       )}
     </Box>
   );

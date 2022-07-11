@@ -46,17 +46,17 @@ export const TransactionLineItem: React.FC<Props> = ({ item, coinData }) =>
         <Box
           sx={{
             color:
-              item.type === 'BUY'
-                ? 'rgba(22,163,74,1)'
-                : 'rgba(220,38,38,1)',
-                textAlign: 'right',
-                margin: '0 auto',
-                width: 'max-content'
+              item.type === 'BUY' ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)',
+            textAlign: 'right',
+            margin: '0 auto',
+            width: 'max-content',
           }}
         >
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
-            +${item.buyPrice * item.coinCount}
-          </Typography>
+          {item.buyPrice && (
+            <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+              +${item.buyPrice * item.coinCount}
+            </Typography>
+          )}
           <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
             +{`${item.coinCount} ${coinData.symbol.toUpperCase()}`}
           </Typography>

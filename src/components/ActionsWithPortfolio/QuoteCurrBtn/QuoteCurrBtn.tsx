@@ -5,10 +5,10 @@ import { editQuote } from '../../../redux/reducers/Portfolio/PortfolioSlice';
 import { Coin } from '../../../types/Coin';
 
 type Props = {
-  quoteObj: Coin,
+  quoteCoin: Coin,
 };
 
-export const QuoteCurrBtn: React.FC<Props> = ({ quoteObj }) => {
+export const QuoteCurrBtn: React.FC<Props> = ({ quoteCoin }) => {
   const dispatch = useAppDispatch();
 
   const selectNewCoin = () => {
@@ -22,8 +22,8 @@ export const QuoteCurrBtn: React.FC<Props> = ({ quoteObj }) => {
       onClick={() => selectNewCoin()}
     >
       <img
-        src={quoteObj.image}
-        alt={quoteObj.name}
+        src={quoteCoin.image}
+        alt={quoteCoin.name}
         className="transaction__image"
         style={{
           width: '30px',
@@ -31,7 +31,7 @@ export const QuoteCurrBtn: React.FC<Props> = ({ quoteObj }) => {
         }}
       />
       <Typography variant="body1" sx={{ color: '#000', fontWeight: '600' }}>
-        {quoteObj.symbol.toUpperCase()}
+        {quoteCoin.symbol.toUpperCase()}
       </Typography>
     </Button>
   );

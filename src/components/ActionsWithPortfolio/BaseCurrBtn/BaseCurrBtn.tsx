@@ -5,10 +5,10 @@ import { editBase } from '../../../redux/reducers/Portfolio/PortfolioSlice';
 import { Coin } from '../../../types/Coin';
 
 type Props = {
-  baseObj: Coin;
+  baseCoin: Coin;
 };
 
-export const BaseCurrBtn: React.FC<Props> = ({ baseObj }) => {
+export const BaseCurrBtn: React.FC<Props> = ({ baseCoin }) => {
   const dispatch = useAppDispatch();
 
   const selectNewCoin = () => {
@@ -22,8 +22,8 @@ export const BaseCurrBtn: React.FC<Props> = ({ baseObj }) => {
       onClick={() => selectNewCoin()}
     >
       <img
-        src={baseObj.image}
-        alt={baseObj.name}
+        src={baseCoin.image}
+        alt={baseCoin.name}
         className="transaction__image"
         style={{
           width: '30px',
@@ -31,7 +31,7 @@ export const BaseCurrBtn: React.FC<Props> = ({ baseObj }) => {
         }}
       />
       <Typography variant="body1" sx={{ color: '#000', fontWeight: '600' }}>
-        {baseObj.symbol.toUpperCase()}
+        {baseCoin.symbol.toUpperCase()}
       </Typography>
     </Button>
   );
