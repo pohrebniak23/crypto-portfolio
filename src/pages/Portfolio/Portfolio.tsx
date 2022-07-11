@@ -19,13 +19,13 @@ import { useAppSelector } from '../../hooks/redux';
 import { PortfolioContent } from './PortfolioContent';
 import {
   loadPortfolio,
-  loadTransactions,
+  loadTransactions
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
 
 export const Portfolio: React.FC = () => {
   const dispatch = useDispatch();
-  const { portfolio, transactions } = useAppSelector(
+  const { portfolio, transactions, portfolioTotalPrice } = useAppSelector(
     (state) => state.portfolio,
   );
   const { user } = useAppSelector((state) => state.auth);
@@ -34,6 +34,15 @@ export const Portfolio: React.FC = () => {
   const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
+
+  useEffect(() => {
+    if (user && portfolio.length > 0) {
+
+      const db = getDatabase();
+      set(ref(db, `users/${user.id}/priceStat`), { ...portfolioTotalPrice });
+
+    }
+  }, [coinsList, portfolio])
 
   useEffect(() => {
     if (user) {
@@ -54,7 +63,7 @@ export const Portfolio: React.FC = () => {
             console.log('No data available');
           }
         })
-        .catch((error: any) => {
+        .catch((error) => {
           console.error(error);
         });
     }
@@ -95,13 +104,14 @@ export const Portfolio: React.FC = () => {
       >
         <Grid
           container
-          spacing={2}
+          rowSpacing={2}
+          columnSpacing={2}
           sx={{
             overflowY: 'scroll',
             height: 'calc(100vh - 32px)',
             p: 1,
             alignContent: 'flex-start',
-            position: 'relative'
+            position: 'relative',
           }}
         >
           <Grid item sm={12}>

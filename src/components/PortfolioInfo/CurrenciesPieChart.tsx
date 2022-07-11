@@ -3,11 +3,16 @@ import { Paper } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAppSelector } from '../../hooks/redux';
 
+interface PieData {
+  name: string;
+  value: number;
+}
+
 export const CurrenciesPieChart: React.FC = () => {
   const { portfolio } = useAppSelector((state) => state.portfolio);
   const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-  const data: any = portfolio.map((item) => ({
+  const pieData: PieData[] = portfolio.map((item) => ({
     name: item.id,
     value: +(item.buyPrice * item.coinCount).toFixed(0),
   }));
@@ -21,19 +26,19 @@ export const CurrenciesPieChart: React.FC = () => {
         borderRadius: 4,
         display: 'flex',
         justifyContent: 'center',
-        height: '376px'
+        height: '376px',
       }}
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={228} height={228}>
           <Pie
             dataKey="value"
-            data={data}
+            data={pieData}
             innerRadius={80}
             outerRadius={134}
             paddingAngle={3}
           >
-            {data.map((entry: any, index: number) => (
+            {pieData.map((entry: PieData, index: number) => (
               <Cell
                 key={`cell-${entry.name}`}
                 fill={colors[index % colors.length]}

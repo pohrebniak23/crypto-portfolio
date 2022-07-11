@@ -45,6 +45,7 @@ export const SelectCoin: React.FC = () => {
     if (observer.current) observer.current.disconnect();
 
     const callback = function (entries: any) {
+      console.log(entries)
       if (entries[0].isIntersecting) {
         setCoinsPerPage(coinsPerPage + 10);
       }
@@ -81,7 +82,7 @@ export const SelectCoin: React.FC = () => {
         <DialogContent sx={{ p: 0 }}>
           <TextField
             type="text"
-            onChange={(e: any) => searchHandle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => searchHandle(e.target.value)}
             id="outlined-basic"
             label="Search"
             variant="standard"

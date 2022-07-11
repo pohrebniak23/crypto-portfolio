@@ -22,6 +22,7 @@
     "devextreme-react": "^22.1.4-build-22180-0310",
     "firebase": "^9.8.4",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

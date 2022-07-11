@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, styled, Tab, Tabs } from '@mui/material';
 import { BuyCrypto } from '../ActionsWithPortfolio/BuyCrypto/BuyCrypto';
 import { TabPanel } from './TabPanel';
-// import { SellCrypto } from '../ActionsWithPortfolio/SellCrypto/SellCrypto';
+import { SellCrypto } from '../ActionsWithPortfolio/SellCrypto/SellCrypto';
 
 export const TabsBlock: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -52,7 +52,7 @@ export const TabsBlock: React.FC = () => {
         <BuyCrypto />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <BuyCrypto />
+        <SellCrypto />
       </TabPanel>
     </>
   );

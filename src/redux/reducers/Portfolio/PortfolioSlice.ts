@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BuyCrypto } from "../../../types/BuyCrypto";
 import { Portfolio } from "../../../types/Portfolio";
+import { SellCoin } from "../../../types/SellCoin";
 import { Transaction } from "../../../types/Transaction";
 
 interface PortfolioState {
@@ -9,6 +11,10 @@ interface PortfolioState {
     quoteCurr: string,
     quoteEditing: boolean,
   },
+  portfolioTotalPrice: {
+    price: number,
+    time: string
+  }[],
   portfolio: Portfolio[],
   transactions: {
     list: Transaction[],
@@ -24,6 +30,7 @@ const initialState: PortfolioState = {
     quoteCurr: 'tether',
     quoteEditing: false,
   },
+  portfolioTotalPrice: [],
   portfolio: [],
   transactions: {
     list: [],
@@ -48,16 +55,16 @@ export const PortfolioSlice = createSlice({
     changeQuoteCurr(state, action: PayloadAction<string>) {
       state.selectedCoins.quoteCurr = action.payload
     },
-    loadPortfolio(state, action: PayloadAction<Portfolio[]>) {
+    loadPortfolio(state, action: PayloadAction<BuyCrypto[]>) {
       state.portfolio = [...action.payload]
     },
-    buyCoin(state, action: PayloadAction<Portfolio>) {
+    buyCoin(state, action: PayloadAction<BuyCrypto>) {
       if (state.portfolio.length > 0) {
         const isOld = state.portfolio.some((item: Portfolio) => item.id === action.payload.id);
 
         if (isOld) {
           state.portfolio = state.portfolio.map((item: Portfolio) => {
-            if (item.id === action.payload.id) {
+            if (item.id === action.payload.id && item.buyPrice) {
               return {
                 ...item,
                 coinCount: item.coinCount + action.payload.coinCount,
@@ -73,7 +80,7 @@ export const PortfolioSlice = createSlice({
         state.portfolio.push(action.payload);
       }
     },
-    sellCoin(state, action: PayloadAction<any>) {
+    sellCoin(state, action: PayloadAction<SellCoin>) {
       if (state.portfolio.length > 0) {
         const isOld = state.portfolio.some((item: Portfolio) => item.id === action.payload.id);
 
@@ -88,10 +95,18 @@ export const PortfolioSlice = createSlice({
             return item;
           })
         } else {
-          state.portfolio.push(action.payload);
+          state.portfolio.push({
+            id: action.payload.id,
+            buyPrice: 0,
+            coinCount: action.payload.coinCount
+          });
         }
       } else {
-        state.portfolio.push(action.payload);
+        state.portfolio.push({
+          id: action.payload.id,
+          buyPrice: 0,
+          coinCount: action.payload.coinCount
+        });
       }
     },
     removeFromPortfolio(state, action: PayloadAction<string>) {
@@ -100,7 +115,7 @@ export const PortfolioSlice = createSlice({
     loadTransactions(state, action: PayloadAction<Transaction[]>) {
       state.transactions.list = action.payload
     },
-    addTransaction(state, action: PayloadAction<any>) {
+    addTransaction(state, action: PayloadAction<Transaction>) {
       state.transactions.list.push(action.payload)
     },
     toggleTransactions(state, action: PayloadAction<boolean>) {

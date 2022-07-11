@@ -3,5 +3,6 @@ export interface Transaction {
   date: string,
   type: string,
   coinCount: number,
-  buyPrice: number,
+  buyPrice?: number,
+  sellPrice?: number,
 }

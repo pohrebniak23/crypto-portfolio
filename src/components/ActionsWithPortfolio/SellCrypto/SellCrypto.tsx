@@ -131,69 +131,69 @@ export const SellCrypto: React.FC = () => {
             </Box>
           )}
 
-<Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                Quantity
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: 'rgba(52, 28, 191, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '6px 8px',
-                  borderRadius: '10px',
-                  mb: 2,
-                }}
-              >
-                <Input
-                  placeholder="0.00"
-                  sx={{ pl: 0.5 }}
-                  disableUnderline
-                  value={sellCount}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setSellCount(+e.target.value)
-                  }
-                />
-                <BaseCurrBtn baseCoin={baseCoin} />
-              </Box>
-<Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                Total spent
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: 'rgba(52, 28, 191, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '6px 8px',
-                  borderRadius: '10px',
-                  mb: 2,
-                }}
-              >
-                <Input
-                  placeholder="0.00"
-                  sx={{ pl: 0.5 }}
-                  disableUnderline
-                  disabled
-                  value={price}
-                  onChange={(e) => setPrice(+e.target.value)}
-                />
-                <QuoteCurrBtn quoteCoin={quoteCoin} />
-              </Box>
+          <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+            Quantity
+          </Typography>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(52, 28, 191, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '6px 8px',
+              borderRadius: '10px',
+              mb: 2,
+            }}
+          >
+            <Input
+              placeholder="0.00"
+              sx={{ pl: 0.5 }}
+              disableUnderline
+              value={sellCount}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSellCount(+e.target.value)
+              }
+            />
+            <BaseCurrBtn baseCoin={baseCoin} />
+          </Box>
+          <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+            Total spent
+          </Typography>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(52, 28, 191, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '6px 8px',
+              borderRadius: '10px',
+              mb: 2,
+            }}
+          >
+            <Input
+              placeholder="0.00"
+              sx={{ pl: 0.5 }}
+              disableUnderline
+              disabled
+              value={price}
+              onChange={(e) => setPrice(+e.target.value)}
+            />
+            <QuoteCurrBtn quoteCoin={quoteCoin} />
+          </Box>
 
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
-                  Custom price
-                </Typography>
-                <Switch
-                  checked={isCustomPrice}
-                  onChange={() => setIsCustomPrice(!isCustomPrice)}
-                />
-              </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+              Custom price
+            </Typography>
+            <Switch
+              checked={isCustomPrice}
+              onChange={() => setIsCustomPrice(!isCustomPrice)}
+            />
+          </Box>
 
           <Button
             variant="contained"
@@ -204,10 +204,12 @@ export const SellCrypto: React.FC = () => {
               width: '100%',
             }}
           >
-            Add to portfolio
+            Sell
           </Button>
         </Box>
-      ) : <Loader />}
+      ) : (
+        <Loader />
+      )}
     </Box>
   );
 };
