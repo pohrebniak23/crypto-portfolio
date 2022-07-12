@@ -5,7 +5,7 @@ import { setAuth, setAuthError, setAuthLoading, setUser } from "./AuthSlice";
 export const LoginAction = (username: string, password: string) => (dispatch: AppDispatch) => {
   try {
     dispatch(setAuthLoading(true));
-    setTimeout(async () => {
+    setTimeout(() => {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, username, password)
         .then((userCredential) => {

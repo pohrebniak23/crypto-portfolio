@@ -11,7 +11,7 @@ import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
 import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
 import { Loader } from '../../Loader/Loader';
 
-export const SellCrypto: React.FC = () => {
+export const SellCrypto: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
 
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
@@ -212,4 +212,4 @@ export const SellCrypto: React.FC = () => {
       )}
     </Box>
   );
-};
+});

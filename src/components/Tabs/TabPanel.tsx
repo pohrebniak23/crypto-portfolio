@@ -6,19 +6,15 @@ interface TabPanelProps {
   value: number;
 }
 
-export const TabPanel: React.FC<TabPanelProps> = (props) => {
-  const { children, value, index } = props;
-
-  return (
+export const TabPanel: React.FC<TabPanelProps> = React.memo(
+  ({ children, value, index }) => (
     <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
     >
-      {value === index && (
-        children
-      )}
+      {value === index && children}
     </div>
-  );
-};
+  ),
+);

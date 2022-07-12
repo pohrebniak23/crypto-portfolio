@@ -14,7 +14,7 @@ type Props = {
   portfolio: Portfolio[];
 };
 
-export const PortfolioInfo: React.FC<Props> = ({ sum, portfolio }) => {
+export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) => {
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
 
   const profit = allTimeProfit(coins, portfolio);
@@ -89,4 +89,4 @@ export const PortfolioInfo: React.FC<Props> = ({ sum, portfolio }) => {
       </Paper>
     </Grid>
   );
-};
+});

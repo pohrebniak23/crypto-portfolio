@@ -1,10 +1,14 @@
 import React from 'react';
-import { Box, styled, Tab, Tabs } from '@mui/material';
+import { Box, Drawer, Paper, styled, Tab, Tabs } from '@mui/material';
 import { BuyCrypto } from '../ActionsWithPortfolio/BuyCrypto/BuyCrypto';
 import { TabPanel } from './TabPanel';
 import { SellCrypto } from '../ActionsWithPortfolio/SellCrypto/SellCrypto';
 
-export const TabsBlock: React.FC = () => {
+type Props = {
+  rightBarOpen: boolean
+}
+
+export const TabsBlock: React.FC<Props> = React.memo(({ rightBarOpen }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -37,8 +41,34 @@ export const TabsBlock: React.FC = () => {
   });
 
   return (
-    <>
-      <Box>
+    <Drawer
+        open={rightBarOpen}
+        sx={{
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            right: '20px',
+            height: 'calc(100vh - 32px)',
+            top: '16px',
+            backgroundColor: 'transparent',
+            borderRadius: 4,
+            border: 0,
+            p: '4px',
+          },
+        }}
+        variant="persistent"
+        anchor="right"
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            py: 2,
+            px: 3,
+            width: '300px',
+            borderRadius: 4,
+            height: '100%',
+          }}
+        >
+          <Box>
         <StyledTabs
           value={value}
           onChange={handleChange}
@@ -54,6 +84,7 @@ export const TabsBlock: React.FC = () => {
       <TabPanel value={value} index={1}>
         <SellCrypto />
       </TabPanel>
-    </>
+        </Paper>
+      </Drawer>
   );
-};
+});

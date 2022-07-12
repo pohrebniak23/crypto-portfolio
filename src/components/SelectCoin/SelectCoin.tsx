@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -15,7 +15,7 @@ import {
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
 
-export const SelectCoin: React.FC = () => {
+export const SelectCoin: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const { selectedCoins } = useAppSelector((state) => state.portfolio);
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
@@ -39,7 +39,7 @@ export const SelectCoin: React.FC = () => {
     }
 
     return coins;
-  }, [search, coins, coinsPerPage]);
+  }, [search, coins]);
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
@@ -55,10 +55,10 @@ export const SelectCoin: React.FC = () => {
     }
   }, [lastCoin, coinsPerPage, filteredCoins]);
 
-  const closeSarch = () => {
+  const closeSarch = useCallback(() => {
     dispatch(editBase(false));
     dispatch(editQuote(false));
-  };
+  }, []);
 
   return (
     <Dialog
@@ -108,4 +108,4 @@ export const SelectCoin: React.FC = () => {
       </Box>
     </Dialog>
   );
-};
+});

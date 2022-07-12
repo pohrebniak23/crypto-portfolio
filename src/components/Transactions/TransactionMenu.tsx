@@ -10,7 +10,7 @@ type Props = {
   id: string,
 };
 
-export const TransactionMenu: React.FC<Props> = ({ id }) => {
+export const TransactionMenu: React.FC<Props> = React.memo(({ id }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -83,4 +83,4 @@ export const TransactionMenu: React.FC<Props> = ({ id }) => {
       </Menu>
     </div>
   );
-};
+});

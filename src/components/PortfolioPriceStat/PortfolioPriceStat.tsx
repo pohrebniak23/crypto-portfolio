@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import {
   Area,
@@ -16,11 +16,12 @@ interface StatData {
   price: number;
 }
 
-export const PortfolioPriceStat: React.FC = () => {
-  const { portfolio } = useAppSelector((state) => state.portfolio);
+export const PortfolioPriceStat: React.FC = React.memo(() => {
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
   const getHistory = async () => {
+    console.log('stat render')
     const promises = portfolio.map((item) =>
       fetch(
         `https://api.coingecko.com/api/v3/coins/${item.id}/market_chart?vs_currency=usd&days=7&interval=daily`,
@@ -42,6 +43,7 @@ export const PortfolioPriceStat: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log('stat render')
     getHistory().then((data) => {
       const allPrices = [].concat(...data);
       const shortPrices = allPrices.slice(0, 7);
@@ -71,7 +73,8 @@ export const PortfolioPriceStat: React.FC = () => {
     });
   }, [portfolio]);
 
-  const getMaxRenge = () => {
+  const getMaxRenge = useCallback(() => {
+    console.log('stat render')
     let max = 0;
 
     if (statData && statData.length > 0) {
@@ -83,9 +86,10 @@ export const PortfolioPriceStat: React.FC = () => {
     }
 
     return +(max + (max / 100) * 5).toFixed();
-  };
+  }, []);
 
-  const getMinRenge = () => {
+  const getMinRenge = useCallback(() => {
+    console.log('stat render')
     if (statData && statData.length > 0) {
       let min = statData[0].price;
 
@@ -99,7 +103,7 @@ export const PortfolioPriceStat: React.FC = () => {
     }
 
     return 0;
-  };
+  }, []);
 
   return (
     <Paper
@@ -142,4 +146,4 @@ export const PortfolioPriceStat: React.FC = () => {
       )}
     </Paper>
   );
-};
+});
