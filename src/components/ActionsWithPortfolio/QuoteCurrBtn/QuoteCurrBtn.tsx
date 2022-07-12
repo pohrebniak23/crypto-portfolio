@@ -8,7 +8,7 @@ type Props = {
   quoteCoin: Coin,
 };
 
-export const QuoteCurrBtn: React.FC<Props> = ({ quoteCoin }) => {
+export const QuoteCurrBtn: React.FC<Props> = React.memo(({ quoteCoin }) => {
   const dispatch = useAppDispatch();
 
   const selectNewCoin = () => {
@@ -19,7 +19,7 @@ export const QuoteCurrBtn: React.FC<Props> = ({ quoteCoin }) => {
     <Button
       variant="text"
       sx={{ backgroundColor: 'transparent !important' }}
-      onClick={() => selectNewCoin()}
+      onClick={selectNewCoin}
     >
       <img
         src={quoteCoin.image}
@@ -35,4 +35,4 @@ export const QuoteCurrBtn: React.FC<Props> = ({ quoteCoin }) => {
       </Typography>
     </Button>
   );
-};
+});

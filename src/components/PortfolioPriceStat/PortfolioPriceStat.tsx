@@ -16,8 +16,8 @@ interface StatData {
   price: number;
 }
 
-export const PortfolioPriceStat: React.FC = () => {
-  const { portfolio } = useAppSelector((state) => state.portfolio);
+export const PortfolioPriceStat: React.FC = React.memo(() => {
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
   const getHistory = async () => {
@@ -83,7 +83,7 @@ export const PortfolioPriceStat: React.FC = () => {
     }
 
     return +(max + (max / 100) * 5).toFixed();
-  };
+  }
 
   const getMinRenge = () => {
     if (statData && statData.length > 0) {
@@ -99,7 +99,7 @@ export const PortfolioPriceStat: React.FC = () => {
     }
 
     return 0;
-  };
+  }
 
   return (
     <Paper
@@ -142,4 +142,4 @@ export const PortfolioPriceStat: React.FC = () => {
       )}
     </Paper>
   );
-};
+});

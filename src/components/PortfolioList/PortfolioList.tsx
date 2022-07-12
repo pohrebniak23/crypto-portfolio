@@ -14,8 +14,8 @@ import { Portfolio } from '../../types/Portfolio';
 import { StyledTableCell } from '../Material/StyledTable';
 import { PortfolioLineItem } from '../PortfolioLineItem/PortfolioLineItem';
 
-export const PortfolioList: React.FC = () => {
-  const { portfolio } = useAppSelector((state) => state.portfolio) || null;
+export const PortfolioList: React.FC = React.memo(() => {
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio) || null;
 
   return (
     <Paper
@@ -59,4 +59,4 @@ export const PortfolioList: React.FC = () => {
       </TableContainer>
     </Paper>
   );
-};
+});

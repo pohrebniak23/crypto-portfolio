@@ -10,7 +10,7 @@ type Props = {
   item: Portfolio;
 };
 
-export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
+export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
   const { id, buyPrice, coinCount } = item;
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [coinData, setCoinData] = useState<Coin | null>(null);
@@ -118,4 +118,4 @@ export const PortfolioLineItem: React.FC<Props> = ({ item }) => {
       </StyledTableCell>
     </StyledTableRow>
   );
-};
+});

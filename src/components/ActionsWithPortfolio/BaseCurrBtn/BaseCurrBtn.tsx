@@ -8,7 +8,7 @@ type Props = {
   baseCoin: Coin;
 };
 
-export const BaseCurrBtn: React.FC<Props> = ({ baseCoin }) => {
+export const BaseCurrBtn: React.FC<Props> = React.memo(({ baseCoin }) => {
   const dispatch = useAppDispatch();
 
   const selectNewCoin = () => {
@@ -19,7 +19,7 @@ export const BaseCurrBtn: React.FC<Props> = ({ baseCoin }) => {
     <Button
       variant="text"
       sx={{ backgroundColor: 'transparent !important' }}
-      onClick={() => selectNewCoin()}
+      onClick={selectNewCoin}
     >
       <img
         src={baseCoin.image}
@@ -35,4 +35,4 @@ export const BaseCurrBtn: React.FC<Props> = ({ baseCoin }) => {
       </Typography>
     </Button>
   );
-};
+});

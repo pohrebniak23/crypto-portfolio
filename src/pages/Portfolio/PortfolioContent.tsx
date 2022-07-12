@@ -14,8 +14,8 @@ type Props = {
   portfolio: Portfolio[];
 };
 
-export const PortfolioContent: React.FC<Props> = ({ sum, portfolio }) => {
-  const { isOpen } = useAppSelector((state) => state.portfolio.transactions);
+export const PortfolioContent: React.FC<Props> = React.memo(({ sum, portfolio }) => {
+  const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
 
   return portfolio.length > 0 ? (
     <>
@@ -57,4 +57,4 @@ export const PortfolioContent: React.FC<Props> = ({ sum, portfolio }) => {
   ) : (
     <Empty text="Your portfolio is empty" />
   );
-};
+});

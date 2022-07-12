@@ -20,13 +20,13 @@ import { Coin } from '../../types/Coin';
 import { StyledTableCell } from '../Material/StyledTable';
 import { Portfolio } from '../../types/Portfolio';
 
-export const Transactions: React.FC = () => {
+export const Transactions: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
   const { data: coinsList } = coinsAPI.useFetchAllCoinsQuery('');
-  const { list, coin } = useAppSelector(
-    (state) => state.portfolio.transactions,
-  );
-  const { portfolio } = useAppSelector((state) => state.portfolio);
+
+  const list = useAppSelector((state) => state.portfolio.transactions.list);
+  const coin = useAppSelector((state) => state.portfolio.transactions.coin);
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
   const [coinTransactions, setCoinTransactions] = useState<
     Transaction[] | null
@@ -163,4 +163,4 @@ export const Transactions: React.FC = () => {
       </TableContainer>
     </Paper>
   );
-};
+});

@@ -11,13 +11,12 @@ import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
 import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
 import { Loader } from '../../Loader/Loader';
 
-export const BuyCrypto: React.FC = () => {
+export const BuyCrypto: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
 
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-  const { baseCurr, quoteCurr } = useAppSelector(
-    (state) => state.portfolio.selectedCoins,
-  );
+  const baseCurr = useAppSelector(state => state.portfolio.selectedCoins.baseCurr);
+  const quoteCurr = useAppSelector(state => state.portfolio.selectedCoins.quoteCurr);
 
   const [baseCoin, setbaseCoin] = useState<Coin | null>(null);
   const [quoteCoin, setquoteCoin] = useState<Coin | null>(null);
@@ -46,6 +45,8 @@ export const BuyCrypto: React.FC = () => {
       }
     }
   }, [baseCoin, quoteCoin, buyCount, isCustomPrice, customPrice]);
+
+  const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
 
   const addCrypto = () => {
     if (baseCoin && quoteCoin) {
@@ -192,7 +193,7 @@ export const BuyCrypto: React.FC = () => {
               </Typography>
               <Switch
                 checked={isCustomPrice}
-                onChange={() => setIsCustomPrice(!isCustomPrice)}
+                onChange={customPriceToggle}
               />
             </Box>
           </>
@@ -214,4 +215,4 @@ export const BuyCrypto: React.FC = () => {
       )}
     </Box>
   );
-};
+})

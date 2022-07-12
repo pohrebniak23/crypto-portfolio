@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Coin } from '../../types/Coin';
 import {
@@ -14,7 +14,7 @@ type Props = {
   coin: Coin;
 };
 
-export const CoinItem: React.FC<Props> = ({ coin }) => {
+export const CoinItem: React.FC<Props> = React.memo(({ coin }) => {
   const { id, name, image, symbol } = coin;
   const { baseEditing, quoteEditing } = useAppSelector(
     (state) => state.portfolio.selectedCoins,
@@ -22,7 +22,7 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
 
   const dispatch = useAppDispatch();
 
-  const changeSelected = (coinId: string) => {
+  const changeSelected = useCallback((coinId: string) => {
     if (baseEditing) {
       dispatch(changeBaseCurr(coinId));
       dispatch(editBase(false));
@@ -32,7 +32,7 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
       dispatch(changeQuoteCurr(coinId));
       dispatch(editQuote(false));
     }
-  };
+  }, []);
 
   return (
     <div>
@@ -97,4 +97,4 @@ export const CoinItem: React.FC<Props> = ({ coin }) => {
       )}
     </div>
   );
-};
+});

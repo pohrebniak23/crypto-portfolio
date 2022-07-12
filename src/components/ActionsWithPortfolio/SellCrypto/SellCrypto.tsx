@@ -11,13 +11,12 @@ import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
 import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
 import { Loader } from '../../Loader/Loader';
 
-export const SellCrypto: React.FC = () => {
+export const SellCrypto: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
 
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-  const { baseCurr, quoteCurr } = useAppSelector(
-    (state) => state.portfolio.selectedCoins,
-  );
+  const baseCurr = useAppSelector(state => state.portfolio.selectedCoins.baseCurr);
+  const quoteCurr = useAppSelector(state => state.portfolio.selectedCoins.quoteCurr);
 
   const [baseCoin, setbaseCoin] = useState<Coin | null>(null);
   const [quoteCoin, setquoteCoin] = useState<Coin | null>(null);
@@ -212,4 +211,4 @@ export const SellCrypto: React.FC = () => {
       )}
     </Box>
   );
-};
+});

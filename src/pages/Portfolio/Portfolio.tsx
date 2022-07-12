@@ -1,16 +1,7 @@
-import {
-  Box,
-  Drawer,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
 import { getDatabase, ref, get, child, set } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import CloseIcon from '@mui/icons-material/Close';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
@@ -19,30 +10,22 @@ import { useAppSelector } from '../../hooks/redux';
 import { PortfolioContent } from './PortfolioContent';
 import {
   loadPortfolio,
-  loadTransactions
+  loadTransactions,
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
+import { PortfolioHead } from '../../components/PortfolioHead/PortfolioHead';
 
-export const Portfolio: React.FC = () => {
+export const Portfolio: React.FC = React.memo(() => {
   const dispatch = useDispatch();
-  const { portfolio, transactions, portfolioTotalPrice } = useAppSelector(
-    (state) => state.portfolio,
-  );
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
+  const transactions = useAppSelector((state) => state.portfolio.transactions);
+
   const { user } = useAppSelector((state) => state.auth);
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
   const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
-
-  useEffect(() => {
-    if (user && portfolio.length > 0) {
-
-      const db = getDatabase();
-      set(ref(db, `users/${user.id}/priceStat`), { ...portfolioTotalPrice });
-
-    }
-  }, [coinsList, portfolio])
 
   useEffect(() => {
     if (user) {
@@ -59,8 +42,6 @@ export const Portfolio: React.FC = () => {
             if (data.transactions) {
               dispatch(loadTransactions(data.transactions));
             }
-          } else {
-            console.log('No data available');
           }
         })
         .catch((error) => {
@@ -80,9 +61,9 @@ export const Portfolio: React.FC = () => {
 
   const sum = walletSum(coinsList, portfolio);
 
-  const rightBarHandler = () => {
+  const rightBarHandler = useCallback(() => {
     setRightBarOpen(!rightBarOpen);
-  };
+  }, [rightBarOpen]);
 
   return (
     <Paper
@@ -114,51 +95,10 @@ export const Portfolio: React.FC = () => {
             position: 'relative',
           }}
         >
-          <Grid item sm={12}>
-            <Paper
-              elevation={3}
-              sx={{
-                py: 2,
-                px: 3,
-                width: '100%',
-                borderRadius: 4,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Box>
-                <Typography variant="h5" sx={{ mb: 1 }}>
-                  Dashboard
-                </Typography>
-                <Typography variant="subtitle2">
-                  An overview of cryptocurrencies and markets
-                </Typography>
-              </Box>
-              {!rightBarOpen && (
-                <IconButton
-                  sx={{
-                    width: '40px',
-                    height: '40px',
-                  }}
-                  onClick={rightBarHandler}
-                >
-                  <MenuIcon />
-                </IconButton>
-              )}
-              {rightBarOpen && (
-                <IconButton
-                  sx={{
-                    width: '40px',
-                    height: '40px',
-                  }}
-                  onClick={rightBarHandler}
-                >
-                  <CloseIcon />
-                </IconButton>
-              )}
-            </Paper>
-          </Grid>
+          <PortfolioHead
+            rightBarHandler={rightBarHandler}
+            isRightBarOpen={rightBarOpen}
+          />
 
           {isLoading ? (
             <Loader />
@@ -170,36 +110,7 @@ export const Portfolio: React.FC = () => {
 
       <SelectCoin />
 
-      <Drawer
-        open={rightBarOpen}
-        sx={{
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            right: '20px',
-            height: 'calc(100vh - 32px)',
-            top: '16px',
-            backgroundColor: 'transparent',
-            borderRadius: 4,
-            border: 0,
-            p: '4px',
-          },
-        }}
-        variant="persistent"
-        anchor="right"
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            py: 2,
-            px: 3,
-            width: '300px',
-            borderRadius: 4,
-            height: '100%',
-          }}
-        >
-          <TabsBlock />
-        </Paper>
-      </Drawer>
+      <TabsBlock rightBarOpen={rightBarOpen} />
     </Paper>
   );
-};
+});

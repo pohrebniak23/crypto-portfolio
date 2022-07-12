@@ -8,7 +8,7 @@ type Props = {
   profit: number
 }
 
-export const GainerLooserItem: React.FC<Props> = ({ title, data, profit }) => (
+export const GainerLooserItem: React.FC<Props> = React.memo(({ title, data, profit }) => (
   <Box sx={{
     pt: 2,
     mt: 2,
@@ -63,4 +63,4 @@ export const GainerLooserItem: React.FC<Props> = ({ title, data, profit }) => (
       </Box>
     </Box>
   </Box>
-);
+));
