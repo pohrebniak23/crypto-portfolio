@@ -14,8 +14,6 @@ export const QuoteCurrBtn: React.FC<Props> = React.memo(({ quoteCoin }) => {
   const selectNewCoin = () => {
     dispatch(editQuote(true));
   }
-
-  console.log('quote curr changed')
   
   return (
     <Button
