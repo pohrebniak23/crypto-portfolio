@@ -34,24 +34,24 @@ export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
         sx={{ display: 'flex', alignItems: 'center' }}
       >
         <img
-          style={{ width: '40px', height: 'auto', marginRight: '10px' }}
+          style={{ width: '34px', height: 'auto', marginRight: '8px' }}
           src={coinData.image}
           alt=""
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography
-            variant="subtitle1"
+            variant="body2"
             sx={{ color: '#000', fontWeight: '600' }}
           >
             {coinData.symbol.toUpperCase()}
           </Typography>
-          <Typography variant="body2" sx={{ color: '#757575' }}>
+          <Typography variant="body2" sx={{ color: '#757575', fontSize: '14px' }}>
             {coinData.name}
           </Typography>
         </Box>
       </StyledTableCell>
       <StyledTableCell>
-        <Typography variant="subtitle1">{coinData.current_price} $</Typography>
+        <Typography variant="body2">{coinData.current_price} $</Typography>
       </StyledTableCell>
       <StyledTableCell>
         <Box
@@ -62,7 +62,7 @@ export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
                 : 'rgba(220,38,38,1)',
           }}
         >
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {coinData.price_change_percentage_24h.toFixed(2)} %
           </Typography>
         </Box>
@@ -76,7 +76,7 @@ export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
                 : 'rgba(220,38,38,1)',
           }}
         >
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {(
               coinData.current_price * coinCount -
               buyPrice * coinCount
@@ -92,7 +92,7 @@ export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
 
       <StyledTableCell>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             $ {(coinCount * coinData.current_price).toLocaleString()}
           </Typography>
           <Typography variant="body2" sx={{ lineHeight: '100%' }}>

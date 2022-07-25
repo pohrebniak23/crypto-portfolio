@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from './router/PrivateRoute';
 import { PublicRoute } from './router/PublicRoute';
@@ -11,7 +11,7 @@ import './App.sass';
 
 const App: React.FC = () => (
   <div className="app">
-    <Box sx={{
+    <Grid sx={{
       backgroundColor: 'common.darkPurple',
       p: 1,
       display: 'flex'
@@ -31,7 +31,7 @@ const App: React.FC = () => (
           element={<PrivateRoute component={Portfolio} />}
         />
       </Routes>
-    </Box>
+    </Grid>
   </div>
 );
 

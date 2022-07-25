@@ -73,7 +73,7 @@ export const Portfolio: React.FC = React.memo(() => {
     >
       <Box
         sx={{
-          width: rightBarOpen ? 'calc(100% - 316px)' : '100%',
+          // width: rightBarOpen ? 'calc(100% - 316px)' : '100%',
           transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
           display: 'flex',
           flexDirection: 'column',
@@ -107,7 +107,7 @@ export const Portfolio: React.FC = React.memo(() => {
 
       <SelectCoin />
 
-      <TabsBlock rightBarOpen={rightBarOpen} />
+      <TabsBlock rightBarOpen={rightBarOpen} setRightBarOpen={rightBarHandler} />
     </Paper>
   );
 });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
 type Props = {
@@ -40,18 +39,6 @@ export const PortfolioHeader: React.FC<Props> = React.memo(({ rightBarHandler, i
           onClick={rightBarHandler}
         >
           <MenuIcon />
-        </IconButton>
-      )}
-
-      {isRightBarOpen && (
-        <IconButton
-          sx={{
-            width: '40px',
-            height: '40px',
-          }}
-          onClick={rightBarHandler}
-        >
-          <CloseIcon />
         </IconButton>
       )}
     </Paper>

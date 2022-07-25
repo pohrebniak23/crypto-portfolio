@@ -36,9 +36,9 @@ export const MainInfo: React.FC = React.memo(() => {
       <Paper
         elevation={3}
         sx={{
-          p: 3,
+          p: 2,
           backgroundColor: '#fff',
-          borderRadius: 4,
+          borderRadius: 3,
           height: 'max-content',
         }}
       >
@@ -46,7 +46,7 @@ export const MainInfo: React.FC = React.memo(() => {
           <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
             Total sum
           </Typography>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {sum.toLocaleString()} $
           </Typography>
         </Box>
@@ -56,7 +56,7 @@ export const MainInfo: React.FC = React.memo(() => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            pt: 2,
+            pt: 1,
           }}
         >
           <Typography variant="body2" sx={{ color: '#757575' }}>
@@ -67,7 +67,7 @@ export const MainInfo: React.FC = React.memo(() => {
               color: profit > 0 ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)',
             }}
           >
-            <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+            <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
               {profit.toFixed(2)}$
             </Typography>
             <Typography
