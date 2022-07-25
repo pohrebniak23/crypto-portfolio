@@ -11,4 +11,5 @@ Demo password: 123456
   * Redux Toolkit, RTK Query
   * Material UI
   * Auth/Regiser with Firebase
+  * Formik, Yup
   * Rest API
