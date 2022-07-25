@@ -1,16 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { coinsAPI } from '../../services/CoinsService';
-import { Coin } from '../../types/Coin';
-import { Portfolio } from '../../types/Portfolio';
-import { StyledTableCell, StyledTableRow } from '../Material/StyledTable';
-import { PortfolioMenu } from './PortfolioMenu';
+import { coinsAPI } from '../../../services/CoinsService';
+import { Coin } from '../../../types/Coin';
+import { Portfolio } from '../../../types/Portfolio';
+import { StyledTableCell, StyledTableRow } from '../../UI/StyledTable';
+import { AssetsMenu } from './AssetsMenu';
 
 type Props = {
   item: Portfolio;
 };
 
-export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
+export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
   const { id, buyPrice, coinCount } = item;
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [coinData, setCoinData] = useState<Coin | null>(null);
@@ -34,24 +34,24 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
         sx={{ display: 'flex', alignItems: 'center' }}
       >
         <img
-          style={{ width: '40px', height: 'auto', marginRight: '10px' }}
+          style={{ width: '34px', height: 'auto', marginRight: '8px' }}
           src={coinData.image}
           alt=""
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography
-            variant="subtitle1"
+            variant="body2"
             sx={{ color: '#000', fontWeight: '600' }}
           >
             {coinData.symbol.toUpperCase()}
           </Typography>
-          <Typography variant="body2" sx={{ color: '#757575' }}>
+          <Typography variant="body2" sx={{ color: '#757575', fontSize: '14px' }}>
             {coinData.name}
           </Typography>
         </Box>
       </StyledTableCell>
       <StyledTableCell>
-        <Typography variant="subtitle1">{coinData.current_price} $</Typography>
+        <Typography variant="body2">{coinData.current_price} $</Typography>
       </StyledTableCell>
       <StyledTableCell>
         <Box
@@ -62,7 +62,7 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
                 : 'rgba(220,38,38,1)',
           }}
         >
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {coinData.price_change_percentage_24h.toFixed(2)} %
           </Typography>
         </Box>
@@ -76,7 +76,7 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
                 : 'rgba(220,38,38,1)',
           }}
         >
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {(
               coinData.current_price * coinCount -
               buyPrice * coinCount
@@ -92,7 +92,7 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
 
       <StyledTableCell>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+          <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             $ {(coinCount * coinData.current_price).toLocaleString()}
           </Typography>
           <Typography variant="body2" sx={{ lineHeight: '100%' }}>
@@ -103,7 +103,7 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
 
       <StyledTableCell align="center">
         <Box>
-          <PortfolioMenu id={id} />
+          <AssetsMenu id={id} />
         </Box>
       </StyledTableCell>
     </StyledTableRow>

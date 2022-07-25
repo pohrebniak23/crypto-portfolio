@@ -16,7 +16,7 @@ interface StatData {
   price: number;
 }
 
-export const PortfolioPriceStat: React.FC = React.memo(() => {
+export const InfoPriceStat: React.FC = React.memo(() => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
@@ -111,14 +111,14 @@ export const PortfolioPriceStat: React.FC = React.memo(() => {
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        height: '376px',
+        height: '322px',
       }}
     >
       {statData && (
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             width={500}
-            height={400}
+            height={300}
             data={statData}
             margin={{
               top: 10,
@@ -128,8 +128,8 @@ export const PortfolioPriceStat: React.FC = React.memo(() => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" dy={10} />
-            <YAxis domain={[getMinRenge(), getMaxRenge()]} dx={-5} />
+            <XAxis dataKey="date" dy={10} fontSize={14} />
+            <YAxis domain={[getMinRenge(), getMaxRenge()]} dx={-5} fontSize={14} />
             <Tooltip />
             <Area
               type="monotone"

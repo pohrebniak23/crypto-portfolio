@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useAppDispatch } from '../../hooks/redux';
-import { removeFromPortfolio, toggleTransactions, setTransactionCoin, removeTransactions } from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { useAppDispatch } from '../../../hooks/redux';
+import { removeFromPortfolio, toggleTransactions, setTransactionCoin, removeTransactions } from '../../../redux/reducers/Portfolio/PortfolioSlice';
 
 type Props = {
   id: string,
 };
 
-export const PortfolioMenu: React.FC<Props> = React.memo(({ id }) => {
+export const AssetsMenu: React.FC<Props> = React.memo(({ id }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 

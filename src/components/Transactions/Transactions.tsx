@@ -14,10 +14,10 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { toggleTransactions } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { Transaction } from '../../types/Transaction';
-import { TransactionLineItem } from './TransactionLineItem';
+import { TransactionLineItem } from './parts/TransactionLineItem';
 import { coinsAPI } from '../../services/CoinsService';
 import { Coin } from '../../types/Coin';
-import { StyledTableCell } from '../Material/StyledTable';
+import { StyledTableCell } from '../UI/StyledTable';
 import { Portfolio } from '../../types/Portfolio';
 
 export const Transactions: React.FC = React.memo(() => {

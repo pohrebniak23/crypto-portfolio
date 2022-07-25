@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { Coin } from '../../types/Coin';
-import { Transaction } from '../../types/Transaction';
-import { StyledTableCell, StyledTableRow } from '../Material/StyledTable';
+import { Coin } from '../../../types/Coin';
+import { Transaction } from '../../../types/Transaction';
+import { StyledTableCell, StyledTableRow } from '../../UI/StyledTable';
 import { TransactionMenu } from './TransactionMenu';
 
 type Props = {
