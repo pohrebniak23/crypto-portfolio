@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Drawer, Paper, styled, Tab, Tabs } from '@mui/material';
-import { BuyCrypto } from '../ActionsWithPortfolio/BuyCrypto/BuyCrypto';
+import { Box, Drawer, Paper } from '@mui/material';
+import { BuyCrypto } from '../ActionsWithPortfolio/BuyCrypto';
 import { TabPanel } from './TabPanel';
-import { SellCrypto } from '../ActionsWithPortfolio/SellCrypto/SellCrypto';
+import { SellCrypto } from '../ActionsWithPortfolio/SellCrypto';
+import { StyledTab, StyledTabs } from '../UI/StyledTabs';
 
 type Props = {
   rightBarOpen: boolean
@@ -14,31 +15,6 @@ export const TabsBlock: React.FC<Props> = React.memo(({ rightBarOpen }) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const StyledTabs = styled(Tabs)({
-    minHeight: 'auto',
-    '& .MuiTabs-flexContainer': {
-      justifyContent: 'space-around',
-    },
-    '& .MuiTabs-indicator': {
-      display: 'none',
-    },
-  })
-
-  const StyledTab = styled(Tab)({
-    borderRadius: 8,
-    minHeight: 'auto',
-    width: 'max-content',
-    transition: '.4s',
-    fontWeight: '600',
-    color: '#0C1643',
-    backgroundColor: '#E8F0FB',
-    padding: '10px 40px',
-    '&.Mui-selected': {
-      color: '#fff',
-      backgroundColor: '#0C1643',
-    },
-  });
 
   return (
     <Drawer

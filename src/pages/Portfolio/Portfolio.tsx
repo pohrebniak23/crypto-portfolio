@@ -1,19 +1,18 @@
 import { Box, Grid, Paper } from '@mui/material';
 import { getDatabase, ref, get, child, set } from 'firebase/database';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
-import { walletSum } from '../../helpers/portfolioInfo';
 import { useAppSelector } from '../../hooks/redux';
-import { PortfolioContent } from './PortfolioContent';
+import { PortfolioContent } from '../../components/Portfolio/PortfolioContent';
 import {
   loadPortfolio,
   loadTransactions,
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
-import { PortfolioHead } from '../../components/PortfolioHead/PortfolioHead';
+import { PortfolioHeader } from '../../components/Portfolio/PortfolioHeader';
 
 export const Portfolio: React.FC = React.memo(() => {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export const Portfolio: React.FC = React.memo(() => {
   const { user } = useAppSelector((state) => state.auth);
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
-  const { data: coinsList, isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
 
@@ -59,11 +58,9 @@ export const Portfolio: React.FC = React.memo(() => {
     }
   }, [portfolio, user, transactions.list]);
 
-  const sum = walletSum(coinsList, portfolio);
-
-  const rightBarHandler = useCallback(() => {
+  const rightBarHandler = () => {
     setRightBarOpen(!rightBarOpen);
-  }, [rightBarOpen]);
+  };
 
   return (
     <Paper
@@ -95,7 +92,7 @@ export const Portfolio: React.FC = React.memo(() => {
             position: 'relative',
           }}
         >
-          <PortfolioHead
+          <PortfolioHeader
             rightBarHandler={rightBarHandler}
             isRightBarOpen={rightBarOpen}
           />
@@ -103,7 +100,7 @@ export const Portfolio: React.FC = React.memo(() => {
           {isLoading ? (
             <Loader />
           ) : (
-            <PortfolioContent sum={sum} portfolio={portfolio} />
+            <PortfolioContent />
           )}
         </Grid>
       </Box>

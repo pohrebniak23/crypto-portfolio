@@ -16,7 +16,7 @@ interface StatData {
   price: number;
 }
 
-export const PortfolioPriceStat: React.FC = React.memo(() => {
+export const InfoPriceStat: React.FC = React.memo(() => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 

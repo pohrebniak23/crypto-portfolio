@@ -4,29 +4,29 @@ import {
   allTimeProfit,
   GainerLooser,
   topGainerLooser,
+  walletSum,
 } from '../../helpers/portfolioInfo';
+import { useAppSelector } from '../../hooks/redux';
 import { coinsAPI } from '../../services/CoinsService';
-import { Portfolio } from '../../types/Portfolio';
-import { GainerLooserItem } from './GainerLooserItem';
+import { InfoGainerLooser } from './InfoGainerLooser';
 
-type Props = {
-  sum: number | string;
-  portfolio: Portfolio[];
-};
+export const MainInfo: React.FC = React.memo(() => {
+  const { data: coinsList } = coinsAPI.useFetchAllCoinsQuery('', {
+    pollingInterval: 60000,
+  });
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
-export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) => {
-  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-
-  const profit = allTimeProfit(coins, portfolio);
+  const sum = walletSum(coinsList, portfolio);
+  const profit = allTimeProfit(coinsList, portfolio);
   const profitPercent = (profit * 100) / +sum;
 
   const gainer: GainerLooser | null | undefined = topGainerLooser(
-    coins,
+    coinsList,
     portfolio,
     'gainer',
   );
   const looser: GainerLooser | null | undefined = topGainerLooser(
-    coins,
+    coinsList,
     portfolio,
     'looser',
   );
@@ -80,11 +80,11 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
         </Box>
 
         {gainer !== null && (
-          <GainerLooserItem title="Top gainer" data={gainer} profit={profit} />
+          <InfoGainerLooser title="Top gainer" data={gainer} profit={profit} />
         )}
 
         {looser !== null && (
-          <GainerLooserItem title="Top looser" data={looser} profit={profit} />
+          <InfoGainerLooser title="Top looser" data={looser} profit={profit} />
         )}
       </Paper>
     </Grid>

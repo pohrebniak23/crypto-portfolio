@@ -8,7 +8,7 @@ type Props = {
   isRightBarOpen: boolean
 }
 
-export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isRightBarOpen }) => (
+export const PortfolioHeader: React.FC<Props> = React.memo(({ rightBarHandler, isRightBarOpen }) => (
   <Grid item sm={12}>
     <Paper
       elevation={3}
@@ -30,6 +30,7 @@ export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isR
           An overview of cryptocurrencies and markets
         </Typography>
       </Box>
+
       {!isRightBarOpen && (
         <IconButton
           sx={{
@@ -41,6 +42,7 @@ export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isR
           <MenuIcon />
         </IconButton>
       )}
+
       {isRightBarOpen && (
         <IconButton
           sx={{

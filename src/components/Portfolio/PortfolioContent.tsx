@@ -1,21 +1,16 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import { Empty } from '../../components/Empty/Empty';
-import { CurrenciesPieChart } from '../../components/PortfolioInfo/CurrenciesPieChart';
-import { PortfolioInfo } from '../../components/PortfolioInfo/PortfolioInfo';
-import { PortfolioList } from '../../components/PortfolioList/PortfolioList';
-import { PortfolioPriceStat } from '../../components/PortfolioPriceStat/PortfolioPriceStat';
-import { Transactions } from '../../components/Transactions/Transactions';
+import { Empty } from '../Empty/Empty';
+import { InfoPieChart } from '../Info/InfoPieChart';
+import { InfoPriceStat } from '../Info/InfoPriceStat';
+import { Transactions } from '../Transactions/Transactions';
 import { useAppSelector } from '../../hooks/redux';
-import { Portfolio } from '../../types/Portfolio';
+import { Assets } from '../Assets/Assets';
+import { MainInfo } from '../Info/MainInfo';
 
-type Props = {
-  sum: number;
-  portfolio: Portfolio[];
-};
-
-export const PortfolioContent: React.FC<Props> = React.memo(({ sum, portfolio }) => {
+export const PortfolioContent: React.FC = React.memo(() => {
   const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
+  const portfolio = useAppSelector(state => state.portfolio.portfolio);
 
   return portfolio.length > 0 ? (
     <>
@@ -30,10 +25,10 @@ export const PortfolioContent: React.FC<Props> = React.memo(({ sum, portfolio })
         columnSpacing={2}
       >
         <Grid item lg={6} xl={12}>
-          <PortfolioInfo sum={sum} portfolio={portfolio} />
+          <MainInfo />
         </Grid>
         <Grid item lg={6} xl={12}>
-          <CurrenciesPieChart />
+          <InfoPieChart />
         </Grid>
       </Grid>
 
@@ -47,10 +42,10 @@ export const PortfolioContent: React.FC<Props> = React.memo(({ sum, portfolio })
         columnSpacing={2}
       >
         <Grid item lg={12} xl={12}>
-          <PortfolioPriceStat />
+          <InfoPriceStat />
         </Grid>
         <Grid item lg={12} xl={12}>
-          {!isOpen ? <PortfolioList /> : <Transactions />}
+          {!isOpen ? <Assets /> : <Transactions />}
         </Grid>
       </Grid>
     </>

@@ -1,16 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { coinsAPI } from '../../services/CoinsService';
-import { Coin } from '../../types/Coin';
-import { Portfolio } from '../../types/Portfolio';
-import { StyledTableCell, StyledTableRow } from '../Material/StyledTable';
-import { PortfolioMenu } from './PortfolioMenu';
+import { coinsAPI } from '../../../services/CoinsService';
+import { Coin } from '../../../types/Coin';
+import { Portfolio } from '../../../types/Portfolio';
+import { StyledTableCell, StyledTableRow } from '../../UI/StyledTable';
+import { AssetsMenu } from './AssetsMenu';
 
 type Props = {
   item: Portfolio;
 };
 
-export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
+export const AssetsLineItem: React.FC<Props> = React.memo(({ item }) => {
   const { id, buyPrice, coinCount } = item;
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [coinData, setCoinData] = useState<Coin | null>(null);
@@ -103,7 +103,7 @@ export const PortfolioLineItem: React.FC<Props> = React.memo(({ item }) => {
 
       <StyledTableCell align="center">
         <Box>
-          <PortfolioMenu id={id} />
+          <AssetsMenu id={id} />
         </Box>
       </StyledTableCell>
     </StyledTableRow>
