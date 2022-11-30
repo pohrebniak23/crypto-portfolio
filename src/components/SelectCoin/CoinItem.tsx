@@ -22,17 +22,20 @@ export const CoinItem: React.FC<Props> = React.memo(({ coin }) => {
 
   const dispatch = useAppDispatch();
 
-  const changeSelected = useCallback((coinId: string) => {
-    if (baseEditing) {
-      dispatch(changeBaseCurr(coinId));
-      dispatch(editBase(false));
-    }
+  const changeSelected = useCallback(
+    (coinId: string) => {
+      if (baseEditing) {
+        dispatch(changeBaseCurr(coinId));
+        dispatch(editBase(false));
+      }
 
-    if (quoteEditing) {
-      dispatch(changeQuoteCurr(coinId));
-      dispatch(editQuote(false));
-    }
-  }, []);
+      if (quoteEditing) {
+        dispatch(changeQuoteCurr(coinId));
+        dispatch(editQuote(false));
+      }
+    },
+    [baseEditing, quoteEditing, dispatch],
+  );
 
   return (
     <div>
@@ -90,7 +93,7 @@ export const CoinItem: React.FC<Props> = React.memo(({ coin }) => {
             sx={{
               ml: 'auto',
               color: '#000',
-              width: '16px'
+              width: '16px',
             }}
           />
         </Button>

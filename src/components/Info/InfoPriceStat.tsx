@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
 import {
   Area,
@@ -20,7 +20,7 @@ export const InfoPriceStat: React.FC = React.memo(() => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
-  const getHistory = async () => {
+  const getHistory = useCallback(async () => {
     const promises = portfolio.map((item) =>
       fetch(
         `https://api.coingecko.com/api/v3/coins/${item.id}/market_chart?vs_currency=usd&days=7&interval=daily`,
@@ -39,7 +39,7 @@ export const InfoPriceStat: React.FC = React.memo(() => {
     const result = await Promise.all(promises);
 
     return result;
-  };
+  }, [portfolio]);
 
   useEffect(() => {
     getHistory().then((data) => {
@@ -47,29 +47,31 @@ export const InfoPriceStat: React.FC = React.memo(() => {
       const shortPrices = allPrices.slice(0, 7);
 
       if (allPrices.length > 0) {
-        const resultStat: StatData[] = shortPrices.map((shortItem: StatData) => {
-          const sum: StatData = {
-            date: shortItem.date,
-            price: 0,
-          };
+        const resultStat: StatData[] = shortPrices.map(
+          (shortItem: StatData) => {
+            const sum: StatData = {
+              date: shortItem.date,
+              price: 0,
+            };
 
-          allPrices.forEach((allItem: StatData) => {
-            if (allItem.date === shortItem.date) {
-              const dates = new Date(allItem.date);
-              sum.date = `${dates.getDate()}/${
-                dates.getMonth() + 1
-              }/${dates.getFullYear()}`;
-              sum.price += allItem.price;
-            }
-          });
+            allPrices.forEach((allItem: StatData) => {
+              if (allItem.date === shortItem.date) {
+                const dates = new Date(allItem.date);
+                sum.date = `${dates.getDate()}/${
+                  dates.getMonth() + 1
+                }/${dates.getFullYear()}`;
+                sum.price += allItem.price;
+              }
+            });
 
-          return sum;
-        });
+            return sum;
+          },
+        );
 
         setStatData(resultStat);
       }
     });
-  }, [portfolio]);
+  }, [portfolio, getHistory]);
 
   const getMaxRenge = () => {
     let max = 0;
@@ -83,7 +85,7 @@ export const InfoPriceStat: React.FC = React.memo(() => {
     }
 
     return +(max + (max / 100) * 5).toFixed();
-  }
+  };
 
   const getMinRenge = () => {
     if (statData && statData.length > 0) {
@@ -99,7 +101,7 @@ export const InfoPriceStat: React.FC = React.memo(() => {
     }
 
     return 0;
-  }
+  };
 
   return (
     <Paper
@@ -129,7 +131,11 @@ export const InfoPriceStat: React.FC = React.memo(() => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" dy={10} fontSize={14} />
-            <YAxis domain={[getMinRenge(), getMaxRenge()]} dx={-5} fontSize={14} />
+            <YAxis
+              domain={[getMinRenge(), getMaxRenge()]}
+              dx={-5}
+              fontSize={14}
+            />
             <Tooltip />
             <Area
               type="monotone"

@@ -1,29 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Box,
   Dialog,
-  DialogContent,
-  Typography,
-  TextField,
+  DialogContent, TextField, Typography
 } from '@mui/material';
-import { CoinItem } from './CoinItem';
+import React, {
+  useCallback, useMemo,
+  useRef,
+  useState
+} from 'react';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/redux';
 import {
   editBase,
-  editQuote,
+  editQuote
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { coinsAPI } from '../../services/CoinsService';
+import { CoinItem } from './CoinItem';
 
 export const SelectCoin: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const { selectedCoins } = useAppSelector((state) => state.portfolio);
   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
   const [search, setSearch] = useState('');
-  const [coinsPerPage, setCoinsPerPage] = useState(10);
+  // const [coinsPerPage, setCoinsPerPage] = useState(10);
   const lastCoin = useRef<HTMLDivElement | null>(null);
 
-  const observer = useRef<IntersectionObserver | null>(null);
+  // const observer = useRef<IntersectionObserver | null>(null);
 
   const searchHandle = (value: string) => {
     setSearch(value);
@@ -32,7 +34,7 @@ export const SelectCoin: React.FC = React.memo(() => {
   const filteredCoins = useMemo(() => {
     if (coins) {
       return coins
-        .slice(0, coinsPerPage)
+        .slice(0, 10)
         .filter((coin) =>
           coin.name.toLowerCase().includes(search.toLowerCase()),
         );
@@ -41,24 +43,25 @@ export const SelectCoin: React.FC = React.memo(() => {
     return coins;
   }, [search, coins]);
 
-  useEffect(() => {
-    if (observer.current) observer.current.disconnect();
+  // TO DO - now not working
+  // useEffect(() => {
+  //   if (observer.current) observer.current.disconnect();
 
-    const callback = function (entries: any) {
-      if (entries[0].isIntersecting) {
-        setCoinsPerPage(coinsPerPage + 10);
-      }
-    };
-    observer.current = new IntersectionObserver(callback);
-    if (lastCoin.current) {
-      observer.current.observe(lastCoin.current);
-    }
-  }, [lastCoin, coinsPerPage, filteredCoins]);
+  //   const callback = function (entries: any) {
+  //     if (entries[0].isIntersecting) {
+  //       setCoinsPerPage(coinsPerPage + 10);
+  //     }
+  //   };
+  //   observer.current = new IntersectionObserver(callback);
+  //   if (lastCoin.current) {
+  //     observer.current.observe(lastCoin.current);
+  //   }
+  // }, [lastCoin, coinsPerPage, filteredCoins]);
 
   const closeSarch = useCallback(() => {
     dispatch(editBase(false));
     dispatch(editQuote(false));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Dialog
@@ -81,7 +84,9 @@ export const SelectCoin: React.FC = React.memo(() => {
         <DialogContent sx={{ p: 0 }}>
           <TextField
             type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => searchHandle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              searchHandle(e.target.value)
+            }
             id="outlined-basic"
             label="Search"
             variant="standard"
