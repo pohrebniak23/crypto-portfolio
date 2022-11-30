@@ -10,13 +10,12 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
       - name: Starting Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-     - name: Create .env file
+      - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
         with:
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
