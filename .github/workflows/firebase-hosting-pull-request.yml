@@ -8,6 +8,10 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
+      - name: create env file
+          run: |
+            touch .env
+            echo REACT_APP_API_KEY=${{ secrets.REACT_APP_API_KEY  }} >> .env
       - uses: actions/checkout@v2
       - run: npm i && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
