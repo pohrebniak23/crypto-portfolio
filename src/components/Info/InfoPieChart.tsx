@@ -23,7 +23,7 @@ export const InfoPieChart: React.FC = React.memo(() => {
       fill={colors[index % colors.length]}
       cursor="pointer"
     />
-  )), [pieData])
+  )), [pieData, colors])
 
   return (
     <Paper

@@ -1,62 +1,23 @@
 import { Box, Grid, Paper } from '@mui/material';
-import { getDatabase, ref, get, child, set } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
-import { useAppSelector } from '../../hooks/redux';
-import { PortfolioContent } from '../../components/Portfolio/PortfolioContent';
-import {
-  loadPortfolio,
-  loadTransactions,
-} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { useLoadPortfolioData } from '../../hooks/useLoadPortfolioData';
 import { coinsAPI } from '../../services/CoinsService';
-import { PortfolioHeader } from '../../components/Portfolio/PortfolioHeader';
+import { PortfolioContent } from './PortfolioContent/PortfolioContent';
+import { PortfolioHeader } from './PortfolioHeader/PortfolioHeader';
+import { useUpdatePortfolioData } from '../../hooks/useUpdatePortfolioData';
 
 export const Portfolio: React.FC = React.memo(() => {
-  const dispatch = useDispatch();
-  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
-  const transactions = useAppSelector((state) => state.portfolio.transactions);
-
-  const { user } = useAppSelector((state) => state.auth);
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
 
-  useEffect(() => {
-    if (user) {
-      const dbRef = ref(getDatabase());
-      get(child(dbRef, `users/${user.id}`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-
-            if (data.portfolio && portfolio.length === 0) {
-              dispatch(loadPortfolio(data.portfolio));
-            }
-
-            if (data.transactions) {
-              dispatch(loadTransactions(data.transactions));
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user && portfolio.length > 0) {
-      const db = getDatabase();
-
-      set(ref(db, `users/${user.id}/portfolio`), { ...portfolio });
-      set(ref(db, `users/${user.id}/transactions`), { ...transactions.list });
-    }
-  }, [portfolio, user, transactions.list]);
+  useLoadPortfolioData();
+  useUpdatePortfolioData();
 
   const rightBarHandler = () => {
     setRightBarOpen(!rightBarOpen);
@@ -73,11 +34,11 @@ export const Portfolio: React.FC = React.memo(() => {
     >
       <Box
         sx={{
-          // width: rightBarOpen ? 'calc(100% - 316px)' : '100%',
           transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          width: '100%',
         }}
       >
         <Grid
@@ -97,17 +58,16 @@ export const Portfolio: React.FC = React.memo(() => {
             isRightBarOpen={rightBarOpen}
           />
 
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <PortfolioContent />
-          )}
+          {isLoading ? <Loader /> : <PortfolioContent />}
         </Grid>
       </Box>
 
       <SelectCoin />
 
-      <TabsBlock rightBarOpen={rightBarOpen} setRightBarOpen={rightBarHandler} />
+      <TabsBlock
+        rightBarOpen={rightBarOpen}
+        setRightBarOpen={rightBarHandler}
+      />
     </Paper>
   );
 });

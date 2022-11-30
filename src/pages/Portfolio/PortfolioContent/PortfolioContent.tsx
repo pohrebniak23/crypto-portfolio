@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import { Empty } from '../Empty/Empty';
-import { InfoPieChart } from '../Info/InfoPieChart';
-import { InfoPriceStat } from '../Info/InfoPriceStat';
-import { Transactions } from '../Transactions/Transactions';
-import { useAppSelector } from '../../hooks/redux';
-import { Assets } from '../Assets/Assets';
-import { MainInfo } from '../Info/MainInfo';
+import { Empty } from '../../../components/Empty/Empty';
+import { InfoPieChart } from '../../../components/Info/InfoPieChart';
+import { InfoPriceStat } from '../../../components/Info/InfoPriceStat';
+import { Transactions } from '../../../components/Transactions/Transactions';
+import { useAppSelector } from '../../../hooks/redux';
+import { Assets } from '../../../components/Assets/Assets';
+import { MainInfo } from '../../../components/Info/MainInfo';
 
 export const PortfolioContent: React.FC = React.memo(() => {
   const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
