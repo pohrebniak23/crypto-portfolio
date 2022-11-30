@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
   addTransaction,
   sellCoin,
-} from '../../../redux/reducers/Portfolio/PortfolioSlice';
-import { Coin } from '../../../types/Coin';
-import { coinsAPI } from '../../../services/CoinsService';
-import { QuoteCurrBtn } from '../QuoteCurrBtn/QuoteCurrBtn';
-import { BaseCurrBtn } from '../BaseCurrBtn/BaseCurrBtn';
-import { Loader } from '../../Loader/Loader';
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
+import { Coin } from '../../types/Coin';
+import { coinsAPI } from '../../services/CoinsService';
+import { QuoteCurrBtn } from './parts/QuoteCurrBtn';
+import { BaseCurrBtn } from './parts/BaseCurrBtn';
+import { Loader } from '../Loader/Loader';
 
 export const SellCrypto: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();

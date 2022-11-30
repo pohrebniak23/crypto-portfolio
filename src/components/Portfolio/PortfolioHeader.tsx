@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
   isRightBarOpen: boolean
 }
 
-export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isRightBarOpen }) => (
+export const PortfolioHeader: React.FC<Props> = React.memo(({ rightBarHandler, isRightBarOpen }) => (
   <Grid item sm={12}>
     <Paper
       elevation={3}
@@ -30,6 +29,7 @@ export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isR
           An overview of cryptocurrencies and markets
         </Typography>
       </Box>
+
       {!isRightBarOpen && (
         <IconButton
           sx={{
@@ -39,17 +39,6 @@ export const PortfolioHead: React.FC<Props> = React.memo(({ rightBarHandler, isR
           onClick={rightBarHandler}
         >
           <MenuIcon />
-        </IconButton>
-      )}
-      {isRightBarOpen && (
-        <IconButton
-          sx={{
-            width: '40px',
-            height: '40px',
-          }}
-          onClick={rightBarHandler}
-        >
-          <CloseIcon />
         </IconButton>
       )}
     </Paper>

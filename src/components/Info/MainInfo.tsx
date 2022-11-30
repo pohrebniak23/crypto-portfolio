@@ -4,29 +4,29 @@ import {
   allTimeProfit,
   GainerLooser,
   topGainerLooser,
+  walletSum,
 } from '../../helpers/portfolioInfo';
+import { useAppSelector } from '../../hooks/redux';
 import { coinsAPI } from '../../services/CoinsService';
-import { Portfolio } from '../../types/Portfolio';
-import { GainerLooserItem } from './GainerLooserItem';
+import { InfoGainerLooser } from './InfoGainerLooser';
 
-type Props = {
-  sum: number | string;
-  portfolio: Portfolio[];
-};
+export const MainInfo: React.FC = React.memo(() => {
+  const { data: coinsList } = coinsAPI.useFetchAllCoinsQuery('', {
+    pollingInterval: 60000,
+  });
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
-export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) => {
-  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-
-  const profit = allTimeProfit(coins, portfolio);
+  const sum = walletSum(coinsList, portfolio);
+  const profit = allTimeProfit(coinsList, portfolio);
   const profitPercent = (profit * 100) / +sum;
 
   const gainer: GainerLooser | null | undefined = topGainerLooser(
-    coins,
+    coinsList,
     portfolio,
     'gainer',
   );
   const looser: GainerLooser | null | undefined = topGainerLooser(
-    coins,
+    coinsList,
     portfolio,
     'looser',
   );
@@ -36,9 +36,9 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
       <Paper
         elevation={3}
         sx={{
-          p: 3,
+          p: 2,
           backgroundColor: '#fff',
-          borderRadius: 4,
+          borderRadius: 3,
           height: 'max-content',
         }}
       >
@@ -46,7 +46,7 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
           <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
             Total sum
           </Typography>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {sum.toLocaleString()} $
           </Typography>
         </Box>
@@ -56,7 +56,7 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            pt: 2,
+            pt: 1,
           }}
         >
           <Typography variant="body2" sx={{ color: '#757575' }}>
@@ -67,7 +67,7 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
               color: profit > 0 ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)',
             }}
           >
-            <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
+            <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
               {profit.toFixed(2)}$
             </Typography>
             <Typography
@@ -80,11 +80,11 @@ export const PortfolioInfo: React.FC<Props> = React.memo(({ sum, portfolio }) =>
         </Box>
 
         {gainer !== null && (
-          <GainerLooserItem title="Top gainer" data={gainer} profit={profit} />
+          <InfoGainerLooser title="Top gainer" data={gainer} profit={profit} />
         )}
 
         {looser !== null && (
-          <GainerLooserItem title="Top looser" data={looser} profit={profit} />
+          <InfoGainerLooser title="Top looser" data={looser} profit={profit} />
         )}
       </Paper>
     </Grid>

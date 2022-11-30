@@ -15,7 +15,7 @@ import { LoginAction } from '../../redux/reducers/Auth/ActionCreators';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 interface LoginData {
-  login: string;
+  email: string;
   password: string;
 }
 
@@ -23,16 +23,16 @@ export const Login: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const onSubmit = (values: LoginData) => {
-    dispatch(LoginAction(values.login, values.password));
+    dispatch(LoginAction(values.email, values.password));
   };
 
   const { isLoading, isError } = useAppSelector((state) => state.auth);
 
   const validationSchema = yup.object().shape({
-    login: yup
+    email: yup
       .string()
-      .typeError('Login field must be a string')
-      .min(3, 'Login must be 3 characters or more')
+      .typeError('Email field must be a string')
+      .min(3, 'Email must be 3 characters or more')
       .required('Required field'),
     password: yup
       .string()
@@ -66,7 +66,7 @@ export const Login: React.FC = () => {
         </Typography>
         <Formik
           initialValues={{
-            login: '',
+            email: '',
             password: '',
           }}
           validateOnBlur
@@ -85,16 +85,16 @@ export const Login: React.FC = () => {
           }) => (
             <Box>
               <TextField
-                type="login"
-                name="login"
-                id="login"
-                label="Login"
+                type="email"
+                name="email"
+                id="email"
+                label="Email"
                 fullWidth
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.login}
-                error={touched.login && Boolean(errors.login?.length)}
-                helperText={touched.login && errors.login}
+                value={values.email}
+                error={touched.email && Boolean(errors.email?.length)}
+                helperText={touched.email && errors.email}
                 sx={{
                   mb: 2,
                   borderRadius: 2,

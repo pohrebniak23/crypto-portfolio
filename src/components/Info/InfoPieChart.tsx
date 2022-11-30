@@ -8,7 +8,7 @@ interface PieData {
   value: number;
 }
 
-export const CurrenciesPieChart: React.FC = React.memo(() => {
+export const InfoPieChart: React.FC = React.memo(() => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const colors = useMemo(() => ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'], []);
 

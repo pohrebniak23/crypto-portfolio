@@ -8,10 +8,10 @@ type Props = {
   profit: number
 }
 
-export const GainerLooserItem: React.FC<Props> = React.memo(({ title, data, profit }) => (
+export const InfoGainerLooser: React.FC<Props> = React.memo(({ title, data, profit }) => (
   <Box sx={{
-    pt: 2,
-    mt: 2,
+    pt: 1.5,
+    mt: 1.5,
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
   }}>
     <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
@@ -26,7 +26,7 @@ export const GainerLooserItem: React.FC<Props> = React.memo(({ title, data, prof
     >
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ width: '40px', height: '40px', mr: '10px' }}>
+          <Box sx={{ width: '34px', height: '34px', mr: '8px' }}>
             <img
               src={data.coin.image}
               style={{ width: '100%' }}
@@ -35,7 +35,7 @@ export const GainerLooserItem: React.FC<Props> = React.memo(({ title, data, prof
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography
-              variant="subtitle1"
+              variant="subtitle2"
               sx={{ color: '#000', fontWeight: '600' }}
             >
               {data.coin.symbol.toUpperCase()}
@@ -52,7 +52,7 @@ export const GainerLooserItem: React.FC<Props> = React.memo(({ title, data, prof
         }}
       >
         <Typography
-          variant="body1"
+          variant="body2"
           sx={{ lineHeight: '100%', mb: 0.5 }}
         >
           {data.profit.toFixed(2)}$
