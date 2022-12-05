@@ -1,9 +1,10 @@
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
+import { getUserData } from 'entity/User/model/selectors/getUserData';
 import React from 'react';
 import { useAppSelector } from '../../hooks/redux';
 
 export const Home: React.FC = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const user = useAppSelector(getUserData);
 
   return (
     <Paper
@@ -22,7 +23,7 @@ export const Home: React.FC = () => {
           p: 2,
         }}
       >
-        {user !== null && (
+        {user && (
           <Typography variant="h4">Hi {user.username}</Typography>
         )}
       </Box>

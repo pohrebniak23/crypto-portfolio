@@ -1,13 +1,17 @@
-import { getDatabase, ref, get, child } from 'firebase/database';
-import { useEffect } from "react";
-import { loadPortfolio, loadTransactions } from '../redux/reducers/Portfolio/PortfolioSlice';
-import { useAppDispatch, useAppSelector } from "./redux";
+import { getUserData } from 'entity/User/model/selectors/getUserData';
+import { child, get, getDatabase, ref } from 'firebase/database';
+import { useEffect } from 'react';
+import {
+  loadPortfolio,
+  loadTransactions,
+} from '../redux/reducers/Portfolio/PortfolioSlice';
+import { useAppDispatch, useAppSelector } from './redux';
 
 export const useLoadPortfolioData = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
-  const { user } = useAppSelector((state) => state.auth);
+  const user = useAppSelector(getUserData);
 
   useEffect(() => {
     if (user) {
@@ -32,4 +36,4 @@ export const useLoadPortfolioData = () => {
         });
     }
   }, [user, portfolio.length, dispatch]);
-}
+};

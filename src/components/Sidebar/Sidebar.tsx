@@ -1,13 +1,10 @@
 import { Button, Drawer, List, ListItem } from '@mui/material';
+import { getAuth, signOut } from "firebase/auth";
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { getAuth, signOut } from "firebase/auth";
-import {ReactComponent as Logo} from '../../assets/images/logo.svg';
-import { useAppDispatch } from '../../hooks/redux';
-import { logout } from '../../redux/reducers/Auth/AuthSlice';
+import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 
 export const Sidebar: React.FC = () => {
-  const dispatch = useAppDispatch();
   const drawerWidth = 240;
 
   const links = [
@@ -18,9 +15,8 @@ export const Sidebar: React.FC = () => {
   const logOut = () => {
     const auth = getAuth();
 
-    dispatch(logout());
     signOut(auth);
-  }
+  };
 
   return (
     <Drawer
@@ -46,7 +42,7 @@ export const Sidebar: React.FC = () => {
           <ListItem key={item.to} disablePadding sx={{ pb: 1.5 }}>
             <NavLink
               to={item.to}
-              style={({isActive}) => ({
+              style={({ isActive }) => ({
                 background: isActive ? '#0C1643' : '#E8F0FB',
                 color: isActive ? '#fff' : '#0C1643',
                 fontSize: '16px',
@@ -65,7 +61,6 @@ export const Sidebar: React.FC = () => {
             </NavLink>
           </ListItem>
         ))}
-       
       </List>
 
       <Button
@@ -74,7 +69,7 @@ export const Sidebar: React.FC = () => {
         variant="contained"
         sx={{
           mt: 'auto',
-          mb: 3
+          mb: 3,
         }}
       >
         Logout

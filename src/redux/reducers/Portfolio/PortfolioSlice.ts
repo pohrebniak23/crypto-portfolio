@@ -4,7 +4,7 @@ import { Portfolio } from '../../../types/Portfolio';
 import { SellCoin } from '../../../types/SellCoin';
 import { Transaction } from '../../../types/Transaction';
 
-interface PortfolioState {
+export interface PortfolioState {
   selectedCoins: {
     baseCurr: string;
     baseEditing: boolean;

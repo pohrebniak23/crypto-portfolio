@@ -1,38 +1,55 @@
-import React from 'react';
 import { Grid } from '@mui/material';
+import { UserActions } from 'entity/User';
+import { getUserInited } from 'entity/User/model/selectors/getUserInited';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { PrivateRoute } from './router/PrivateRoute';
-import { PublicRoute } from './router/PublicRoute';
+import './App.sass';
+import { useAppDispatch } from './hooks/redux';
 import { Home } from './pages/Home/Home';
+import { Login } from './pages/Login/Login';
 import { Portfolio } from './pages/Portfolio/Portfolio';
 import { Register } from './pages/Register/Register';
-import { Login } from './pages/Login/Login';
-import './App.sass';
+import { PrivateRoute } from './router/PrivateRoute';
+import { PublicRoute } from './router/PublicRoute';
 
-const App: React.FC = () => (
-  <div className="app">
-    <Grid sx={{
-      backgroundColor: 'common.darkPurple',
-      p: 1,
-      display: 'flex'
-    }}>
-      <Routes>
-        <Route path="/" element={<PrivateRoute component={Home} />} />
+const App = () => {
+  const dispatch = useAppDispatch();
+  const inited = useSelector(getUserInited);
 
-        <Route path="/login" element={<PublicRoute component={Login} />} />
+  useEffect(() => {
+    dispatch(UserActions.initAuthData());
+  }, [dispatch]);
 
-        <Route
-          path="/register"
-          element={<PublicRoute component={Register} />}
-        />
+  return (
+    <div className="app">
+      <Grid
+        sx={{
+          backgroundColor: 'common.darkPurple',
+          p: 1,
+          display: 'flex',
+        }}
+      >
+        {inited && (
+          <Routes>
+            <Route path="/" element={<PrivateRoute component={Home} />} />
 
-        <Route
-          path="/portfolio"
-          element={<PrivateRoute component={Portfolio} />}
-        />
-      </Routes>
-    </Grid>
-  </div>
-);
+            <Route path="/login" element={<PublicRoute component={Login} />} />
+
+            <Route
+              path="/register"
+              element={<PublicRoute component={Register} />}
+            />
+
+            <Route
+              path="/portfolio"
+              element={<PrivateRoute component={Portfolio} />}
+            />
+          </Routes>
+        )}
+      </Grid>
+    </div>
+  );
+};
 
 export default App;

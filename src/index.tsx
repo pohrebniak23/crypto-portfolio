@@ -1,13 +1,12 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import { createTheme, ThemeProvider } from '@mui/material';
+import '@mui/material/styles/createPalette';
+import { StoreProvider } from 'app/providers/StoreProvider';
 import { initializeApp } from 'firebase/app';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import { setupStore } from './redux/store';
-import "@mui/material/styles/createPalette";
 
-declare module "@mui/material/styles/createPalette" {
+declare module '@mui/material/styles/createPalette' {
   interface CommonColors {
     darkPurple: string;
   }
@@ -34,16 +33,16 @@ const theme = createTheme({
     },
     common: {
       darkPurple: '#0C1643',
-    }
+    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         contained: {
-          backgroundColor: '#0C1643'
-        }
-      }
-    }
+          backgroundColor: '#0C1643',
+        },
+      },
+    },
   },
   breakpoints: {
     values: {
@@ -51,19 +50,17 @@ const theme = createTheme({
       sm: 450,
       md: 990,
       lg: 1440,
-      xl: 1900
-    }
-  }
+      xl: 1900,
+    },
+  },
 });
 
-const store = setupStore();
-
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <StoreProvider>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
-    </BrowserRouter>
-  </Provider>,
+    </StoreProvider>
+  </BrowserRouter>,
 );
