@@ -1,5 +1,5 @@
-import { Coin } from "../types/Coin";
-import { Portfolio } from "../types/Portfolio";
+import { Coin } from "../../app/types/Coin";
+import { Portfolio } from "../../app/types/Portfolio";
 
 export const walletSum = (coins: Coin[] | null | undefined, portfolio: Portfolio[]) => {
   if (coins) {

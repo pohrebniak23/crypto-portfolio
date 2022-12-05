@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 
 interface StatData {
   date: string;

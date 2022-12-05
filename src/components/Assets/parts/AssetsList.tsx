@@ -7,8 +7,8 @@ import {
   Box,
 } from '@mui/material';
 import React from 'react';
-import { useAppSelector } from '../../../hooks/redux';
-import { Portfolio } from '../../../types/Portfolio';
+import { useAppSelector } from '../../../shared/hooks/redux';
+import { Portfolio } from '../../../app/types/Portfolio';
 import { StyledTableCell } from '../../UI/StyledTable';
 import { AssetsLineItem } from './AssetsLineItem';
 

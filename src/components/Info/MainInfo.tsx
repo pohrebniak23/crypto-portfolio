@@ -5,8 +5,8 @@ import {
   GainerLooser,
   topGainerLooser,
   walletSum,
-} from '../../helpers/portfolioInfo';
-import { useAppSelector } from '../../hooks/redux';
+} from '../../shared/helpers/portfolioInfo';
+import { useAppSelector } from '../../shared/hooks/redux';
 import { coinsAPI } from '../../services/CoinsService';
 import { InfoGainerLooser } from './InfoGainerLooser';
 

@@ -3,7 +3,7 @@ import { UserActions } from 'entities/User';
 import React, { useCallback, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch } from '../../shared/hooks/redux';
 
 export const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();

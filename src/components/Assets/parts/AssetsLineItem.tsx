@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { coinsAPI } from '../../../services/CoinsService';
-import { Coin } from '../../../types/Coin';
-import { Portfolio } from '../../../types/Portfolio';
+import { Coin } from '../../../app/types/Coin';
+import { Portfolio } from '../../../app/types/Portfolio';
 import { StyledTableCell, StyledTableRow } from '../../UI/StyledTable';
 import { AssetsMenu } from './AssetsMenu';
 

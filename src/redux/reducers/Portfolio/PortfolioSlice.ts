@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BuyCrypto } from '../../../types/BuyCrypto';
-import { Portfolio } from '../../../types/Portfolio';
-import { SellCoin } from '../../../types/SellCoin';
-import { Transaction } from '../../../types/Transaction';
+import { BuyCrypto } from '../../../app/types/BuyCrypto';
+import { Portfolio } from '../../../app/types/Portfolio';
+import { SellCoin } from '../../../app/types/SellCoin';
+import { Transaction } from '../../../app/types/Transaction';
 
 export interface PortfolioState {
   selectedCoins: {

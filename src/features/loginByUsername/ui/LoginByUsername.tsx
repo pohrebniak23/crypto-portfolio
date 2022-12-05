@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../shared/hooks/redux';
 import { getLoginByUsernameError } from '../model/selectors/getLoginByUsernameError';
 import { getLoginByUsernameLoading } from '../model/selectors/getLoginByUsernameLoading';
 import { loginByUsernameService } from '../model/services/loginByUsernameService';

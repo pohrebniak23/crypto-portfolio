@@ -4,7 +4,7 @@ import { StoreProvider } from 'app/providers/StoreProvider';
 import { initializeApp } from 'firebase/app';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import App from './app/App';
 
 declare module '@mui/material/styles/createPalette' {
   interface CommonColors {

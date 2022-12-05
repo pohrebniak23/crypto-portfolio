@@ -1,7 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { Alert, Box, Grid, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';

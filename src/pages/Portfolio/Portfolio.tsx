@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
-import { useLoadPortfolioData } from '../../hooks/useLoadPortfolioData';
+import { useLoadPortfolioData } from '../../shared/hooks/useLoadPortfolioData';
 import { coinsAPI } from '../../services/CoinsService';
 import { PortfolioContent } from './PortfolioContent/PortfolioContent';
 import { PortfolioHeader } from './PortfolioHeader/PortfolioHeader';
-import { useUpdatePortfolioData } from '../../hooks/useUpdatePortfolioData';
+import { useUpdatePortfolioData } from '../../shared/hooks/useUpdatePortfolioData';
 
 export const Portfolio: React.FC = React.memo(() => {
   const [rightBarOpen, setRightBarOpen] = useState(false);

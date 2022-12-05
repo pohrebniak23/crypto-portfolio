@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import {
   loadPortfolio,
   loadTransactions,
-} from '../redux/reducers/Portfolio/PortfolioSlice';
+} from '../../redux/reducers/Portfolio/PortfolioSlice';
 import { useAppDispatch, useAppSelector } from './redux';
 
 export const useLoadPortfolioData = () => {

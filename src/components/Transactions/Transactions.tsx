@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import { toggleTransactions } from '../../redux/reducers/Portfolio/PortfolioSlice';
-import { Transaction } from '../../types/Transaction';
+import { Transaction } from '../../app/types/Transaction';
 import { TransactionLineItem } from './parts/TransactionLineItem';
 import { coinsAPI } from '../../services/CoinsService';
-import { Coin } from '../../types/Coin';
+import { Coin } from '../../app/types/Coin';
 import { StyledTableCell } from '../UI/StyledTable';
-import { Portfolio } from '../../types/Portfolio';
+import { Portfolio } from '../../app/types/Portfolio';
 
 export const Transactions: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();

@@ -1,14 +1,14 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { useCallback } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Coin } from '../../types/Coin';
+import { Coin } from '../../app/types/Coin';
 import {
   changeBaseCurr,
   changeQuoteCurr,
   editBase,
   editQuote,
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 
 type Props = {
   coin: Coin;

@@ -1,4 +1,4 @@
-import { useAuth } from 'hooks/useAuth';
+import { useAuth } from 'shared/hooks/useAuth';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { Sidebar } from '../components/Sidebar/Sidebar';

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { GainerLooser } from '../../helpers/portfolioInfo';
+import { GainerLooser } from '../../shared/helpers/portfolioInfo';
 
 type Props = {
   title: string,

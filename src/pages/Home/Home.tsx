@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { getUserData } from 'entities/User/model/selectors/getUserData';
 import React from 'react';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 
 export const Home: React.FC = () => {
   const user = useAppSelector(getUserData);

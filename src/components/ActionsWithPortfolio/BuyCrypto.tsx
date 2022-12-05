@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/redux';
 import {
   addTransaction,
   buyCoin,
 } from '../../redux/reducers/Portfolio/PortfolioSlice';
-import { Coin } from '../../types/Coin';
+import { Coin } from '../../app/types/Coin';
 import { coinsAPI } from '../../services/CoinsService';
 import { QuoteCurrBtn } from './parts/QuoteCurrBtn';
 import { BaseCurrBtn } from './parts/BaseCurrBtn';

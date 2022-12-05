@@ -4,7 +4,7 @@ import { Empty } from '../../../components/Empty/Empty';
 import { InfoPieChart } from '../../../components/Info/InfoPieChart';
 import { InfoPriceStat } from '../../../components/Info/InfoPriceStat';
 import { Transactions } from '../../../components/Transactions/Transactions';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppSelector } from '../../../shared/hooks/redux';
 import { Assets } from '../../../components/Assets/Assets';
 import { MainInfo } from '../../../components/Info/MainInfo';
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../shared/hooks/redux';
 import { removeFromPortfolio, toggleTransactions, setTransactionCoin } from '../../../redux/reducers/Portfolio/PortfolioSlice';
 
 type Props = {

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Paper } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector } from '../../shared/hooks/redux';
 
 interface PieData {
   name: string;

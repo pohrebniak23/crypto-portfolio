@@ -1,8 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../shared/hooks/redux';
 import { editQuote } from '../../../redux/reducers/Portfolio/PortfolioSlice';
-import { Coin } from '../../../types/Coin';
+import { Coin } from '../../../app/types/Coin';
 
 type Props = {
   quoteCoin: Coin,
