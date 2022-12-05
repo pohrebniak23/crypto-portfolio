@@ -1,4 +1,4 @@
-import { UserSchema } from 'entity/User';
+import { UserSchema } from 'entities/User';
 import { NavigateOptions, To } from 'react-router-dom';
 import { PortfolioState } from 'redux/reducers/Portfolio/PortfolioSlice';
 import { LoginByUsernameSchema } from 'features/loginByUsername/model/types/loginByUsernameSchema';

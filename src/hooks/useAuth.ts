@@ -1,5 +1,5 @@
-import { UserActions } from 'entity/User';
-import { getUserData } from 'entity/User/model/selectors/getUserData';
+import { UserActions } from 'entities/User';
+import { getUserData } from 'entities/User/model/selectors/getUserData';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './redux';
 

@@ -1,22 +1,25 @@
 import { Button, Drawer, List, ListItem } from '@mui/material';
-import { getAuth, signOut } from "firebase/auth";
-import React from 'react';
+import { UserActions } from 'entities/User';
+import React, { useCallback, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { useAppDispatch } from '../../hooks/redux';
 
 export const Sidebar: React.FC = () => {
+  const dispatch = useAppDispatch();
   const drawerWidth = 240;
 
-  const links = [
-    { text: 'Home', to: '/' },
-    { text: 'Portfolio', to: '/portfolio' },
-  ];
+  const links = useMemo(
+    () => [
+      { text: 'Home', to: '/' },
+      { text: 'Portfolio', to: '/portfolio' },
+    ],
+    [],
+  );
 
-  const logOut = () => {
-    const auth = getAuth();
-
-    signOut(auth);
-  };
+  const onLogout = useCallback(() => {
+    dispatch(UserActions.logout());
+  }, [dispatch]);
 
   return (
     <Drawer
@@ -65,7 +68,7 @@ export const Sidebar: React.FC = () => {
 
       <Button
         type="button"
-        onClick={logOut}
+        onClick={onLogout}
         variant="contained"
         sx={{
           mt: 'auto',

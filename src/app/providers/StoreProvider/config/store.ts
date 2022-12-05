@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { UserReducer } from 'entity/User';
+import { UserReducer } from 'entities/User';
 import { LoginByUsernameReducer } from 'features/loginByUsername';
 import { RegisterByUsernameReducer } from 'features/registerByUsername';
 import { NavigateOptions, To } from 'react-router-dom';

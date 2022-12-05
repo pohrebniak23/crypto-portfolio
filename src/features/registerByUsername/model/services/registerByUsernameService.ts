@@ -2,7 +2,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider/config/StateSchema';
 import axios from 'axios';
-import { User, UserActions } from 'entity/User';
+import { User, UserActions } from 'entities/User';
 import { RegisterByUsernameData } from '../types/registerByUsernameSchema';
 
 export const registerByUsernameService = createAsyncThunk<
@@ -14,8 +14,13 @@ export const registerByUsernameService = createAsyncThunk<
 
   try {
     const response = await axios.post<User>(
-      'http://localhost:8000/register',
+      'http://localhost:8000/users',
       registerData,
+      {
+        headers: {
+          authorization: true
+        }
+      }
     );
 
     if (!response.data) {

@@ -1,4 +1,4 @@
-import { getUserData } from 'entity/User/model/selectors/getUserData';
+import { getUserData } from 'entities/User';
 import { getDatabase, ref, set } from 'firebase/database';
 import { useEffect } from 'react';
 import { useAppSelector } from './redux';

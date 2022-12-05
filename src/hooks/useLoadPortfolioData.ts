@@ -1,4 +1,4 @@
-import { getUserData } from 'entity/User/model/selectors/getUserData';
+import { getUserData } from 'entities/User/model/selectors/getUserData';
 import { child, get, getDatabase, ref } from 'firebase/database';
 import { useEffect } from 'react';
 import {

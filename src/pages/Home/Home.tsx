@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@mui/material';
-import { getUserData } from 'entity/User/model/selectors/getUserData';
+import { getUserData } from 'entities/User/model/selectors/getUserData';
 import React from 'react';
 import { useAppSelector } from '../../hooks/redux';
 

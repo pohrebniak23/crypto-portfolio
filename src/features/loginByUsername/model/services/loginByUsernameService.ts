@@ -2,7 +2,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider/config/StateSchema';
 import axios from 'axios';
-import { User, UserActions } from 'entity/User';
+import { User, UserActions } from 'entities/User';
 import { USER_LOCALSTORAGE_KEY } from 'shared/consts/consts';
 import { LoginByUsernameData } from '../types/loginByUsernameSchema';
 

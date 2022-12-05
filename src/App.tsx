@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
-import { UserActions } from 'entity/User';
-import { getUserInited } from 'entity/User/model/selectors/getUserInited';
+import { UserActions } from 'entities/User';
+import { getUserInited } from 'entities/User/model/selectors/getUserInited';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';

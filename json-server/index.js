@@ -37,43 +37,6 @@ server.post('/login', (req, res) => {
   return res.status(403).json({ message: 'Auth error' });
 });
 
-// Эндпоинт для регистрации
-server.post('/register', (req, res) => {
-  const { username, password, name } = req.body;
-  const db = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, 'db.json'), 'utf-8'),
-  );
-  const { users } = db;
-
-  const newUser = {
-    id: 3,
-    name,
-    username,
-    password,
-  };
-
-  console.log(users);
-
-  users.push(newUser);
-
-  console.log(users);
-
-  fs.writeFile(path.resolve(__dirname, 'db.json'), JSON.stringify(db), 'utf8', function (err) {
-    if (err) throw err;
-    console.log('complete');
-  });
-
-  // const userFromBd = users.find(
-  //   (user) => user.username === username && user.password === password,
-  // );
-
-  // if (res.status(403)) {
-  //   return res.status(403).json({ message: 'Register error' });
-  // }
-
-  return res.json(users);
-});
-
 // Проверка авторизован ли пользователь
 // eslint-disable-next-line consistent-return
 server.use((req, res, next) => {
