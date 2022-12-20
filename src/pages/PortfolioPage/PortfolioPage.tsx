@@ -1,13 +1,11 @@
 import { Box, Grid, Paper } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from '../../components/Loader/Loader';
 import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
-import { useLoadPortfolioData } from '../../shared/hooks/useLoadPortfolioData';
 import { coinsAPI } from '../../services/CoinsService';
 import { PortfolioContent } from './PortfolioContent/PortfolioContent';
 import { PortfolioHeader } from './PortfolioHeader/PortfolioHeader';
-import { useUpdatePortfolioData } from '../../shared/hooks/useUpdatePortfolioData';
 
 export const PortfolioPage: React.FC = React.memo(() => {
   const [rightBarOpen, setRightBarOpen] = useState(false);
@@ -16,30 +14,11 @@ export const PortfolioPage: React.FC = React.memo(() => {
     pollingInterval: 60000,
   });
 
-  useLoadPortfolioData();
-  useUpdatePortfolioData();
-
   const rightBarHandler = () => {
     setRightBarOpen(!rightBarOpen);
   };
 
   useEffect(() => {
-    // fetch('https://spectrum-amethyst-fruit.glitch.me/posts', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     authorization: 'true',
-    //   },
-    //   body: JSON.stringify({
-    //     id: '5',
-    //     title: 'json-server',
-    //     author: 'typicode',
-    //   }),
-    // })
-    //   .then((resp) => resp.json())
-    //   .then((res) => console.log(res));
-
     fetch('https://spectrum-amethyst-fruit.glitch.me/posts', {
       method: 'GET',
       headers: {

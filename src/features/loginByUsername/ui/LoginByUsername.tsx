@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Alert, Box, Grid, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../../shared/hooks/redux';
 import { getLoginByUsernameError } from '../model/selectors/getLoginByUsernameError';
@@ -12,16 +12,16 @@ import { LoginByUsernameData } from '../model/types/loginByUsernameSchema';
 
 export const LoginByUsername = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isLoading = useAppSelector(getLoginByUsernameLoading);
   const error = useAppSelector(getLoginByUsernameError);
 
   const onSubmit = useCallback(
     (values: LoginByUsernameData) => {
-      console.log(values);
-      dispatch(loginByUsernameService(values));
+      dispatch(loginByUsernameService({ data: values, navigate }));
     },
-    [dispatch],
+    [dispatch, navigate],
   );
 
   const validationSchema = yup.object().shape({

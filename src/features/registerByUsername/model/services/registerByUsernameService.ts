@@ -3,24 +3,30 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider/config/StateSchema';
 import axios from 'axios';
 import { User, UserActions } from 'entities/User';
+import { NavigateFunction } from 'react-router-dom';
 import { RegisterByUsernameData } from '../types/registerByUsernameSchema';
+
+interface RegisterByUsernameService {
+  data: RegisterByUsernameData;
+  navigate: NavigateFunction;
+}
 
 export const registerByUsernameService = createAsyncThunk<
   User,
-  RegisterByUsernameData,
+  RegisterByUsernameService,
   ThunkConfig<string>
->('registerByUsernameService', async (registerData, thunkAPI) => {
+>('registerByUsernameService', async ({ data, navigate }, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
 
   try {
     const response = await axios.post<User>(
-      'http://localhost:8000/users',
-      registerData,
+      'http://localhost:9000/users',
+      data,
       {
         headers: {
-          authorization: true
-        }
-      }
+          authorization: '123',
+        },
+      },
     );
 
     if (!response.data) {
@@ -28,6 +34,7 @@ export const registerByUsernameService = createAsyncThunk<
     }
 
     dispatch(UserActions.setAuthData(response.data));
+    navigate('/');
 
     return response.data;
   } catch (e) {

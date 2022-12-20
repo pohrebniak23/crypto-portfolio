@@ -22,8 +22,8 @@ export const createReduxStore = (
   configureStore({
     reducer: rootReducer,
     preloadedState: initialState,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(coinsAPI.middleware),
+    // middleware: (getDefaultMiddleware) =>
+    //   getDefaultMiddleware().concat(coinsAPI.middleware),
   });
 
 export type AppStore = ReturnType<typeof createReduxStore>;

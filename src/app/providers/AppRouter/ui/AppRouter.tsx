@@ -1,4 +1,5 @@
 import { Loader } from 'components/Loader/Loader';
+import { Sidebar } from 'components/Sidebar/Sidebar';
 import { Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppRouteProps, routeConfig } from '../config/routeConfig';
@@ -13,7 +14,14 @@ export const AppRouter = () => {
         key={route.path}
         path={route.path}
         element={
-          route.authOnly ? <RequireAuth>{element}</RequireAuth> : element
+          route.authOnly ? (
+            <RequireAuth>
+              <Sidebar />
+              {element}
+            </RequireAuth>
+          ) : (
+            element
+          )
         }
       />
     );

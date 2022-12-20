@@ -22,7 +22,6 @@ export const routeConfig: Record<AppRoutes, AppRouteProps> = {
   [AppRoutes.REGISTER]: {
     path: RoutePath[AppRoutes.REGISTER],
     element: <RegisterPage />,
-    authOnly: true,
   },
   [AppRoutes.PORTFOLIO]: {
     path: RoutePath[AppRoutes.PORTFOLIO],

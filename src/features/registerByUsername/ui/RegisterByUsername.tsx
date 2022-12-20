@@ -3,7 +3,7 @@ import { Alert, Box, Grid, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { getRegisterByUsernameError } from '../model/selectors/getRegisterByUsernameError';
 import { getRegisterByUsernameLoading } from '../model/selectors/getRegisterByUsernameLoading';
@@ -12,14 +12,16 @@ import { RegisterByUsernameData } from '../model/types/registerByUsernameSchema'
 
 export const RegisterByUsername = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const isLoading = useAppSelector(getRegisterByUsernameLoading);
   const error = useAppSelector(getRegisterByUsernameError);
 
   const onSubmit = useCallback(
     (values: RegisterByUsernameData) => {
-      dispatch(registerByUsernameService(values));
+      dispatch(registerByUsernameService({ data: values, navigate }));
     },
-    [dispatch],
+    [dispatch, navigate],
   );
 
   const validationSchema = yup.object().shape({
