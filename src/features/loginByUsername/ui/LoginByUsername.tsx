@@ -17,8 +17,9 @@ export const LoginByUsername = () => {
   const error = useAppSelector(getLoginByUsernameError);
 
   const onSubmit = useCallback(
-    async (values: LoginByUsernameData) => {
-      await dispatch(loginByUsernameService(values));
+    (values: LoginByUsernameData) => {
+      console.log(values);
+      dispatch(loginByUsernameService(values));
     },
     [dispatch],
   );

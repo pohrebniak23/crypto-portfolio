@@ -1,8 +1,8 @@
 import { Container } from '@mui/material';
-import { LoginByUsername } from 'features/loginByUsername';
+import { RegisterByUsername } from 'features/registerByUsername';
 import React from 'react';
 
-export const Login: React.FC = () => (
+export const RegisterPage: React.FC = () => (
   <Container
     sx={{
       height: '100vh',
@@ -11,6 +11,6 @@ export const Login: React.FC = () => (
       alignItems: 'center',
     }}
   >
-    <LoginByUsername />
+    <RegisterByUsername />
   </Container>
 );

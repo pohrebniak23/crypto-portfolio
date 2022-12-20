@@ -3,7 +3,7 @@ import { getUserData } from 'entities/User/model/selectors/getUserData';
 import React from 'react';
 import { useAppSelector } from '../../shared/hooks/redux';
 
-export const Home: React.FC = () => {
+export const HomePage: React.FC = () => {
   const user = useAppSelector(getUserData);
 
   return (

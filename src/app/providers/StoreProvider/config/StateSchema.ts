@@ -1,8 +1,7 @@
 import { UserSchema } from 'entities/User';
-import { NavigateOptions, To } from 'react-router-dom';
-import { PortfolioState } from 'redux/reducers/Portfolio/PortfolioSlice';
 import { LoginByUsernameSchema } from 'features/loginByUsername/model/types/loginByUsernameSchema';
 import { RegisterByUsernameSchema } from 'features/registerByUsername';
+import { PortfolioState } from 'redux/reducers/Portfolio/PortfolioSlice';
 
 export interface StateSchema {
   loginByUsername: LoginByUsernameSchema;
@@ -12,12 +11,7 @@ export interface StateSchema {
   coinsAPI: any;
 }
 
-export interface ThunkExtraArg {
-  navigate?: (to: To, options?: NavigateOptions) => void;
-}
-
 export interface ThunkConfig<T> {
   rejectValue: T;
-  extra: ThunkExtraArg;
   state: StateSchema;
 }

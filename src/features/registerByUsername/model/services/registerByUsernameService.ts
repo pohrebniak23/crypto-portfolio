@@ -9,7 +9,7 @@ export const registerByUsernameService = createAsyncThunk<
   User,
   RegisterByUsernameData,
   ThunkConfig<string>
->('loginByUsernameService', async (registerData, thunkAPI) => {
+>('registerByUsernameService', async (registerData, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
 
   try {

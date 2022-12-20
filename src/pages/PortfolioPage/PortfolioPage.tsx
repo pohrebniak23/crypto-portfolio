@@ -9,7 +9,7 @@ import { PortfolioContent } from './PortfolioContent/PortfolioContent';
 import { PortfolioHeader } from './PortfolioHeader/PortfolioHeader';
 import { useUpdatePortfolioData } from '../../shared/hooks/useUpdatePortfolioData';
 
-export const Portfolio: React.FC = React.memo(() => {
+export const PortfolioPage: React.FC = React.memo(() => {
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
