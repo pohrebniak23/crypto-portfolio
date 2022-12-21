@@ -1,28 +1,27 @@
-import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
-import React, { useState } from 'react';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useAppDispatch } from '../../../shared/hooks/redux';
-import { removeFromPortfolio, toggleTransactions, setTransactionCoin } from '../../../redux/reducers/Portfolio/PortfolioSlice';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
+// import { removeFromPortfolio, toggleTransactions, setTransactionCoin } from '../../../redux/reducers/Portfolio/PortfolioSlice';
 
-type Props = {
-  id: string,
-};
+// type Props = {
+//   id: string,
+// };
 
-export const TransactionMenu: React.FC<Props> = React.memo(({ id }) => {
-  const dispatch = useAppDispatch();
+export const TransactionMenu: React.FC = React.memo(() => {
+  // const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const removeCrypto = () => {
     setAnchorEl(null);
-    dispatch(removeFromPortfolio(id));
+    // dispatch(removeFromPortfolio(id));
   };
 
   const openTransactions = () => {
     setAnchorEl(null);
-    dispatch(toggleTransactions(true));
-    dispatch(setTransactionCoin(id));
+    // dispatch(toggleTransactions(true));
+    // dispatch(setTransactionCoin(id));
   };
 
   return (

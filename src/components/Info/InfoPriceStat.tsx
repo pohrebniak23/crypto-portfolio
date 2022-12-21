@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
+import { getPortfolioDataSelector } from 'entities/Portfolio';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Area,
   AreaChart,
@@ -17,19 +18,19 @@ interface StatData {
 }
 
 export const InfoPriceStat: React.FC = React.memo(() => {
-  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
+  const portfolio = useAppSelector(getPortfolioDataSelector);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
   const getHistory = useCallback(async () => {
     const promises = portfolio.map((item) =>
       fetch(
-        `https://api.coingecko.com/api/v3/coins/${item.id}/market_chart?vs_currency=usd&days=7&interval=daily`,
+        `https://api.coingecko.com/api/v3/coins/${item.name}/market_chart?vs_currency=usd&days=7&interval=daily`,
       )
         .then((resp) => resp.json())
         .then((data) => {
           const coinHistory = data.prices.map((historyPrices: number[]) => ({
             date: historyPrices[0],
-            price: historyPrices[1] * item.coinCount,
+            price: historyPrices[1] * item.count,
           }));
 
           return coinHistory;

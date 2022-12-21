@@ -1,20 +1,21 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
+import { getPortfolioDataSelector } from 'entities/Portfolio';
 import React from 'react';
+import { coinsAPI } from '../../services/CoinsService';
 import {
-  allTimeProfit,
   GainerLooser,
+  allTimeProfit,
   topGainerLooser,
   walletSum,
 } from '../../shared/helpers/portfolioInfo';
 import { useAppSelector } from '../../shared/hooks/redux';
-import { coinsAPI } from '../../services/CoinsService';
 import { InfoGainerLooser } from './InfoGainerLooser';
 
 export const MainInfo: React.FC = React.memo(() => {
   const { data: coinsList } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
-  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
+  const portfolio = useAppSelector(getPortfolioDataSelector);
 
   const sum = walletSum(coinsList, portfolio);
   const profit = allTimeProfit(coinsList, portfolio);

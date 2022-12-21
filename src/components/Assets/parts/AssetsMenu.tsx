@@ -1,87 +1,95 @@
-import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
-import React, { useState } from 'react';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useAppDispatch } from '../../../shared/hooks/redux';
-import { removeFromPortfolio, toggleTransactions, setTransactionCoin, removeTransactions } from '../../../redux/reducers/Portfolio/PortfolioSlice';
+// import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+// import React, { useState } from 'react';
+// import {
+//   removeFromPortfolio,
+//   removeTransactions,
+//   setTransactionCoin,
+//   toggleTransactions,
+// } from '../../../redux/reducers/Portfolio/PortfolioSlice';
+// import { useAppDispatch } from '../../../shared/hooks/redux';
 
-type Props = {
-  id: string,
-};
+// type Props = {
+//   id: string;
+// };
 
-export const AssetsMenu: React.FC<Props> = React.memo(({ id }) => {
-  const dispatch = useAppDispatch();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+// export const AssetsMenu: React.FC<Props> = React.memo(({ id }) => {
+//   const dispatch = useAppDispatch();
+//   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const removeCrypto = () => {
-    setAnchorEl(null);
-    dispatch(removeFromPortfolio(id));
-    dispatch(removeTransactions(id));
-  };
+//   const removeCrypto = () => {
+//     setAnchorEl(null);
+//     dispatch(removeFromPortfolio(id));
+//     dispatch(removeTransactions(id));
+//   };
 
-  const openTransactions = () => {
-    setAnchorEl(null);
-    dispatch(toggleTransactions(true));
-    dispatch(setTransactionCoin(id));
-  };
+//   const openTransactions = () => {
+//     setAnchorEl(null);
+//     dispatch(toggleTransactions(true));
+//     dispatch(setTransactionCoin(id));
+//   };
 
-  return (
-    <div>
-      <IconButton
-        aria-label="more"
-        aria-haspopup="true"
-        onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)}
-      >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        <MenuItem selected={false} onClick={() => openTransactions()}>
-          <ListItemIcon>
-            <CompareArrowsIcon fontSize="small" />
-          </ListItemIcon>
-          Transactions
-        </MenuItem>
-        <MenuItem selected={false} onClick={() => removeCrypto()}>
-          <ListItemIcon>
-            <DeleteOutlineIcon fontSize="small" />
-          </ListItemIcon>
-          Delete
-        </MenuItem>
-      </Menu>
-    </div>
-  );
-});
+//   return (
+//     <div>
+//       <IconButton
+//         aria-label="more"
+//         aria-haspopup="true"
+//         onClick={(event: React.MouseEvent<HTMLElement>) =>
+//           setAnchorEl(event.currentTarget)
+//         }
+//       >
+//         <MoreVertIcon />
+//       </IconButton>
+//       <Menu
+//         anchorEl={anchorEl}
+//         keepMounted
+//         open={Boolean(anchorEl)}
+//         onClose={() => setAnchorEl(null)}
+//         PaperProps={{
+//           elevation: 0,
+//           sx: {
+//             overflow: 'visible',
+//             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+//             mt: 1.5,
+//             '& .MuiAvatar-root': {
+//               width: 32,
+//               height: 32,
+//               ml: -0.5,
+//               mr: 1,
+//             },
+//             '&:before': {
+//               content: '""',
+//               display: 'block',
+//               position: 'absolute',
+//               top: 0,
+//               right: 14,
+//               width: 10,
+//               height: 10,
+//               bgcolor: 'background.paper',
+//               transform: 'translateY(-50%) rotate(45deg)',
+//               zIndex: 0,
+//             },
+//           },
+//         }}
+//         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+//         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+//       >
+//         <MenuItem selected={false} onClick={() => openTransactions()}>
+//           <ListItemIcon>
+//             <CompareArrowsIcon fontSize="small" />
+//           </ListItemIcon>
+//           Transactions
+//         </MenuItem>
+//         <MenuItem selected={false} onClick={() => removeCrypto()}>
+//           <ListItemIcon>
+//             <DeleteOutlineIcon fontSize="small" />
+//           </ListItemIcon>
+//           Delete
+//         </MenuItem>
+//       </Menu>
+//     </div>
+//   );
+// });
+export {}

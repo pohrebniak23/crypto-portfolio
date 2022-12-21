@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
 import { Paper } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { getPortfolioDataSelector } from 'entities/Portfolio';
+import React, { useMemo } from 'react';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { useAppSelector } from '../../shared/hooks/redux';
 
 interface PieData {
@@ -9,21 +10,32 @@ interface PieData {
 }
 
 export const InfoPieChart: React.FC = React.memo(() => {
-  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
-  const colors = useMemo(() => ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'], []);
+  const portfolio = useAppSelector(getPortfolioDataSelector);
+  const colors = useMemo(
+    () => ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
+    [],
+  );
 
-  const pieData = useMemo(() => portfolio.map((item) => ({
-    name: item.id,
-    value: +(item.buyPrice * item.coinCount).toFixed(0),
-  })), [portfolio]);
+  const pieData = useMemo(
+    () =>
+      portfolio.map((item) => ({
+        name: item.id,
+        value: +(item.buyPrice * item.count).toFixed(0),
+      })),
+    [portfolio],
+  );
 
-  const pieCells = useMemo(() => pieData.map((entry: PieData, index: number) => (
-    <Cell
-      key={`cell-${entry.name}`}
-      fill={colors[index % colors.length]}
-      cursor="pointer"
-    />
-  )), [pieData, colors])
+  const pieCells = useMemo(
+    () =>
+      pieData.map((entry: PieData, index: number) => (
+        <Cell
+          key={`cell-${entry.name}`}
+          fill={colors[index % colors.length]}
+          cursor="pointer"
+        />
+      )),
+    [pieData, colors],
+  );
 
   return (
     <Paper

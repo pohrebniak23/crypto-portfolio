@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Typography } from '@mui/material';
-import { AssetsList } from './parts/AssetsList';
+// import { AssetsList } from './parts/AssetsList';
 
 export const Assets: React.FC = () => (
   <Paper
@@ -19,6 +19,6 @@ export const Assets: React.FC = () => (
       Assets
     </Typography>
 
-    <AssetsList />
+    {/* <AssetsList /> */}
   </Paper>
 );

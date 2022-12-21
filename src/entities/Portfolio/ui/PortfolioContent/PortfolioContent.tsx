@@ -1,16 +1,16 @@
 import { Grid } from '@mui/material';
+import { Assets } from 'components/Assets/Assets';
+import { Empty } from 'components/Empty/Empty';
+import { InfoPieChart } from 'components/Info/InfoPieChart';
+import { InfoPriceStat } from 'components/Info/InfoPriceStat';
+import { MainInfo } from 'components/Info/MainInfo';
+import { getPortfolioDataSelector } from 'entities/Portfolio/model/selectrors/getPortfolioDataSelector';
 import React from 'react';
-import { Empty } from '../../../components/Empty/Empty';
-import { InfoPieChart } from '../../../components/Info/InfoPieChart';
-import { InfoPriceStat } from '../../../components/Info/InfoPriceStat';
-import { Transactions } from '../../../components/Transactions/Transactions';
-import { useAppSelector } from '../../../shared/hooks/redux';
-import { Assets } from '../../../components/Assets/Assets';
-import { MainInfo } from '../../../components/Info/MainInfo';
+import { useAppSelector } from 'shared/hooks/redux';
 
 export const PortfolioContent: React.FC = React.memo(() => {
-  const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
-  const portfolio = useAppSelector(state => state.portfolio.portfolio);
+  // const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
+  const portfolio = useAppSelector(getPortfolioDataSelector);
 
   return portfolio.length > 0 ? (
     <>
@@ -45,7 +45,8 @@ export const PortfolioContent: React.FC = React.memo(() => {
           <InfoPriceStat />
         </Grid>
         <Grid item lg={12} xl={12}>
-          {!isOpen ? <Assets /> : <Transactions />}
+          <Assets />
+          {/* {!isOpen ? : <Transactions />} */}
         </Grid>
       </Grid>
     </>

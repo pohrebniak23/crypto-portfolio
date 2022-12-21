@@ -1,116 +1,117 @@
-import {
-  Box,
-  Dialog,
-  DialogContent, TextField, Typography
-} from '@mui/material';
-import React, {
-  useCallback, useMemo,
-  useRef,
-  useState
-} from 'react';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../shared/hooks/redux';
-import {
-  editBase,
-  editQuote
-} from '../../redux/reducers/Portfolio/PortfolioSlice';
-import { coinsAPI } from '../../services/CoinsService';
-import { CoinItem } from './CoinItem';
+// import {
+//   Box,
+//   Dialog,
+//   DialogContent, TextField, Typography
+// } from '@mui/material';
+// import React, {
+//   useCallback, useMemo,
+//   useRef,
+//   useState
+// } from 'react';
+// import { useDispatch } from 'react-redux';
+// import { useAppSelector } from '../../shared/hooks/redux';
+// import {
+//   editBase,
+//   editQuote
+// } from '../../redux/reducers/Portfolio/PortfolioSlice';
+// import { coinsAPI } from '../../services/CoinsService';
+// import { CoinItem } from './CoinItem';
 
-export const SelectCoin: React.FC = React.memo(() => {
-  const dispatch = useDispatch();
-  const { selectedCoins } = useAppSelector((state) => state.portfolio);
-  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-  const [search, setSearch] = useState('');
-  // const [coinsPerPage, setCoinsPerPage] = useState(10);
-  const lastCoin = useRef<HTMLDivElement | null>(null);
+// export const SelectCoin: React.FC = React.memo(() => {
+//   const dispatch = useDispatch();
+//   const { selectedCoins } = useAppSelector((state) => state.portfolio);
+//   const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
+//   const [search, setSearch] = useState('');
+//   // const [coinsPerPage, setCoinsPerPage] = useState(10);
+//   const lastCoin = useRef<HTMLDivElement | null>(null);
 
-  // const observer = useRef<IntersectionObserver | null>(null);
+//   // const observer = useRef<IntersectionObserver | null>(null);
 
-  const searchHandle = (value: string) => {
-    setSearch(value);
-  };
+//   const searchHandle = (value: string) => {
+//     setSearch(value);
+//   };
 
-  const filteredCoins = useMemo(() => {
-    if (coins) {
-      return coins
-        .slice(0, 10)
-        .filter((coin) =>
-          coin.name.toLowerCase().includes(search.toLowerCase()),
-        );
-    }
+//   const filteredCoins = useMemo(() => {
+//     if (coins) {
+//       return coins
+//         .slice(0, 10)
+//         .filter((coin) =>
+//           coin.name.toLowerCase().includes(search.toLowerCase()),
+//         );
+//     }
 
-    return coins;
-  }, [search, coins]);
+//     return coins;
+//   }, [search, coins]);
 
-  // TO DO - now not working
-  // useEffect(() => {
-  //   if (observer.current) observer.current.disconnect();
+//   // TO DO - now not working
+//   // useEffect(() => {
+//   //   if (observer.current) observer.current.disconnect();
 
-  //   const callback = function (entries: any) {
-  //     if (entries[0].isIntersecting) {
-  //       setCoinsPerPage(coinsPerPage + 10);
-  //     }
-  //   };
-  //   observer.current = new IntersectionObserver(callback);
-  //   if (lastCoin.current) {
-  //     observer.current.observe(lastCoin.current);
-  //   }
-  // }, [lastCoin, coinsPerPage, filteredCoins]);
+//   //   const callback = function (entries: any) {
+//   //     if (entries[0].isIntersecting) {
+//   //       setCoinsPerPage(coinsPerPage + 10);
+//   //     }
+//   //   };
+//   //   observer.current = new IntersectionObserver(callback);
+//   //   if (lastCoin.current) {
+//   //     observer.current.observe(lastCoin.current);
+//   //   }
+//   // }, [lastCoin, coinsPerPage, filteredCoins]);
 
-  const closeSarch = useCallback(() => {
-    dispatch(editBase(false));
-    dispatch(editQuote(false));
-  }, [dispatch]);
+//   const closeSarch = useCallback(() => {
+//     dispatch(editBase(false));
+//     dispatch(editQuote(false));
+//   }, [dispatch]);
 
-  return (
-    <Dialog
-      open={selectedCoins.baseEditing}
-      onClose={closeSarch}
-      sx={{
-        borderRadius: 4,
-      }}
-    >
-      <Box
-        sx={{
-          width: '450px',
-          p: 3,
-          borderRadius: 8,
-        }}
-      >
-        <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
-          Select coin
-        </Typography>
-        <DialogContent sx={{ p: 0 }}>
-          <TextField
-            type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              searchHandle(e.target.value)
-            }
-            id="outlined-basic"
-            label="Search"
-            variant="standard"
-            sx={{
-              width: '100%',
-              borderRadius: 4,
-              pb: 1,
-            }}
-          />
-          <Box
-            sx={{
-              height: '350px',
-            }}
-          >
-            {filteredCoins &&
-              filteredCoins.map((coin) => (
-                <CoinItem key={coin.id} coin={coin} />
-              ))}
-            {filteredCoins && (
-              <Box ref={lastCoin} sx={{ height: 2, width: '100%' }} />
-            )}
-          </Box>
-        </DialogContent>
-      </Box>
-    </Dialog>
-  );
-});
+//   return (
+//     <Dialog
+//       open={selectedCoins.baseEditing}
+//       onClose={closeSarch}
+//       sx={{
+//         borderRadius: 4,
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           width: '450px',
+//           p: 3,
+//           borderRadius: 8,
+//         }}
+//       >
+//         <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
+//           Select coin
+//         </Typography>
+//         <DialogContent sx={{ p: 0 }}>
+//           <TextField
+//             type="text"
+//             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+//               searchHandle(e.target.value)
+//             }
+//             id="outlined-basic"
+//             label="Search"
+//             variant="standard"
+//             sx={{
+//               width: '100%',
+//               borderRadius: 4,
+//               pb: 1,
+//             }}
+//           />
+//           <Box
+//             sx={{
+//               height: '350px',
+//             }}
+//           >
+//             {filteredCoins &&
+//               filteredCoins.map((coin) => (
+//                 <CoinItem key={coin.id} coin={coin} />
+//               ))}
+//             {filteredCoins && (
+//               <Box ref={lastCoin} sx={{ height: 2, width: '100%' }} />
+//             )}
+//           </Box>
+//         </DialogContent>
+//       </Box>
+//     </Dialog>
+//   );
+// });
+export {}

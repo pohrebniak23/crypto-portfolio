@@ -1,13 +1,21 @@
 import { Box, Grid, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+// import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
+import {
+  PortfolioContent,
+  PortfolioHeader,
+  fetchPortfolioData,
+} from 'entities/Portfolio';
+import { getUserData } from 'entities/User';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'shared/hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
-import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
 import { TabsBlock } from '../../components/Tabs/TabsBlock';
 import { coinsAPI } from '../../services/CoinsService';
-import { PortfolioContent } from './PortfolioContent/PortfolioContent';
-import { PortfolioHeader } from './PortfolioHeader/PortfolioHeader';
 
 export const PortfolioPage: React.FC = React.memo(() => {
+  const dispatch = useAppDispatch();
+  const userData = useSelector(getUserData);
   const [rightBarOpen, setRightBarOpen] = useState(false);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
@@ -19,14 +27,17 @@ export const PortfolioPage: React.FC = React.memo(() => {
   };
 
   useEffect(() => {
-    fetch('https://spectrum-amethyst-fruit.glitch.me/posts', {
-      method: 'GET',
-      headers: {
-        authorization: 'true',
-      },
-    })
-      .then((resp) => resp.json())
-      .then((res) => console.log(res));
+    if (userData) {
+      dispatch(fetchPortfolioData(userData?.id));
+    }
+    // fetch('https://spectrum-amethyst-fruit.glitch.me/posts', {
+    //   method: 'GET',
+    //   headers: {
+    //     authorization: 'true',
+    //   },
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((res) => console.log(res));
   }, []);
 
   return (
@@ -68,7 +79,7 @@ export const PortfolioPage: React.FC = React.memo(() => {
         </Grid>
       </Box>
 
-      <SelectCoin />
+      {/* <SelectCoin /> */}
 
       <TabsBlock
         rightBarOpen={rightBarOpen}
