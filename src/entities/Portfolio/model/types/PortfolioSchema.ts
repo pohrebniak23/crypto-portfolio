@@ -1,7 +1,7 @@
 export interface Portfolio {
   id: string;
   userId: string;
-  buyPrice: number;
+  avgBuyPrice: number;
   count: number;
   name: string;
 }

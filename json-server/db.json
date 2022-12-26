@@ -32,21 +32,21 @@
       "count": 543,
       "id": 2,
       "name": "cardano",
-      "buyPrice": 0.316351
+      "avgBuyPrice": 0.316351
     },
     {
-      "userId": "1",
+      "userId": "2",
       "count": 1024,
       "id": 3,
       "name": "cardano",
-      "buyPrice": 0.416351
+      "avgBuyPrice": 0.416351
     },
     {
       "userId": "1",
       "count": 0.124,
       "id": 4,
       "name": "bitcoin",
-      "buyPrice": 21412.45
+      "avgBuyPrice": 21412.45
     }
   ],
   "transactions": [
