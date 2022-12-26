@@ -24,28 +24,28 @@
       "userId": "1",
       "count": 2,
       "id": 1,
-      "name": "ethereum",
+      "ticker": "ethereum",
       "avgBuyPrice": 1241.24
     },
     {
       "userId": "1",
       "count": 543,
       "id": 2,
-      "name": "cardano",
+      "ticker": "cardano",
       "avgBuyPrice": 0.316351
     },
     {
       "userId": "2",
       "count": 1024,
       "id": 3,
-      "name": "cardano",
+      "ticker": "cardano",
       "avgBuyPrice": 0.416351
     },
     {
       "userId": "1",
       "count": 0.124,
       "id": 4,
-      "name": "bitcoin",
+      "ticker": "bitcoin",
       "avgBuyPrice": 21412.45
     }
   ],

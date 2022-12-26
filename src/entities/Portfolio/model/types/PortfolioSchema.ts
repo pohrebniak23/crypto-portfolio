@@ -3,7 +3,7 @@ export interface Portfolio {
   userId: string;
   avgBuyPrice: number;
   count: number;
-  name: string;
+  ticker: string;
 }
 
 export interface PortfolioSchema {

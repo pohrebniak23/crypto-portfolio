@@ -1,5 +1,5 @@
 import { Box, Grid, Paper } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AddNewTransactionActions,
   AddNewTransactionTabs,
@@ -15,7 +15,10 @@ import { getUserData } from 'entities/User';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
-import { getBaseCurrencyEditing, getQuoteCurrencyEditing } from '../../entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
+import {
+  getBaseCurrencyEditing,
+  getQuoteCurrencyEditing,
+} from '../../entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { coinsAPI } from '../../services/CoinsService';
 
 export const PortfolioPage: React.FC = React.memo(() => {
@@ -25,9 +28,19 @@ export const PortfolioPage: React.FC = React.memo(() => {
   const baseEditing = useSelector(getBaseCurrencyEditing);
   const quoteEditing = useSelector(getQuoteCurrencyEditing);
 
-  const { isLoading, data: coins } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
+
+  const [perPage, setPerPage] = useState<number>(10);
+
+  const { data: coinSelect } = coinsAPI.useGetCurrentPageCoinsQuery(perPage);
+
+  const updatePerPage = () => {
+    if (perPage < 20) {
+      setPerPage(perPage + 10);
+    }
+  };
 
   const rightBarHandler = () => {
     dispatch(AddNewTransactionActions.toggleModal());
@@ -101,9 +114,10 @@ export const PortfolioPage: React.FC = React.memo(() => {
         </Grid>
       </Box>
 
-      {coins && (
+      {coinSelect && (
         <CoinSelect
-          coins={coins}
+          callback={updatePerPage}
+          coins={coinSelect}
           isOpen={baseEditing || quoteEditing}
           onSelectItem={onSelectCoin}
           onCloseHandler={onCloseCoinSelect}

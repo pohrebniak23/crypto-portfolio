@@ -39,7 +39,6 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
 
   useEffect(() => {
     if (coins) {
-      console.log(coins);
       const base = coins.find((coin: Coin) => coin.id === baseCurrencyTicker) || undefined;
       const quote =
         coins.find((coin: Coin) => coin.id === quoteCurrencyTicker) || undefined;

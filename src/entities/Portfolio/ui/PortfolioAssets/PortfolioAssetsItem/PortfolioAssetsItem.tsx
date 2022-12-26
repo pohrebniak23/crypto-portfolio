@@ -12,17 +12,18 @@ interface PortfolioAssetsItemProps {
 
 export const PortfolioAssetsItem = React.memo(
   ({ portfolioItem }: PortfolioAssetsItemProps) => {
-    const { id, avgBuyPrice, name, count } = portfolioItem;
+    const { id, avgBuyPrice, ticker, count } = portfolioItem;
     const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
     const [coinData, setCoinData] = useState<Coin | null>(null);
 
     useEffect(() => {
       if (coins) {
-        const coin = coins.find((coinItem: Coin) => coinItem.id === name) || null;
+        const coin =
+          coins.find((coinItem: Coin) => coinItem.id === ticker) || null;
 
         setCoinData(coin);
       }
-    }, [coins, name]);
+    }, [coins, ticker]);
 
     return coinData !== null ? (
       <StyledTableRow
@@ -81,7 +82,10 @@ export const PortfolioAssetsItem = React.memo(
             }}
           >
             <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
-              {(coinData.current_price * count - avgBuyPrice * count).toFixed(2)}$
+              {(coinData.current_price * count - avgBuyPrice * count).toFixed(
+                2,
+              )}
+              $
             </Typography>
           </Box>
         </StyledTableCell>

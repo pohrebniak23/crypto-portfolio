@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material';
 import { Empty } from 'components/Empty/Empty';
-import { InfoPieChart } from 'entities/Portfolio/ui/PortfolioInfo/Info/InfoPieChart';
-import { InfoPriceStat } from 'entities/Portfolio/ui/PortfolioInfo/PriceStatistic/PriceStatistic';
-import { MainInfo } from 'entities/Portfolio/ui/PortfolioInfo/Info/PortfolioInfo';
 import { getPortfolioDataSelector } from 'entities/Portfolio/model/selectrors/getPortfolioDataSelector';
 import React from 'react';
 import { useAppSelector } from 'shared/hooks/redux';
 import { PortfolioAssets } from '../PortfolioAssets/PortfolioAssets';
+import { PieChartStatistic } from './PieChartSatitstic/PieChartStatistic';
+import { PortfolioInfo } from './PortoflioInfo/PortfolioInfo';
+import { PriceStatistic } from './PriceStatistic/PriceStatistic';
 
 export const PortfolioContent: React.FC = React.memo(() => {
   // const isOpen = useAppSelector((state) => state.portfolio.transactions.isOpen);
@@ -25,10 +25,10 @@ export const PortfolioContent: React.FC = React.memo(() => {
         columnSpacing={2}
       >
         <Grid item lg={12} xl={12}>
-          <MainInfo />
+          <PortfolioInfo />
         </Grid>
         <Grid item lg={12} xl={12}>
-          <InfoPieChart />
+          <PieChartStatistic />
         </Grid>
       </Grid>
 
@@ -42,7 +42,7 @@ export const PortfolioContent: React.FC = React.memo(() => {
         columnSpacing={2}
       >
         <Grid item lg={12} xl={12}>
-          <InfoPriceStat />
+          <PriceStatistic />
         </Grid>
         <Grid item lg={12} xl={12}>
           <PortfolioAssets />

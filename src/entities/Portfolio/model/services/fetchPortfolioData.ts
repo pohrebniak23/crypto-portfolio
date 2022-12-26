@@ -15,7 +15,7 @@ export const fetchPortfolioData = createAsyncThunk<
     const response = await axios.get('http://localhost:9000/portfolio', {
       params: {
         userId,
-        _expand: 'userId'
+        _expand: 'userId',
       },
       headers: {
         authorization: '1',
