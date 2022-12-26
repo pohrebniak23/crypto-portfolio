@@ -1,6 +1,11 @@
 import { Box, Grid, Paper } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-// import { SelectCoin } from '../../components/SelectCoin/SelectCoin';
+import React, { useEffect } from 'react';
+import {
+  AddNewTransactionActions,
+  AddNewTransactionTabs,
+  getNewTransactionModalOpen,
+} from 'entities/AddNewTransaction';
+import { Coin, CoinSelect } from 'entities/Coin';
 import {
   PortfolioContent,
   PortfolioHeader,
@@ -10,20 +15,37 @@ import { getUserData } from 'entities/User';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
-import { TabsBlock } from '../../components/Tabs/TabsBlock';
+import { getBaseCurrencyEditing, getQuoteCurrencyEditing } from '../../entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { coinsAPI } from '../../services/CoinsService';
 
 export const PortfolioPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
   const userData = useSelector(getUserData);
-  const [rightBarOpen, setRightBarOpen] = useState(false);
+  const isOpen = useSelector(getNewTransactionModalOpen);
+  const baseEditing = useSelector(getBaseCurrencyEditing);
+  const quoteEditing = useSelector(getQuoteCurrencyEditing);
 
-  const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { isLoading, data: coins } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
 
   const rightBarHandler = () => {
-    setRightBarOpen(!rightBarOpen);
+    dispatch(AddNewTransactionActions.toggleModal());
+  };
+
+  const onSelectCoin = (coin: Coin) => {
+    if (baseEditing) {
+      dispatch(AddNewTransactionActions.setBaseCoin(coin));
+    }
+
+    if (quoteEditing) {
+      dispatch(AddNewTransactionActions.setQuoteCoin(coin));
+    }
+  };
+
+  const onCloseCoinSelect = () => {
+    dispatch(AddNewTransactionActions.setBaseEditing(false));
+    dispatch(AddNewTransactionActions.setQuoteEditing(false));
   };
 
   useEffect(() => {
@@ -38,7 +60,7 @@ export const PortfolioPage: React.FC = React.memo(() => {
     // })
     //   .then((resp) => resp.json())
     //   .then((res) => console.log(res));
-  }, []);
+  }, [dispatch, userData]);
 
   return (
     <Paper
@@ -72,17 +94,24 @@ export const PortfolioPage: React.FC = React.memo(() => {
         >
           <PortfolioHeader
             rightBarHandler={rightBarHandler}
-            isRightBarOpen={rightBarOpen}
+            isRightBarOpen={isOpen}
           />
 
           {isLoading ? <Loader /> : <PortfolioContent />}
         </Grid>
       </Box>
 
-      {/* <SelectCoin /> */}
+      {coins && (
+        <CoinSelect
+          coins={coins}
+          isOpen={baseEditing || quoteEditing}
+          onSelectItem={onSelectCoin}
+          onCloseHandler={onCloseCoinSelect}
+        />
+      )}
 
-      <TabsBlock
-        rightBarOpen={rightBarOpen}
+      <AddNewTransactionTabs
+        rightBarOpen={isOpen}
         setRightBarOpen={rightBarHandler}
       />
     </Paper>

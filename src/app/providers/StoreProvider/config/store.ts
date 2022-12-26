@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { AddNewTransactionReducer } from 'entities/AddNewTransaction';
 import { PortfolioReducer } from 'entities/Portfolio';
 import { UserReducer } from 'entities/User';
 import { LoginByUsernameReducer } from 'features/loginByUsername';
@@ -10,6 +11,7 @@ const rootReducer = combineReducers<StateSchema>({
   loginByUsername: LoginByUsernameReducer,
   registerByUsername: RegisterByUsernameReducer,
   portfolio: PortfolioReducer,
+  addNewTransaction: AddNewTransactionReducer,
   user: UserReducer,
   coinsAPI: coinsAPI.reducer,
 });

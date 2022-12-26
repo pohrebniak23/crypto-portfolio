@@ -26,3 +26,7 @@ export interface Coin {
   roi?: null;
   last_updated: string;
 }
+
+export interface CoinSchema {
+  coinsData: Coin[]
+}
