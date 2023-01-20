@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface TabPanelProps {
+interface TabPanelItemProps {
   children: React.ReactNode;
   index: number;
   value: number;
 }
 
-export const TabPanel: React.FC<TabPanelProps> = React.memo(
+export const TabPanelItem: React.FC<TabPanelItemProps> = React.memo(
   ({ children, value, index }) => (
     <div
       role="tabpanel"

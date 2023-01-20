@@ -37,9 +37,7 @@ export const PortfolioPage: React.FC = React.memo(() => {
   const { data: coinSelect } = coinsAPI.useGetCurrentPageCoinsQuery(perPage);
 
   const updatePerPage = () => {
-    if (perPage < 20) {
-      setPerPage(perPage + 10);
-    }
+    setPerPage(perPage + 10);
   };
 
   const rightBarHandler = () => {
@@ -48,11 +46,11 @@ export const PortfolioPage: React.FC = React.memo(() => {
 
   const onSelectCoin = (coin: Coin) => {
     if (baseEditing) {
-      dispatch(AddNewTransactionActions.setBaseCoin(coin));
+      dispatch(AddNewTransactionActions.setBaseTicker(coin.id));
     }
 
     if (quoteEditing) {
-      dispatch(AddNewTransactionActions.setQuoteCoin(coin));
+      dispatch(AddNewTransactionActions.setQuoteTicker(coin.id));
     }
   };
 

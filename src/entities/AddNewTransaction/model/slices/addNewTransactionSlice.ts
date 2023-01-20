@@ -12,7 +12,7 @@ const initialState: AddNewTransactionSchema = {
 };
 
 export const addNewTransactionSlice = createSlice({
-  name: 'auth',
+  name: 'addNewTransactionSlice',
   initialState,
   reducers: {
     toggleModal: (state) => {
@@ -29,6 +29,12 @@ export const addNewTransactionSlice = createSlice({
     },
     setQuoteCoin: (state, action: PayloadAction<Coin | undefined>) => {
       state.quoteCoin = action.payload;
+    },
+    setBaseTicker: (state, action: PayloadAction<string>) => {
+      state.baseCurrencyTicker = action.payload;
+    },
+    setQuoteTicker: (state, action: PayloadAction<string>) => {
+      state.quoteCurrencyTicker = action.payload;
     },
   },
   // extraReducers: (builder) => {

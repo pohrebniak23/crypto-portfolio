@@ -15,8 +15,8 @@ export const getBaseCurrencyEditing = (state: StateSchema) =>
 export const getQuoteCurrencyEditing = (state: StateSchema) =>
   state.addNewTransaction.quoteCoinEditing;
 
-export const getBaseCoin = (state: StateSchema) =>
+export const getBaseCurrencyCoin = (state: StateSchema) =>
   state.addNewTransaction.baseCoin;
 
-export const getQuoteCoin = (state: StateSchema) =>
+export const getQuoteCurrencyCoin = (state: StateSchema) =>
   state.addNewTransaction.quoteCoin;

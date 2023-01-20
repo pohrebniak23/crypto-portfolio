@@ -1,72 +1,36 @@
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
 import { AddNewTransactionActions } from 'entities/AddNewTransaction';
 import { Coin } from 'entities/Coin';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-// import {
-//   addTransaction,
-//   buyCoin,
-// } from 'redux/reducers/Portfolio/PortfolioSlice';
-import { Loader } from 'components/Loader/Loader';
-import { coinsAPI } from 'services/CoinsService';
-// import { useAppDispatch } from 'shared/hooks/redux';
-import { useAppDispatch } from 'shared/hooks/redux';
-import {
-  getBaseCoin,
-  getBaseCurrencyTicker,
-  getQuoteCoin,
-  getQuoteCurrencyTicker,
-} from '../../model/selectors/getNewTransactionSelector';
+import React, { memo, useEffect, useState } from 'react';
 import { AddNewTransactionButton } from '../AddNewTransactionButton/AddNewTransactionButton';
 
-export const AddNewTransactionItem: React.FC = React.memo(() => {
-  const dispatch = useAppDispatch();
+interface AddNewTransactionItemProps {
+  transactionType: 'BUY' | 'SELL';
+  baseCurrencyCoin: Coin;
+  quoteCurrencyCoin: Coin;
+}
 
-  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
-  const baseCurrencyTicker = useSelector(getBaseCurrencyTicker);
-  const quoteCurrencyTicker = useSelector(getQuoteCurrencyTicker);
+export const AddNewTransactionItem = memo(
+  (props: AddNewTransactionItemProps) => {
+    const { transactionType, baseCurrencyCoin, quoteCurrencyCoin } = props;
 
-  // const [baseCoin, setBaseCoin] = useState<Coin | undefined>(undefined);
-  // const [quoteCoin, setQuoteCoin] = useState<Coin | undefined>(undefined);
+    const [buyCount, setBuyCount] = useState<number>(1);
+    const [price, setPrice] = useState<number>(1);
+    const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
+    const [customPrice, setCustomPrice] = useState<string>('0');
 
-  const baseCoin = useSelector(getBaseCoin);
-  const quoteCoin = useSelector(getQuoteCoin);
-
-  const [buyCount, setBuyCount] = useState<number>(1);
-  const [price, setPrice] = useState<number>(1);
-  const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
-  const [customPrice, setCustomPrice] = useState<string>('0');
-
-  useEffect(() => {
-    if (coins) {
-      const base = coins.find((coin: Coin) => coin.id === baseCurrencyTicker) || undefined;
-      const quote =
-        coins.find((coin: Coin) => coin.id === quoteCurrencyTicker) || undefined;
-
-      // setBaseCoin(base);
-      // setQuoteCoin(quote);
-
-      dispatch(AddNewTransactionActions.setBaseCoin(base))
-      dispatch(AddNewTransactionActions.setQuoteCoin(quote))
-      // setBaseCoin(base);
-      // setQuoteCoin(quote);
-    }
-  }, [coins, baseCurrencyTicker, quoteCurrencyTicker]);
-
-  useEffect(() => {
-    if (baseCoin && quoteCoin) {
+    useEffect(() => {
       if (isCustomPrice) {
         setPrice(+(buyCount * +customPrice).toFixed(3));
       } else {
-        setPrice(+(buyCount * baseCoin.current_price).toFixed(3));
+        setPrice(+(buyCount * baseCurrencyCoin.current_price).toFixed(3));
       }
-    }
-  }, [baseCoin, quoteCoin, buyCount, isCustomPrice, customPrice]);
+    }, [baseCurrencyCoin, buyCount, isCustomPrice, customPrice]);
 
-  const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
+    const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
 
-  const addCrypto = () => {
-    if (baseCoin && quoteCoin) {
+    const addTransaction = () => {
+      // if (baseCoin && quoteCoin) {
       // const addedData = {
       //   id: baseCoin.id,
       //   buyPrice: !isCustomPrice ? +baseCoin.current_price : +customPrice,
@@ -80,16 +44,16 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
       //   ...addedData,
       // }),
       // );
-    }
-  };
+      // }
+      console.log(transactionType);
+    };
 
-  return (
-    <Box
-      sx={{
-        pt: 3,
-      }}
-    >
-      {baseCoin && quoteCoin ? (
+    return (
+      <Box
+        sx={{
+          pt: 3,
+        }}
+      >
         <Box>
           <Box
             sx={{
@@ -106,7 +70,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
                 textAlign: 'center',
               }}
             >
-              {`${baseCoin.name} price`}
+              {`${baseCurrencyCoin.name} price`}
             </Typography>
             <Typography
               variant="h5"
@@ -118,7 +82,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
                 display: !isCustomPrice ? 'block' : 'none',
               }}
             >
-              {`$${baseCoin.current_price}`}
+              {`$${baseCurrencyCoin.current_price}`}
             </Typography>
             <Input
               placeholder="0.00"
@@ -170,7 +134,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
                 }
               />
               <AddNewTransactionButton
-                coin={baseCoin}
+                coin={baseCurrencyCoin}
                 coinAction={AddNewTransactionActions.setBaseEditing}
               />
             </Box>
@@ -198,7 +162,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
                 value={price}
               />
               <AddNewTransactionButton
-                coin={quoteCoin}
+                coin={quoteCurrencyCoin}
                 coinAction={AddNewTransactionActions.setQuoteEditing}
               />
             </Box>
@@ -219,7 +183,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
 
           <Button
             variant="contained"
-            onClick={addCrypto}
+            onClick={addTransaction}
             sx={{
               mt: 1,
               py: 1,
@@ -229,9 +193,7 @@ export const AddNewTransactionItem: React.FC = React.memo(() => {
             Add to portfolio
           </Button>
         </Box>
-      ) : (
-        <Loader />
-      )}
-    </Box>
-  );
-});
+      </Box>
+    );
+  },
+);

@@ -1,18 +1,8 @@
-import { Typography } from '@mui/material';
-import classNames from 'classnames';
-import React, {
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { useInfiniteScroll } from 'shared/hooks/useInfiniteScroll/useInfiniteScroll';
-import { Portal } from 'shared/ui/Portal/Portal';
+import { Box, Dialog, DialogTitle, TextField } from '@mui/material';
+import React, { useCallback, useMemo, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { Coin } from '../../model/types/CoinSchema';
 import { CoinItem } from '../CoinItem/CoinItem';
-import styles from './CoinSelect.module.scss';
 
 interface CoinSelectProps {
   coins: Coin[];
@@ -30,15 +20,15 @@ export const CoinSelect = React.memo(
     coins,
     callback,
   }: CoinSelectProps) => {
-    const [search, setSearch] = useState('b');
-    const wrapperRef = useRef() as RefObject<HTMLDivElement>;
-    const triggerRef = useRef() as MutableRefObject<HTMLDivElement>;
+    const [search, setSearch] = useState('');
+    // const wrapperRef = useRef() as RefObject<HTMLDivElement>;
+    // const triggerRef = useRef() as MutableRefObject<HTMLDivElement>;
 
-    useInfiniteScroll({
-      wrapperRef,
-      triggerRef,
-      callback,
-    });
+    // useInfiniteScroll({
+    //   wrapperRef,
+    //   triggerRef,
+    //   callback,
+    // });
 
     const searchHandle = (value: string) => {
       setSearch(value);
@@ -78,49 +68,71 @@ export const CoinSelect = React.memo(
     );
 
     return (
-      // <Dialog
-      //   open={isOpen}
-      //   onClose={onCloseHandler}
-      //   sx={{
-      //     borderRadius: 4,
-      //   }}
-      // >
-
-      // </Dialog>
-      <Portal>
-        <section
-          className={classNames(styles.wrap, {
-            [styles.open]: isOpen,
-          })}
-          ref={wrapperRef}
+      <Dialog
+        open={isOpen}
+        onClose={onCloseHandler}
+        sx={{
+          borderRadius: 4,
+        }}
+      >
+        <DialogTitle>
+          Select coin
+          {/* <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
+          </Typography> */}
+        </DialogTitle>
+        <TextField
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            searchHandle(e.target.value)
+          }
+          id="outlined-basic"
+          label="Search"
+          variant="standard"
+          sx={{
+            width: '100%',
+            borderRadius: 4,
+            pb: 1,
+          }}
+        />
+        <Box
+          sx={{
+            width: '450px',
+            height: '440px',
+            p: 3,
+            borderRadius: 8,
+            overflowY: 'scroll',
+          }}
+          // dividers
+          id="scrollableDiv"
         >
-          <div className={styles.block}>
-            <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
-              Select coin
-            </Typography>
-            <div className={styles.content}>
-              <input
-                className={styles.input}
-                value={search}
-                type="text"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  searchHandle(e.target.value)
-                }
+          <InfiniteScroll
+            dataLength={filteredCoins.length}
+            next={callback}
+            hasMore
+            loader={<h4 style={{ textAlign: 'center' }}>Loading.....</h4>}
+            scrollableTarget="scrollableDiv"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            {filteredCoins.map((coin: Coin) => (
+              <CoinItem
+                key={coin.id}
+                coin={coin}
+                onSelectItem={selectItemHandler}
               />
-              <div className={styles.block}>
-                {filteredCoins.map((coin: Coin) => (
-                  <CoinItem
-                    key={coin.id}
-                    coin={coin}
-                    onSelectItem={selectItemHandler}
-                  />
-                ))}
-                <div ref={triggerRef} className={styles.trigger} />
-              </div>
-            </div>
-          </div>
-        </section>
-      </Portal>
+            ))}
+          </InfiniteScroll>
+          {/* <Box
+            sx={{
+              height: '350px',
+            }}
+          >
+            
+            {filteredCoins && (
+              <Box sx={{ height: 2, width: '100%' }} />
+            )}
+          </Box> */}
+        </Box>
+      </Dialog>
     );
   },
 );

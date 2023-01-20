@@ -1,8 +1,7 @@
 import { Box, Drawer } from '@mui/material';
 import { StyledTab, StyledTabs } from 'components/UI/StyledTabs';
 import React from 'react';
-import { AddNewTransactionItem } from '../AddNewTransactionItem/AddNewTransactionItem';
-import { TabPanel } from '../TabPanel/TabPanel';
+import { TabPanelList } from '../TabPanelList/TabPanelList';
 
 type Props = {
   rightBarOpen: boolean;
@@ -11,10 +10,10 @@ type Props = {
 
 export const AddNewTransactionTabs: React.FC<Props> = React.memo(
   ({ rightBarOpen, setRightBarOpen }) => {
-    const [value, setValue] = React.useState(0);
+    const [currentTab, setCurrentTab] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      setValue(newValue);
+    const handleChange = (event: React.SyntheticEvent, tab: number) => {
+      setCurrentTab(tab);
     };
 
     return (
@@ -37,17 +36,16 @@ export const AddNewTransactionTabs: React.FC<Props> = React.memo(
         onClose={setRightBarOpen}
       >
         <Box>
-          <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
+          <StyledTabs
+            value={currentTab}
+            onChange={handleChange}
+            aria-label="tabs"
+          >
             <StyledTab label="Buy" id="simple-tab-0" />
             <StyledTab label="Sell" id="simple-tab-1" />
           </StyledTabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          <AddNewTransactionItem />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <AddNewTransactionItem />
-        </TabPanel>
+        <TabPanelList currentTab={currentTab} />
       </Drawer>
     );
   },
