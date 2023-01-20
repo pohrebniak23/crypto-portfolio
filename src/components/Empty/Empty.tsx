@@ -1,11 +1,10 @@
 import { Typography } from '@mui/material';
-import React from 'react';
 
-type Props = {
+interface MessageCenterProps {
   text: string;
-};
+}
 
-export const Empty: React.FC<Props> = ({ text }) => (
+export const MessageCenter = ({ text }: MessageCenterProps) => (
   <Typography
     variant="h5"
     sx={{

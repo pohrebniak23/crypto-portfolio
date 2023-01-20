@@ -10,6 +10,6 @@ export const Loader: React.FC = () => (
       transform: 'translate(-50%, -50%)'
     }}
   >
-    <CircularProgress  />
+    <CircularProgress />
   </Box>
 );

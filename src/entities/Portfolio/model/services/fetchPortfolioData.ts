@@ -27,6 +27,7 @@ export const fetchPortfolioData = createAsyncThunk<
     }
 
     dispatch(PortfolioActions.setPortfolioData(response.data));
+    dispatch(PortfolioActions.setInited());
 
     return response.data;
   } catch (e: any) {

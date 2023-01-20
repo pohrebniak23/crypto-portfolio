@@ -10,23 +10,28 @@ import {
   PortfolioContent,
   PortfolioHeader,
   fetchPortfolioData,
+  getPortfolioDataSelector,
 } from 'entities/Portfolio';
 import { getUserData } from 'entities/User';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
 import {
   getBaseCurrencyEditing,
   getQuoteCurrencyEditing,
 } from '../../entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { coinsAPI } from '../../services/CoinsService';
+import { getPortfolioDataInited } from '../../entities/Portfolio/model/selectrors/getPortfolioDataSelector';
 
 export const PortfolioPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
+
   const userData = useSelector(getUserData);
   const isOpen = useSelector(getNewTransactionModalOpen);
   const baseEditing = useSelector(getBaseCurrencyEditing);
   const quoteEditing = useSelector(getQuoteCurrencyEditing);
+  const portfolioData = useAppSelector(getPortfolioDataSelector);
+  const isPortfolioDataInited = useSelector(getPortfolioDataInited);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
@@ -34,7 +39,7 @@ export const PortfolioPage: React.FC = React.memo(() => {
 
   const [perPage, setPerPage] = useState<number>(10);
 
-  const { data: coinSelect } = coinsAPI.useGetCurrentPageCoinsQuery(perPage);
+  const { data: coinsList } = coinsAPI.useGetCurrentPageCoinsQuery(perPage);
 
   const updatePerPage = () => {
     setPerPage(perPage + 10);
@@ -63,14 +68,6 @@ export const PortfolioPage: React.FC = React.memo(() => {
     if (userData) {
       dispatch(fetchPortfolioData(userData?.id));
     }
-    // fetch('https://spectrum-amethyst-fruit.glitch.me/posts', {
-    //   method: 'GET',
-    //   headers: {
-    //     authorization: 'true',
-    //   },
-    // })
-    //   .then((resp) => resp.json())
-    //   .then((res) => console.log(res));
   }, [dispatch, userData]);
 
   return (
@@ -108,14 +105,16 @@ export const PortfolioPage: React.FC = React.memo(() => {
             isRightBarOpen={isOpen}
           />
 
-          {isLoading ? <Loader /> : <PortfolioContent />}
+          {isLoading && !isPortfolioDataInited && <Loader />}
+
+          {portfolioData && isPortfolioDataInited && <PortfolioContent portfolioData={portfolioData} />}
         </Grid>
       </Box>
 
-      {coinSelect && (
+      {coinsList && (
         <CoinSelect
           callback={updatePerPage}
-          coins={coinSelect}
+          coins={coinsList}
           isOpen={baseEditing || quoteEditing}
           onSelectItem={onSelectCoin}
           onCloseHandler={onCloseCoinSelect}

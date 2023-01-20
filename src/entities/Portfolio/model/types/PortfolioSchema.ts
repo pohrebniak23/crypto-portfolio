@@ -10,4 +10,5 @@ export interface PortfolioSchema {
   isLoading: boolean;
   error?: string;
   portfolioData: Portfolio[];
+  isInited: boolean;
 }
