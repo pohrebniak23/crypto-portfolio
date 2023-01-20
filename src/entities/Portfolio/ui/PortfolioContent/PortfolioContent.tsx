@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
-import { MessageCenter } from 'components/Empty/Empty';
 import { memo } from 'react';
+import { MessageCenter } from 'shared/ui/MessageCenter/MessageCenter';
 import { Portfolio } from '../../model/types/PortfolioSchema';
 import { PortfolioAssets } from '../PortfolioAssets/PortfolioAssets';
 import { PieChartStatistic } from './PieChartSatitstic/PieChartStatistic';

@@ -1,5 +1,5 @@
 import { Box, Drawer } from '@mui/material';
-import { StyledTab, StyledTabs } from 'components/UI/StyledTabs';
+import { StyledTab, StyledTabs } from 'shared/ui/StyledTabs/StyledTabs';
 import React from 'react';
 import { TabPanelList } from '../TabPanelList/TabPanelList';
 

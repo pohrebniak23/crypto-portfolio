@@ -15,7 +15,7 @@ import {
 import { getUserData } from 'entities/User';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
-import { Loader } from '../../components/Loader/Loader';
+import { Loader } from '../../shared/ui/Loader/Loader';
 import {
   getBaseCurrencyEditing,
   getQuoteCurrencyEditing,

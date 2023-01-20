@@ -1,5 +1,5 @@
-import { Loader } from 'components/Loader/Loader';
-import { Sidebar } from 'components/Sidebar/Sidebar';
+import { Loader } from 'shared/ui/Loader/Loader';
+import { Sidebar } from 'widgets/Sidebar/ui/Sidebar/Sidebar';
 import { Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppRouteProps, routeConfig } from '../config/routeConfig';

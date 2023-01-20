@@ -1,8 +1,11 @@
 import { Box, Typography } from '@mui/material';
-import { StyledTableCell, StyledTableRow } from 'components/UI/StyledTable';
 import { Coin } from 'entities/Coin';
 import React, { useEffect, useState } from 'react';
 import { coinsAPI } from 'services/CoinsService';
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from 'shared/ui/StyledTable/StyledTable';
 import { Portfolio } from '../../../model/types/PortfolioSchema';
 import { PortfolioAssetsMenu } from '../PortfolioAssetsMenu/PortfolioAssetsMenu';
 

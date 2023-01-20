@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { StyledTableCell } from 'components/UI/StyledTable';
 import React from 'react';
+import { StyledTableCell } from 'shared/ui/StyledTable/StyledTable';
 import { Portfolio } from '../../../model/types/PortfolioSchema';
 import { PortfolioAssetsItem } from '../PortfolioAssetsItem/PortfolioAssetsItem';
 

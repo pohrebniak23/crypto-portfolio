@@ -1,4 +1,4 @@
-import { Loader } from 'components/Loader/Loader';
+import { Loader } from 'shared/ui/Loader/Loader';
 import {
   getBaseCurrencyTicker,
   getQuoteCurrencyTicker,
