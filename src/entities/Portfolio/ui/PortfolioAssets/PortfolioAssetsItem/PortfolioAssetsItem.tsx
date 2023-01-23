@@ -103,14 +103,14 @@ export const PortfolioAssetsItem = React.memo(
               $ {(count * coinData.current_price).toLocaleString()}
             </Typography>
             <Typography variant="body2" sx={{ lineHeight: '100%' }}>
-              {count} {coinData.symbol.toUpperCase()}
+              {count.toFixed(4)} {coinData.symbol.toUpperCase()}
             </Typography>
           </Box>
         </StyledTableCell>
 
         <StyledTableCell align="center">
           <Box>
-            <PortfolioAssetsMenu id={id} />
+            <PortfolioAssetsMenu coinId={id} />
           </Box>
         </StyledTableCell>
       </StyledTableRow>

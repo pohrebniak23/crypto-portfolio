@@ -7,7 +7,7 @@ export const walletSum = (
 ) => {
   if (coins) {
     return portfolio.reduce((prev, current) => {
-      const item = coins.find((finded) => finded.id === current.id) || null;
+      const item = coins.find((finded) => finded.id === current.ticker) || null;
 
       if (item) {
         return prev + item.current_price * current.count;
@@ -27,7 +27,6 @@ export const allTimeProfit = (
   if (coins) {
     return portfolio.reduce((prev, current) => {
       const item = coins.find((coinItem: Coin) => coinItem.id === current.ticker) || null;
-      console.log(item)
       if (item) {
         return (
           prev +
@@ -66,7 +65,7 @@ export const topGainerLooser = ({
   if (coins) {
     portfolio.forEach((portfolioItem) => {
       const portfolioCoin = coins.find(
-        (coinItem) => coinItem.id === portfolioItem.id,
+        (coinItem) => coinItem.id === portfolioItem.ticker,
       );
 
       if (portfolioCoin) {

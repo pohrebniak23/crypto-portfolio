@@ -2,22 +2,22 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { removeCoinFromPortfolio } from 'entities/Portfolio/model/services/removeCoinFromPortfolio';
 import React, { useState } from 'react';
+import { useAppDispatch } from 'shared/hooks/redux';
 
 interface PortfolioAssetsMenuProps {
-  id: string;
+  coinId: string;
 }
 
 export const PortfolioAssetsMenu = React.memo(
-  ({ id }: PortfolioAssetsMenuProps) => {
-    // const dispatch = useAppDispatch();
-    console.log(id);
+  ({ coinId }: PortfolioAssetsMenuProps) => {
+    const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const removeCrypto = () => {
       setAnchorEl(null);
-      // dispatch(removeFromPortfolio(id));
-      // dispatch(removeTransactions(id));
+      dispatch(removeCoinFromPortfolio(coinId));
     };
 
     const openTransactions = () => {

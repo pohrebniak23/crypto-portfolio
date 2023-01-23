@@ -20,3 +20,6 @@ export const getBaseCurrencyCoin = (state: StateSchema) =>
 
 export const getQuoteCurrencyCoin = (state: StateSchema) =>
   state.addNewTransaction.quoteCoin;
+
+export const getAddNewTransactionStatus = (state: StateSchema) =>
+  state.addNewTransaction.status;

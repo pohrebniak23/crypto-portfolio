@@ -1,8 +1,12 @@
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
 import { AddNewTransactionActions } from 'entities/AddNewTransaction';
 import { Coin } from 'entities/Coin';
 import React, { memo, useEffect, useState } from 'react';
-import { AddNewTransactionButton } from '../AddNewTransactionButton/AddNewTransactionButton';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../../shared/hooks/redux';
+import { getAddNewTransactionStatus } from '../../model/selectors/getNewTransactionSelector';
+import { addNewTransactionService } from '../../model/services/addNewTransactionService';
 
 interface AddNewTransactionItemProps {
   transactionType: 'BUY' | 'SELL';
@@ -14,10 +18,13 @@ export const AddNewTransactionItem = memo(
   (props: AddNewTransactionItemProps) => {
     const { transactionType, baseCurrencyCoin, quoteCurrencyCoin } = props;
 
+    const dispatch = useAppDispatch();
+
     const [buyCount, setBuyCount] = useState<number>(1);
     const [price, setPrice] = useState<number>(1);
     const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
     const [customPrice, setCustomPrice] = useState<string>('0');
+    const status = useSelector(getAddNewTransactionStatus);
 
     useEffect(() => {
       if (isCustomPrice) {
@@ -45,7 +52,26 @@ export const AddNewTransactionItem = memo(
       // }),
       // );
       // }
-      console.log(transactionType);
+
+      // const data = {
+      //   ticker: baseCurrencyCoin.id,
+      //   buyPrice: !isCustomPrice
+      //     ? +baseCurrencyCoin.current_price
+      //     : +customPrice,
+      //   count: +buyCount,
+      //   transactionType,
+      // };
+      
+      dispatch(
+        addNewTransactionService({
+          ticker: baseCurrencyCoin.id,
+          buyPrice: !isCustomPrice
+            ? +baseCurrencyCoin.current_price
+            : +customPrice,
+          count: +buyCount,
+          type: transactionType,
+        }),
+      );
     };
 
     return (
@@ -133,10 +159,30 @@ export const AddNewTransactionItem = memo(
                   setBuyCount(+e.target.value)
                 }
               />
-              <AddNewTransactionButton
-                coin={baseCurrencyCoin}
-                coinAction={AddNewTransactionActions.setBaseEditing}
-              />
+
+              <Button
+                variant="text"
+                sx={{ backgroundColor: 'transparent !important' }}
+                onClick={() =>
+                  dispatch(AddNewTransactionActions.setBaseEditing(true))
+                }
+              >
+                <img
+                  src={baseCurrencyCoin.image}
+                  alt={baseCurrencyCoin.name}
+                  className="transaction__image"
+                  style={{
+                    width: '30px',
+                    marginRight: '6px',
+                  }}
+                />
+                <Typography
+                  variant="body1"
+                  sx={{ color: '#000', fontWeight: '600' }}
+                >
+                  {baseCurrencyCoin.symbol.toUpperCase()}
+                </Typography>
+              </Button>
             </Box>
           </>
 
@@ -161,10 +207,30 @@ export const AddNewTransactionItem = memo(
                 disabled
                 value={price}
               />
-              <AddNewTransactionButton
-                coin={quoteCurrencyCoin}
-                coinAction={AddNewTransactionActions.setQuoteEditing}
-              />
+
+              <Button
+                variant="text"
+                sx={{ backgroundColor: 'transparent !important' }}
+                onClick={() =>
+                  dispatch(AddNewTransactionActions.setQuoteEditing(true))
+                }
+              >
+                <img
+                  src={quoteCurrencyCoin.image}
+                  alt={quoteCurrencyCoin.name}
+                  className="transaction__image"
+                  style={{
+                    width: '30px',
+                    marginRight: '6px',
+                  }}
+                />
+                <Typography
+                  variant="body1"
+                  sx={{ color: '#000', fontWeight: '600' }}
+                >
+                  {quoteCurrencyCoin.symbol.toUpperCase()}
+                </Typography>
+              </Button>
             </Box>
 
             <Box
@@ -181,8 +247,9 @@ export const AddNewTransactionItem = memo(
             </Box>
           </>
 
-          <Button
+          <LoadingButton
             variant="contained"
+            loading={status === 'loading'}
             onClick={addTransaction}
             sx={{
               mt: 1,
@@ -191,7 +258,7 @@ export const AddNewTransactionItem = memo(
             }}
           >
             Add to portfolio
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     );

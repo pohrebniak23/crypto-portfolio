@@ -35,7 +35,7 @@ export const Sidebar: React.FC = () => {
       <Logo style={{ width: '100%', height: 'auto' }} />
       <List>
         {SidebarItemsList.map((item) => (
-          <SidebarItem to={item.to} text={item.text} />
+          <SidebarItem key={item.to} to={item.to} text={item.text} />
         ))}
       </List>
 
