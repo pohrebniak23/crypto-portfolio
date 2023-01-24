@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Coin } from '../../model/types/CoinSchema';
 import { CoinItem } from '../CoinItem/CoinItem';
 
-interface CoinSelectProps {
+interface CoinListModalProps {
   coins: Coin[];
   isOpen: boolean;
   onSelectItem: (coin: Coin) => void;
@@ -12,42 +12,19 @@ interface CoinSelectProps {
   callback: () => void;
 }
 
-export const CoinSelect = React.memo(
+export const CoinListModal = React.memo(
   ({
     isOpen,
     onSelectItem,
     onCloseHandler,
     coins,
     callback,
-  }: CoinSelectProps) => {
+  }: CoinListModalProps) => {
     const [search, setSearch] = useState('');
-    // const wrapperRef = useRef() as RefObject<HTMLDivElement>;
-    // const triggerRef = useRef() as MutableRefObject<HTMLDivElement>;
-
-    // useInfiniteScroll({
-    //   wrapperRef,
-    //   triggerRef,
-    //   callback,
-    // });
 
     const searchHandle = (value: string) => {
       setSearch(value);
     };
-
-    // TO DO - now not working
-    // useEffect(() => {
-    //   if (observer.current) observer.current.disconnect();
-
-    //   const callback = function (entries: any) {
-    //     if (entries[0].isIntersecting) {
-    //       setCoinsPerPage(coinsPerPage + 10);
-    //     }
-    //   };
-    //   observer.current = new IntersectionObserver(callback);
-    //   if (lastCoin.current) {
-    //     observer.current.observe(lastCoin.current);
-    //   }
-    // }, [lastCoin, coinsPerPage, filteredCoins]);
 
     const filteredCoins = useMemo(() => {
       if (coins) {
@@ -71,14 +48,18 @@ export const CoinSelect = React.memo(
       <Dialog
         open={isOpen}
         onClose={onCloseHandler}
-        sx={{
-          borderRadius: 4,
+        PaperProps={{
+          sx: {
+            borderRadius: 4,
+            py: 2,
+            px: 3,
+            width: '500px',
+            height: '610px',
+          },
         }}
       >
-        <DialogTitle>
+        <DialogTitle variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
           Select coin
-          {/* <Typography variant="h6" sx={{ p: 0, pb: 1, textAlign: 'center' }}>
-          </Typography> */}
         </DialogTitle>
         <TextField
           type="text"
@@ -87,7 +68,7 @@ export const CoinSelect = React.memo(
           }
           id="outlined-basic"
           label="Search"
-          variant="standard"
+          variant="outlined"
           sx={{
             width: '100%',
             borderRadius: 4,
@@ -96,13 +77,9 @@ export const CoinSelect = React.memo(
         />
         <Box
           sx={{
-            width: '450px',
-            height: '440px',
-            p: 3,
-            borderRadius: 8,
+            width: '100%',
             overflowY: 'scroll',
           }}
-          // dividers
           id="scrollableDiv"
         >
           <InfiniteScroll

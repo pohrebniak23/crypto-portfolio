@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { AddNewTransactionReducer } from 'entities/AddNewTransaction';
+import { AddNewTransactionReducer } from 'features/AddNewTransaction';
 import { PortfolioReducer } from 'entities/Portfolio';
 import { UserReducer } from 'entities/User';
 import { LoginByUsernameReducer } from 'features/loginByUsername';

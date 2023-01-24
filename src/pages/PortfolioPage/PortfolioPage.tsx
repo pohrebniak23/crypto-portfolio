@@ -1,11 +1,5 @@
 import { Box, Grid, Paper } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import {
-  AddNewTransactionActions,
-  AddNewTransactionTabs,
-  getNewTransactionModalOpen,
-} from 'entities/AddNewTransaction';
-import { Coin, CoinSelect } from 'entities/Coin';
+import { Coin, CoinListModal } from 'entities/Coin';
 import {
   PortfolioContent,
   PortfolioHeader,
@@ -13,15 +7,21 @@ import {
   getPortfolioDataSelector,
 } from 'entities/Portfolio';
 import { getUserData } from 'entities/User';
+import {
+  AddNewTransactionActions,
+  AddNewTransactionTabs,
+  getNewTransactionModalOpen,
+} from 'features/AddNewTransaction';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
-import { Loader } from '../../shared/ui/Loader/Loader';
+import { getPortfolioDataInited } from '../../entities/Portfolio/model/selectrors/getPortfolioDataSelector';
 import {
   getBaseCurrencyEditing,
   getQuoteCurrencyEditing,
-} from '../../entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
+} from '../../features/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { coinsAPI } from '../../services/CoinsService';
-import { getPortfolioDataInited } from '../../entities/Portfolio/model/selectrors/getPortfolioDataSelector';
+import { Loader } from '../../shared/ui/Loader/Loader';
 
 export const PortfolioPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -107,12 +107,14 @@ export const PortfolioPage: React.FC = React.memo(() => {
 
           {isLoading && !isPortfolioDataInited && <Loader />}
 
-          {portfolioData && isPortfolioDataInited && <PortfolioContent portfolioData={portfolioData} />}
+          {portfolioData && isPortfolioDataInited && (
+            <PortfolioContent portfolioData={portfolioData} />
+          )}
         </Grid>
       </Box>
 
       {coinsList && (
-        <CoinSelect
+        <CoinListModal
           callback={updatePerPage}
           coins={coinsList}
           isOpen={baseEditing || quoteEditing}

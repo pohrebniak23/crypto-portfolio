@@ -1,4 +1,4 @@
-import { AddNewTransactionSchema } from 'entities/AddNewTransaction';
+import { AddNewTransactionSchema } from 'features/AddNewTransaction';
 import { PortfolioSchema } from 'entities/Portfolio';
 import { UserSchema } from 'entities/User';
 import { LoginByUsernameSchema } from 'features/loginByUsername/model/types/loginByUsernameSchema';

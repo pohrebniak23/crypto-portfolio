@@ -1,5 +1,5 @@
 import { Coin } from './model/types/CoinSchema';
-import { CoinSelect } from './ui/CoinSelect/CoinSelect';
+import { CoinListModal } from './ui/CoinListModal/CoinListModal';
 
-export { CoinSelect };
+export { CoinListModal };
 export type { Coin };

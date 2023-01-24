@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider';
 import axios from 'axios';
 import { Portfolio, getPortfolioDataSelector } from 'entities/Portfolio';
-import { fetchPortfolioData } from '../../../Portfolio/model/services/fetchPortfolioData';
-import { getUserData } from '../../../User/model/selectors/getUserData';
+import { fetchPortfolioData } from '../../../../entities/Portfolio/model/services/fetchPortfolioData';
+import { getUserData } from '../../../../entities/User/model/selectors/getUserData';
 import { NewTransactionData } from '../types/AddNewTransactionSchema';
 
 export const addNewTransactionService = createAsyncThunk<

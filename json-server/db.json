@@ -43,23 +43,27 @@
     },
     {
       "userId": "1",
-      "count": 0.124,
+      "count": 0.12400000000000055,
       "id": 4,
       "ticker": "bitcoin",
-      "avgBuyPrice": 21412.45
-    }
-  ],
-  "transactions": [
+      "avgBuyPrice": 22922.667211914064
+    },
     {
-      "userId": "admin@gmail.com",
-      "id": 0,
-      "price": "20573",
-      "count": 0.243,
-      "date": "Mon Jul 11 2022 11:29:36 GMT+0200 (Центральная Европа, летнее время)",
-      "name": "bitcoin",
-      "type": "BUY"
+      "userId": "2",
+      "ticker": "binancecoin",
+      "count": 1,
+      "avgBuyPrice": 2323,
+      "id": 5
+    },
+    {
+      "userId": "1",
+      "ticker": "ripple",
+      "count": 1,
+      "avgBuyPrice": 0.428685,
+      "id": 6
     }
   ],
+  "transactions": [],
   "profile": [
     {
       "firstname": "Oleksandr",

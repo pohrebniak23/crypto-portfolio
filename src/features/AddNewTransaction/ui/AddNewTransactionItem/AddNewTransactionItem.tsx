@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
-import { AddNewTransactionActions } from 'entities/AddNewTransaction';
+import { AddNewTransactionActions } from 'features/AddNewTransaction';
 import { Coin } from 'entities/Coin';
 import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';

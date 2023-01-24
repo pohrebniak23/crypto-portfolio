@@ -2,7 +2,7 @@ import { Loader } from 'shared/ui/Loader/Loader';
 import {
   getBaseCurrencyTicker,
   getQuoteCurrencyTicker,
-} from 'entities/AddNewTransaction/model/selectors/getNewTransactionSelector';
+} from 'features/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { coinsAPI } from 'services/CoinsService';
