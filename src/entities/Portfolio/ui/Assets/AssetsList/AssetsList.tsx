@@ -9,16 +9,17 @@ import {
 import React from 'react';
 import { StyledTableCell } from 'shared/ui/StyledTable/StyledTable';
 import { Portfolio } from '../../../model/types/PortfolioSchema';
-import { PortfolioAssetsItem } from '../PortfolioAssetsItem/PortfolioAssetsItem';
+import { AssetsItem } from '../AssetsItem/AssetsItem';
 
-interface PortfolioAssetsListProps {
+interface AssetsListProps {
   portfolioList: Portfolio[];
 }
 
-export const PortfolioAssetsList = React.memo(
-  ({ portfolioList }: PortfolioAssetsListProps) => (
+export const AssetsList = React.memo(
+  ({ portfolioList }: AssetsListProps) => (
     <TableContainer component={Box}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
+
         <TableHead sx={{ borderBottom: 'unset' }}>
           <TableRow>
             <StyledTableCell sx={{ borderRadius: '10px 0 0 10px' }}>
@@ -34,15 +35,17 @@ export const PortfolioAssetsList = React.memo(
             </StyledTableCell>
           </TableRow>
         </TableHead>
+  
         <TableBody>
           {portfolioList.length > 0 &&
             portfolioList.map((portfolioItem: Portfolio) => (
-              <PortfolioAssetsItem
+              <AssetsItem
                 key={portfolioItem.id}
-                portfolioItem={portfolioItem}
+                assetsItem={portfolioItem}
               />
             ))}
         </TableBody>
+
       </Table>
     </TableContainer>
   ),

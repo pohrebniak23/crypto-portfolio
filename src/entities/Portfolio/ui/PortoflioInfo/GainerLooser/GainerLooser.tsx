@@ -12,12 +12,14 @@ export const GainerLooser = React.memo(
   ({ title, data, profit }: GainerLooserProps) => (
     <Box
       sx={{
-        pt: 1.5,
-        mt: 1.5,
-        borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+        pl: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
     >
-      <Typography variant="body2" sx={{ color: '#757575', mb: 1 }}>
+      <Typography variant="body2" sx={{ color: '#757575', mr: 5 }}>
         {title}
       </Typography>
       <Box
@@ -27,9 +29,9 @@ export const GainerLooser = React.memo(
           justifyContent: 'space-between',
         }}
       >
-        <Box>
+        <Box sx={{ mr: 4}}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: '34px', height: '34px', mr: '8px' }}>
+            <Box sx={{ width: '40px', height: '40px', mr: '8px' }}>
               <img src={data.coin.image} style={{ width: '100%' }} alt="" />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -51,7 +53,7 @@ export const GainerLooser = React.memo(
               color: profit > 0 ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)',
             }}
           >
-            <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
+            <Typography variant="body2" sx={{ lineHeight: '100%', mb: 1 }}>
               {data.profit.toFixed(2)}$
             </Typography>
             <Typography

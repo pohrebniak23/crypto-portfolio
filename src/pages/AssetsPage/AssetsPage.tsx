@@ -1,7 +1,7 @@
 import { Box, Grid, Paper } from '@mui/material';
 import { Coin, CoinListModal } from 'entities/Coin';
 import {
-  PortfolioContent,
+  Assets,
   PortfolioHeader,
   fetchPortfolioData,
   getPortfolioDataSelector,
@@ -23,7 +23,7 @@ import {
 import { coinsAPI } from '../../services/CoinsService';
 import { Loader } from '../../shared/ui/Loader/Loader';
 
-export const PortfolioPage: React.FC = React.memo(() => {
+export const AssetsPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
 
   const userData = useSelector(getUserData);
@@ -101,6 +101,8 @@ export const PortfolioPage: React.FC = React.memo(() => {
           }}
         >
           <PortfolioHeader
+            title="Dashboard"
+            subtitle="An overview of cryptocurrencies and markets"
             rightBarHandler={rightBarHandler}
             isRightBarOpen={isOpen}
           />
@@ -108,7 +110,7 @@ export const PortfolioPage: React.FC = React.memo(() => {
           {isLoading && !isPortfolioDataInited && <Loader />}
 
           {portfolioData && isPortfolioDataInited && (
-            <PortfolioContent portfolioData={portfolioData} />
+            <Assets portfolio={portfolioData} />
           )}
         </Grid>
       </Box>

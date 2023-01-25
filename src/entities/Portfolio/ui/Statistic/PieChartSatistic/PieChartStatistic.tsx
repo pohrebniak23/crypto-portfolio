@@ -19,7 +19,7 @@ export const PieChartStatistic = React.memo(() => {
   const pieData = useMemo(
     () =>
       portfolio.map((item) => ({
-        name: item.id,
+        name: item.ticker,
         value: +(item.avgBuyPrice * item.count).toFixed(0),
       })),
     [portfolio],
@@ -37,6 +37,8 @@ export const PieChartStatistic = React.memo(() => {
     [pieData, colors],
   );
 
+  console.log(pieData)
+
   return (
     <Paper
       elevation={3}
@@ -46,22 +48,24 @@ export const PieChartStatistic = React.memo(() => {
         borderRadius: 4,
         display: 'flex',
         justifyContent: 'center',
-        height: '376px',
+        height: '322px',
       }}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={228} height={228}>
+        <PieChart width={120} height={120}>
           <Pie
             dataKey="value"
             data={pieData}
-            innerRadius={80}
-            outerRadius={134}
+            innerRadius={50}
+            outerRadius={74}
             paddingAngle={3}
           >
             {pieCells}
           </Pie>
           <Tooltip />
         </PieChart>
+
+
       </ResponsiveContainer>
     </Paper>
   );

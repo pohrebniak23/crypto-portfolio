@@ -1,4 +1,5 @@
 export const SidebarItemsList = [
-  { text: 'Home', to: '/' },
-  { text: 'Portfolio', to: '/portfolio' },
+  { text: 'Cryptocurrencies', to: '/' },
+  { text: 'Assets', to: '/assets' },
+  { text: 'Charts and statistic', to: '/statistic' },
 ];

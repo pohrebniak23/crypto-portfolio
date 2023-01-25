@@ -1,9 +1,11 @@
-import { HomePage } from "pages/HomePage/HomePage";
+import { AssetsPage } from 'pages/AssetsPage/AssetsPage';
+import { HomePage } from 'pages/HomePage/HomePage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
-import { PortfolioPage } from "pages/PortfolioPage/PortfolioPage";
-import { RegisterPage } from "pages/RegisterPage/RegisterPage";
-import { RouteProps } from "react-router-dom";
-import { AppRoutes, RoutePath } from "./AppRoutes";
+import { NotFoundPage } from 'pages/NotFoundPage/NotFoundPage';
+import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
+import { StatisticPage } from 'pages/StatisticPage/StatisticPage';
+import { RouteProps } from 'react-router-dom';
+import { AppRoutes, RoutePath } from './AppRoutes';
 
 export type AppRouteProps = RouteProps & {
   authOnly?: boolean;
@@ -23,13 +25,18 @@ export const routeConfig: Record<AppRoutes, AppRouteProps> = {
     path: RoutePath[AppRoutes.REGISTER],
     element: <RegisterPage />,
   },
-  [AppRoutes.PORTFOLIO]: {
-    path: RoutePath[AppRoutes.PORTFOLIO],
-    element: <PortfolioPage />,
+  [AppRoutes.ASSETS]: {
+    path: RoutePath[AppRoutes.ASSETS],
+    element: <AssetsPage />,
+    authOnly: true,
+  },
+  [AppRoutes.STATISTIC]: {
+    path: RoutePath[AppRoutes.STATISTIC],
+    element: <StatisticPage />,
     authOnly: true,
   },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath[AppRoutes.NOT_FOUND],
-    element: <LoginPage />,
+    element: <NotFoundPage />,
   },
 };

@@ -31,7 +31,7 @@ export const addNewTransactionService = createAsyncThunk<
       }
 
       try {
-        const response = await axios.put<any>(
+        const response = await axios.put<Portfolio>(
           `http://localhost:9000/portfolio/${isInPortfolio.id}`,
           {
             ...isInPortfolio,
@@ -49,7 +49,7 @@ export const addNewTransactionService = createAsyncThunk<
       }
     } else {
       try {
-        const response = await axios.post<any>(
+        const response = await axios.post<Portfolio>(
           `http://localhost:9000/portfolio`,
           {
             userId: `${user?.id}`,

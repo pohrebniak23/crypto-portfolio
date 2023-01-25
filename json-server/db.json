@@ -21,20 +21,6 @@
   ],
   "portfolio": [
     {
-      "userId": "1",
-      "count": 2,
-      "id": 1,
-      "ticker": "ethereum",
-      "avgBuyPrice": 1241.24
-    },
-    {
-      "userId": "1",
-      "count": 543,
-      "id": 2,
-      "ticker": "cardano",
-      "avgBuyPrice": 0.316351
-    },
-    {
       "userId": "2",
       "count": 1024,
       "id": 3,
