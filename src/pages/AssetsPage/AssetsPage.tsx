@@ -3,25 +3,28 @@ import { Coin, CoinListModal } from 'entities/Coin';
 import {
   Assets,
   PortfolioHeader,
+  PortfolioInfo,
+  Transactions,
   fetchPortfolioData,
+  getPortfolioDataInited,
   getPortfolioDataSelector,
 } from 'entities/Portfolio';
 import { getUserData } from 'entities/User';
 import {
   AddNewTransactionActions,
   AddNewTransactionTabs,
+  getBaseCurrencyEditing,
   getNewTransactionModalOpen,
+  getQuoteCurrencyEditing,
 } from 'features/AddNewTransaction';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
-import { getPortfolioDataInited } from '../../entities/Portfolio/model/selectrors/getPortfolioDataSelector';
-import {
-  getBaseCurrencyEditing,
-  getQuoteCurrencyEditing,
-} from '../../features/AddNewTransaction/model/selectors/getNewTransactionSelector';
+
+import { getIsTransactionsOpen } from 'entities/Portfolio/model/selectrors/getPortfolioDataSelector';
+import { Loader } from 'shared/ui/Loader/Loader';
+import { MessageCenter } from 'shared/ui/MessageCenter/MessageCenter';
 import { coinsAPI } from '../../services/CoinsService';
-import { Loader } from '../../shared/ui/Loader/Loader';
 
 export const AssetsPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -32,6 +35,7 @@ export const AssetsPage: React.FC = React.memo(() => {
   const quoteEditing = useSelector(getQuoteCurrencyEditing);
   const portfolioData = useAppSelector(getPortfolioDataSelector);
   const isPortfolioDataInited = useSelector(getPortfolioDataInited);
+  const isTransactionsOpen = useSelector(getIsTransactionsOpen);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
@@ -109,9 +113,36 @@ export const AssetsPage: React.FC = React.memo(() => {
 
           {isLoading && !isPortfolioDataInited && <Loader />}
 
-          {portfolioData && isPortfolioDataInited && (
-            <Assets portfolio={portfolioData} />
-          )}
+          {portfolioData &&
+            isPortfolioDataInited &&
+            (portfolioData.length > 0 ? (
+              <>
+                <Grid
+                  container
+                  item
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  alignContent="start"
+                  rowSpacing={2}
+                  columnSpacing={2}
+                >
+                  <Grid item lg={12} xl={12}>
+                    <PortfolioInfo />
+                  </Grid>
+                </Grid>
+
+                <Grid item lg={12} xl={12}>
+                  {!isTransactionsOpen ? (
+                    <Assets portfolio={portfolioData} />
+                  ) : (
+                    <Transactions />
+                  )}
+                </Grid>
+              </>
+            ) : (
+              <MessageCenter text="Your portfolio is empty" />
+            ))}
         </Grid>
       </Box>
 

@@ -21,35 +21,40 @@
   ],
   "portfolio": [
     {
-      "userId": "2",
-      "count": 1024,
-      "id": 3,
-      "ticker": "cardano",
-      "avgBuyPrice": 0.416351
-    },
-    {
       "userId": "1",
-      "count": 0.12400000000000055,
-      "id": 4,
-      "ticker": "bitcoin",
-      "avgBuyPrice": 22922.667211914064
-    },
-    {
-      "userId": "2",
-      "ticker": "binancecoin",
+      "ticker": "ethereum",
       "count": 1,
-      "avgBuyPrice": 2323,
-      "id": 5
+      "avgBuyPrice": 1500,
+      "id": 6
     },
     {
       "userId": "1",
       "ticker": "ripple",
-      "count": 1,
-      "avgBuyPrice": 0.428685,
-      "id": 6
+      "count": 100,
+      "avgBuyPrice": 0.406809,
+      "id": 7
     }
   ],
-  "transactions": [],
+  "transactions": [
+    {
+      "userId": 1,
+      "date": "2023-01-25T16:50:11.903Z",
+      "ticker": "ethereum",
+      "price": 1500,
+      "count": 1,
+      "type": "BUY",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "date": "2023-01-25T16:50:20.709Z",
+      "ticker": "ripple",
+      "price": 0.406809,
+      "count": 100,
+      "type": "BUY",
+      "id": 2
+    }
+  ],
   "profile": [
     {
       "firstname": "Oleksandr",

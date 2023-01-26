@@ -103,7 +103,7 @@ export const AssetsItem = React.memo(({ assetsItem }: AssetsItemProps) => {
 
       <StyledTableCell align="center">
         <Box>
-          <AssetsMenu coinId={id} />
+          <AssetsMenu coinId={id} coinTicker={ticker} />
         </Box>
       </StyledTableCell>
     </StyledTableRow>

@@ -5,12 +5,14 @@ import { IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import { removeCoinFromPortfolio } from 'entities/Portfolio/model/services/removeCoinFromPortfolio';
 import React, { useState } from 'react';
 import { useAppDispatch } from 'shared/hooks/redux';
+import { PortfolioActions } from '../../../model/slices/PortfolioSlice';
 
 interface AssetsMenuProps {
   coinId: string;
+  coinTicker: string;
 }
 
-export const AssetsMenu = React.memo(({ coinId }: AssetsMenuProps) => {
+export const AssetsMenu = React.memo(({ coinId, coinTicker }: AssetsMenuProps) => {
   const dispatch = useAppDispatch();
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
@@ -21,8 +23,8 @@ export const AssetsMenu = React.memo(({ coinId }: AssetsMenuProps) => {
 
   const openTransactions = () => {
     setAnchorElement(null);
-    // dispatch(toggleTransactions(true));
-    // dispatch(setTransactionCoin(id));
+    dispatch(PortfolioActions.setTransactionsToggle(true));
+    dispatch(PortfolioActions.setTransactionCoin(coinTicker))
   };
 
   return (

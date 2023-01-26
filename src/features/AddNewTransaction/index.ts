@@ -1,4 +1,4 @@
-import { getNewTransactionModalOpen } from './model/selectors/getNewTransactionSelector';
+import { getBaseCurrencyEditing, getNewTransactionModalOpen, getQuoteCurrencyEditing } from './model/selectors/getNewTransactionSelector';
 import {
   AddNewTransactionActions,
   AddNewTransactionReducer,
@@ -11,6 +11,8 @@ export {
   AddNewTransactionReducer,
   AddNewTransactionActions,
   AddNewTransactionTabs,
+  getBaseCurrencyEditing,
+  getQuoteCurrencyEditing,
 };
 export type { AddNewTransactionSchema };
 

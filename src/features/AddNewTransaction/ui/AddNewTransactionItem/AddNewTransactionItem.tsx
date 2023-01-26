@@ -1,12 +1,16 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Input, Switch, Typography } from '@mui/material';
-import { AddNewTransactionActions } from 'features/AddNewTransaction';
 import { Coin } from 'entities/Coin';
+import { getUserData } from 'entities/User';
+import { AddNewTransactionActions } from 'features/AddNewTransaction';
 import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../shared/hooks/redux';
 import { getAddNewTransactionStatus } from '../../model/selectors/getNewTransactionSelector';
-import { addNewTransactionService } from '../../model/services/addNewTransactionService';
+import {
+  addTransactionService
+} from '../../model/services/addTransactionService';
+import { updatePortfolioDataService } from '../../model/services/updatePortfolioDataService';
 
 interface AddNewTransactionItemProps {
   transactionType: 'BUY' | 'SELL';
@@ -25,6 +29,7 @@ export const AddNewTransactionItem = memo(
     const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
     const [customPrice, setCustomPrice] = useState<string>('0');
     const status = useSelector(getAddNewTransactionStatus);
+    const user = useSelector(getUserData);
 
     useEffect(() => {
       if (isCustomPrice) {
@@ -37,41 +42,30 @@ export const AddNewTransactionItem = memo(
     const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
 
     const addTransaction = () => {
-      // if (baseCoin && quoteCoin) {
-      // const addedData = {
-      //   id: baseCoin.id,
-      //   buyPrice: !isCustomPrice ? +baseCoin.current_price : +customPrice,
-      //   coinCount: +buyCount,
-      // };
-      // dispatch(buyCoin(addedData));
-      // dispatch(
-      // addTransaction({
-      //   type: 'BUY',
-      //   date: Date().toLocaleString(),
-      //   ...addedData,
-      // }),
-      // );
-      // }
-
-      // const data = {
-      //   ticker: baseCurrencyCoin.id,
-      //   buyPrice: !isCustomPrice
-      //     ? +baseCurrencyCoin.current_price
-      //     : +customPrice,
-      //   count: +buyCount,
-      //   transactionType,
-      // };
-      
-      dispatch(
-        addNewTransactionService({
-          ticker: baseCurrencyCoin.id,
-          buyPrice: !isCustomPrice
-            ? +baseCurrencyCoin.current_price
-            : +customPrice,
-          count: +buyCount,
-          type: transactionType,
-        }),
-      );
+      if (user) {
+        dispatch(
+          updatePortfolioDataService({
+            ticker: baseCurrencyCoin.id,
+            price: !isCustomPrice
+              ? +baseCurrencyCoin.current_price
+              : +customPrice,
+            count: +buyCount,
+            type: transactionType,
+          }),
+        );
+        dispatch(
+          addTransactionService({
+            userId: user.id,
+            date: new Date(),
+            ticker: baseCurrencyCoin.id,
+            price: !isCustomPrice
+              ? +baseCurrencyCoin.current_price
+              : +customPrice,
+            count: +buyCount,
+            type: transactionType,
+          }),
+        );
+      }
     };
 
     return (

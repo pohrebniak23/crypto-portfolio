@@ -1,8 +1,8 @@
 /* eslint-disable import/no-cycle */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Coin } from 'entities/Coin';
+import { addTransactionService } from '../services/addTransactionService';
 import { AddNewTransactionSchema } from '../types/AddNewTransactionSchema';
-import { addNewTransactionService } from '../services/addNewTransactionService';
 
 const initialState: AddNewTransactionSchema = {
   baseCurrencyTicker: 'bitcoin',
@@ -10,7 +10,7 @@ const initialState: AddNewTransactionSchema = {
   quoteCurrencyTicker: 'tether',
   quoteCoinEditing: false,
   isOpen: false,
-  status: "success",
+  status: 'success',
 };
 
 export const addNewTransactionSlice = createSlice({
@@ -41,15 +41,15 @@ export const addNewTransactionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addNewTransactionService.pending, (state) => {
-        state.status = "loading";
+      .addCase(addTransactionService.pending, (state) => {
+        state.status = 'loading';
       })
-      .addCase(addNewTransactionService.fulfilled, (state) => {
-        state.status = "success";
+      .addCase(addTransactionService.fulfilled, (state) => {
+        state.status = 'success';
         state.isOpen = false;
       })
-      .addCase(addNewTransactionService.rejected, (state, action) => {
-        state.status = "error";
+      .addCase(addTransactionService.rejected, (state, action) => {
+        state.status = 'error';
         state.errorMessage = action.payload;
       });
   },

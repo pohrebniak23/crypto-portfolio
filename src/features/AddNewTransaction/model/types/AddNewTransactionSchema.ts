@@ -16,9 +16,19 @@ export interface AddNewTransactionSchema {
   errorMessage?: string;
 }
 
+export interface NewPortfolioData {
+  ticker: string;
+  count: number;
+  price: number;
+  type: 'BUY' | 'SELL';
+}
+
 export interface NewTransactionData {
   ticker: string;
   count: number;
-  buyPrice: number;
+  price: number;
   type: 'BUY' | 'SELL';
+  date: Date;
+  userId: string;
 }
+
