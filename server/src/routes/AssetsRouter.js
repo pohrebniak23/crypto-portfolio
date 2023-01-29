@@ -4,6 +4,7 @@ import AssetsController from '../controllers/AssetsController.js';
 const AssetsRouter = new Router();
 
 AssetsRouter.get('/', AssetsController.getAllAssets);
-AssetsRouter.get('/id', AssetsController.getAssetsById);
+AssetsRouter.get('/getOne', AssetsController.getOneAsset);
+AssetsRouter.post('/add', AssetsController.addNewAssets);
 
 export default AssetsRouter;

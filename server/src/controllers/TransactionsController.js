@@ -1,76 +1,56 @@
 /* eslint-disable class-methods-use-this */
-import pkg from 'pg';
-
-const { Pool } = pkg;
-
-const TransactionsPool = new Pool({
-  user: 'admin',
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 5432,
-});
+import TransactionsModel from '../models/TransactionsModel.js';
 
 class TransactionsController {
   async getAllTransactions(request, response) {
-    const userId = parseInt(request.query.userId, 10);
+    try {
+      const { userId } = request.query;
 
-    TransactionsPool.query(
-      'SELECT * FROM transactions WHERE "userId" = $1 ORDER BY id ASC',
-      [userId],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const transactions = await TransactionsModel.find({ userId });
+      response.status(200).json(transactions);
+    } catch (error) {
+      response.status(500).json(error);
+    }
   }
 
   async getTransactionById(request, response) {
-    const id = parseInt(request.query.id, 10);
-    const userId = parseInt(request.query.userId, 10);
+    try {
+      const { userId, id } = request.query;
 
-    TransactionsPool.query(
-      'SELECT * FROM transactions WHERE "userId" = $1 AND id = $2',
-      [userId, id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const transactions = await TransactionsModel.find({ userId, id });
+      response.status(200).json(transactions);
+    } catch (error) {
+      response.status(500).json(error);
+    }
   }
 
   async getTransactionByTicker(request, response) {
-    const { ticker, userId } = request.query;
+    try {
+      const { userId, ticker } = request.query;
 
-    TransactionsPool.query(
-      'SELECT * FROM transactions WHERE "userId" = $1 AND ticker = $2',
-      [userId, ticker],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const transactions = await TransactionsModel.find({ userId, ticker });
+      response.status(200).json(transactions);
+    } catch (error) {
+      response.status(500).json(error);
+    }
   }
 
   async addNewTransaction(request, response) {
-    const { userId, date, ticker, price, type, count } = request.body;
+    try {
+      const { userId, date, ticker, price, type, count } = request.body;
 
-    TransactionsPool.query(
-      'INSERT INTO transactions ("userId", date, ticker, price, type, count) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-      [userId, date, ticker, price, type, count],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const transactions = await TransactionsModel.create({
+        userId,
+        date,
+        ticker,
+        price,
+        type,
+        count,
+      });
+      response.status(200).json(transactions);
+    } catch (error) {
+      response.status(500).json(error);
+    }
   }
 }
 

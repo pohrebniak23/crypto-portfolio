@@ -1,46 +1,40 @@
 /* eslint-disable class-methods-use-this */
-import pkg from 'pg';
-
-const { Pool } = pkg;
-
-const AssetsPool = new Pool({
-  user: 'admin',
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 5432,
-});
+import AssetsModel from "../models/AssetsModel.js";
 
 class AssetsController {
   async getAllAssets(request, response) {
-    const userId = parseInt(request.query.userId, 10);
+    try {
+      const { userId } = request.query;
 
-    AssetsPool.query(
-      'SELECT * FROM assets WHERE "userId" = $1 ORDER BY id ASC',
-      [userId],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const asset = await AssetsModel.find({ userId });
+      response.status(200).json(asset);
+
+    } catch (error) {
+      response.status(500).json(error)
+    }
   }
 
-  async getAssetsById(request, response) {
-    const id = parseInt(request.query.id, 10);
-    const userId = parseInt(request.query.userId, 10);
+  async getOneAsset(request, response) {
+    try {
+      const { ticker, userId } = request.query;
 
-    AssetsPool.query(
-      'SELECT * FROM assets WHERE "userId" = $1 AND id = $2',
-      [userId, id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json(results.rows);
-      },
-    );
+      const asset = await AssetsModel.find({ userId, ticker });
+      response.status(200).json(asset);
+
+    } catch (error) {
+      response.status(500).json(error)
+    }
+  }
+
+  async addNewAssets(request, response) {
+    try {
+      const { ticker, count, userId, avgBuyPrice } = request.body;
+
+      const assets = await AssetsModel.create({ ticker, count, userId, avgBuyPrice });
+      response.status(200).json(assets);
+    } catch (error) {
+      response.status(500).json(error)
+    }
   }
 }
 
