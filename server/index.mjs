@@ -1,4 +1,4 @@
-import pkg from 'body-parser';
+// import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import express from 'express';
@@ -12,15 +12,14 @@ dotenv.config({ path: '.env.local' });
 const PORT = 8000;
 const DB_URL = `mongodb+srv://pohrebniak23:${process.env.MONGO_PASSWORD}@cluster0.nug2yy5.mongodb.net/?retryWrites=true&w=majority`;
 
-const { json, urlencoded } = pkg;
 const app = express();
 
-app.use(json());
-app.use(
-  urlencoded({
-    extended: true,
-  }),
-);
+// app.use(json());
+// app.use(
+//   urlencoded({
+//     extended: true,
+//   }),
+// );
 
 app.use('/assets', AssetsRouter);
 app.use('/users', UserRouter);
