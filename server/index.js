@@ -13,7 +13,7 @@ const PORT = 8000;
 const DB_URL = `mongodb+srv://pohrebniak23:${process.env.MONGO_PASSWORD}@cluster0.nug2yy5.mongodb.net/?retryWrites=true&w=majority`;
 
 const { json, urlencoded } = pkg;
-export const app = express();
+const app = express();
 
 app.use(json());
 app.use(
@@ -47,4 +47,4 @@ async function startApp() {
 
 startApp();
 
-// module.exports = app;
+export default app;
