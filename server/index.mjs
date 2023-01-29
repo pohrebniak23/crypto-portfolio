@@ -1,13 +1,13 @@
 // import { json, urlencoded } from 'body-parser';
-import cors from 'cors';
-import * as dotenv from 'dotenv';
+// import cors from 'cors';
+// import * as dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import AssetsRouter from './src/routes/AssetsRouter.js';
 import TransactionsRouter from './src/routes/TransactionsRouter.js';
 import UserRouter from './src/routes/UserRouter.js';
 
-dotenv.config({ path: '.env.local' });
+// dotenv.config({ path: '.env.local' });
 
 const PORT = 8000;
 const DB_URL = `mongodb+srv://pohrebniak23:${process.env.MONGO_PASSWORD}@cluster0.nug2yy5.mongodb.net/?retryWrites=true&w=majority`;
@@ -25,11 +25,11 @@ app.use('/assets', AssetsRouter);
 app.use('/users', UserRouter);
 app.use('/transactions', TransactionsRouter);
 
-app.use(
-  cors({
-    origin: '*',
-  }),
-);
+// app.use(
+//   cors({
+//     origin: '*',
+//   }),
+// );
 
 async function startApp() {
   try {
