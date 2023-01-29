@@ -70,6 +70,7 @@ export const AssetsPage: React.FC = React.memo(() => {
 
   useEffect(() => {
     if (userData) {
+      console.log(userData)
       dispatch(fetchPortfolioData(userData?.id));
     }
   }, [dispatch, userData]);

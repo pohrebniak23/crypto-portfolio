@@ -18,7 +18,7 @@ export const addTransactionService = createAsyncThunk<
   if (user) {
     try {
       const response = await axios.post<Transaction>(
-        `http://localhost:9000/transactions`,
+        `${process.env.REACT_APP_API_URL}/transactions/new`,
         {
           ...transactionData,
         },

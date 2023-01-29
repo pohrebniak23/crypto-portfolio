@@ -12,13 +12,9 @@ export const fetchPortfolioData = createAsyncThunk<
   const { dispatch, rejectWithValue } = thunkAPI;
 
   try {
-    const response = await axios.get('http://localhost:9000/portfolio', {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/assets/`, {
       params: {
-        userId,
-        _expand: 'userId',
-      },
-      headers: {
-        authorization: '1',
+        userId
       },
     });
 

@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "concurrently \"react-scripts start\" \"node ./json-server/index.js\"",
+    "start:dev": "concurrently \"react-scripts start\" \"node ./server/index.js\"",
     "start:server": "node ./json-server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

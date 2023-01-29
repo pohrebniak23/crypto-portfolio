@@ -17,10 +17,9 @@ export const fetchTransactionsData = createAsyncThunk<
   const { dispatch, rejectWithValue } = thunkAPI;
 
   try {
-    const response = await axios.get('http://localhost:9000/transactions', {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/transactions/ticker`, {
       params: {
         userId,
-        _expand: 'userId',
         ticker: coinTicker
       },
       headers: {

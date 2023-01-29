@@ -34,7 +34,7 @@ export const updatePortfolioDataService = createAsyncThunk<
 
         try {
           const response = await axios.put<Portfolio>(
-            `http://localhost:9000/portfolio/${isInPortfolio.id}`,
+            `${process.env.REACT_APP_API_URL}/assets/update`,
             {
               ...isInPortfolio,
               count: totalCount,
@@ -52,7 +52,7 @@ export const updatePortfolioDataService = createAsyncThunk<
       } else {
         try {
           const response = await axios.post<Portfolio>(
-            `http://localhost:9000/portfolio`,
+            `${process.env.REACT_APP_API_URL}/assets/add`,
             {
               userId: `${user?.id}`,
               ticker: transactionData.ticker,

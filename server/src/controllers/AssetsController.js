@@ -36,6 +36,17 @@ class AssetsController {
       response.status(500).json(error)
     }
   }
+
+  async updateAssets(request, response) {
+    try {
+      const { ticker, count, userId, avgBuyPrice } = request.body;
+
+      const assets = await AssetsModel.update({"ticker": ticker, "userId": userId}, { ticker, count, userId, avgBuyPrice });
+      response.status(200).json(assets);
+    } catch (error) {
+      response.status(500).json(error)
+    }
+  }
 }
 
 export default new AssetsController();

@@ -37,8 +37,6 @@ export const PieChartStatistic = React.memo(() => {
     [pieData, colors],
   );
 
-  console.log(pieData)
-
   return (
     <Paper
       elevation={3}

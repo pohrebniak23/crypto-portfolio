@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 import UserModel from "../models/UserModel.js";
 
@@ -7,7 +8,7 @@ class UserController {
       const { login, password } = request.body;
 
       const user = await UserModel.find({ login, password });
-      response.status(200).json(user);
+      response.status(200).json(user[0]);
     } catch (error) {
       response.status(500).json(error);
     }

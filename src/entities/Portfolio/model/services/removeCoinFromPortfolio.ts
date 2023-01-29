@@ -16,7 +16,7 @@ export const removeCoinFromPortfolio = createAsyncThunk<
   if (user) {
     try {
       const response = await axios.delete<Portfolio>(
-        `http://localhost:9000/portfolio/${id}`,
+        `${process.env.REACT_APP_API_URL}/portfolio/${id}`,
       );
 
       dispatch(fetchPortfolioData(user.id));

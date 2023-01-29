@@ -15,6 +15,13 @@ const DB_URL = `mongodb+srv://pohrebniak23:${process.env.MONGO_PASSWORD}@cluster
 const { json, urlencoded } = bodyParser;
 const app = express();
 
+
+app.use(
+  cors({
+    origin: '*',
+  }),
+);
+
 app.use(json());
 app.use(
   urlencoded({
@@ -25,12 +32,6 @@ app.use(
 app.use('/assets', AssetsRouter);
 app.use('/users', UserRouter);
 app.use('/transactions', TransactionsRouter);
-
-app.use(
-  cors({
-    origin: '*',
-  }),
-);
 
 async function startApp() {
   try {

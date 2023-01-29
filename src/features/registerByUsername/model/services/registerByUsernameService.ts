@@ -20,8 +20,11 @@ export const registerByUsernameService = createAsyncThunk<
 
   try {
     const response = await axios.post<User>(
-      'http://localhost:9000/users',
-      data,
+      `${process.env.REACT_APP_API_URL}/users/create`,
+      {
+        login: data.username,
+        password: data.password
+      },
       {
         headers: {
           authorization: '123',
