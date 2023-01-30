@@ -16,8 +16,10 @@ export const AppRouter = () => {
         element={
           route.authOnly ? (
             <RequireAuth>
-              <Sidebar />
-              {element}
+              <>
+                <Sidebar />
+                {element}
+              </>
             </RequireAuth>
           ) : (
             element

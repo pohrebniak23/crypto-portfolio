@@ -7,9 +7,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../shared/hooks/redux';
 import { getAddNewTransactionStatus } from '../../model/selectors/getNewTransactionSelector';
-import {
-  addTransactionService
-} from '../../model/services/addTransactionService';
+import { addTransactionService } from '../../model/services/addTransactionService';
 import { updatePortfolioDataService } from '../../model/services/updatePortfolioDataService';
 
 interface AddNewTransactionItemProps {
@@ -24,8 +22,8 @@ export const AddNewTransactionItem = memo(
 
     const dispatch = useAppDispatch();
 
-    const [buyCount, setBuyCount] = useState<number>(1);
-    const [price, setPrice] = useState<number>(1);
+    const [buyCount, setBuyCount] = useState<any>(0);
+    const [price, setPrice] = useState<any>(0);
     const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
     const [customPrice, setCustomPrice] = useState<string>('0');
     const status = useSelector(getAddNewTransactionStatus);
@@ -41,6 +39,18 @@ export const AddNewTransactionItem = memo(
 
     const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
 
+    const onQuantityInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.value.split('.').length - 1 === 2) {
+        event.target.value = event.target.value.replace(/[^0-9]/, '');
+
+        setBuyCount(event.target.value);
+      } else {
+        event.target.value = event.target.value.replace(/[^0-9.]/, '');
+
+        setBuyCount(event.target.value);
+      }
+    };
+
     const addTransaction = () => {
       if (user) {
         dispatch(
@@ -53,6 +63,7 @@ export const AddNewTransactionItem = memo(
             type: transactionType,
           }),
         );
+
         dispatch(
           addTransactionService({
             userId: user.id,
@@ -149,9 +160,7 @@ export const AddNewTransactionItem = memo(
                 sx={{ pl: 0.5 }}
                 disableUnderline
                 value={buyCount}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setBuyCount(+e.target.value)
-                }
+                onChange={onQuantityInput}
               />
 
               <Button

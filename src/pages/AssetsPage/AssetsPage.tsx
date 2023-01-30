@@ -128,12 +128,12 @@ export const AssetsPage: React.FC = React.memo(() => {
                   rowSpacing={2}
                   columnSpacing={2}
                 >
-                  <Grid item lg={12} xl={12}>
+                  <Grid item xl={12} sm={12}>
                     <PortfolioInfo />
                   </Grid>
                 </Grid>
 
-                <Grid item lg={12} xl={12}>
+                <Grid item xl={12} sm={12}>
                   {!isTransactionsOpen ? (
                     <Assets portfolio={portfolioData} />
                   ) : (

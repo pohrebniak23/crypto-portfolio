@@ -21,6 +21,21 @@ export const TransactionItem = memo(
         key={coinData.name}
         sx={{ border: 'none', backgroundColor: 'unset !important' }}
       >
+        <StyledTableCell component="th" scope="row" align="center">
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: '600',
+              color:
+                transactionItem.type === 'BUY'
+                  ? 'rgba(22,163,74,1)'
+                  : 'rgba(220,38,38,1)',
+            }}
+          >
+            {transactionItem.type}
+          </Typography>
+        </StyledTableCell>
+
         <StyledTableCell
           component="th"
           scope="row"
@@ -30,13 +45,13 @@ export const TransactionItem = memo(
             justifyContent: 'center',
           }}
         >
-          <Typography
-            variant="subtitle1"
-            sx={{ color: '#000', fontWeight: '600', mr: 2 }}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
           >
-            {transactionItem.type}
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography
               variant="subtitle1"
               sx={{ color: '#000', fontWeight: '600' }}
@@ -48,11 +63,13 @@ export const TransactionItem = memo(
             </Typography>
           </Box>
         </StyledTableCell>
+
         <StyledTableCell align="center">
           <Typography variant="subtitle1">
-            {transactionItem.price} $
+            {transactionItem.price.toFixed(4)} $
           </Typography>
         </StyledTableCell>
+
         <StyledTableCell align="center">
           <Box
             sx={{
@@ -60,21 +77,20 @@ export const TransactionItem = memo(
                 transactionItem.type === 'BUY'
                   ? 'rgba(22,163,74,1)'
                   : 'rgba(220,38,38,1)',
-              textAlign: 'right',
-              margin: '0 auto',
-              width: 'max-content',
             }}
           >
             {transactionItem.price && (
               <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
-                +${transactionItem.price * transactionItem.count}
+                ${(transactionItem.price * transactionItem.count).toFixed(2)}
               </Typography>
             )}
             <Typography variant="body1" sx={{ lineHeight: '100%', mb: 0.5 }}>
-              +{`${transactionItem.count} ${coinData.symbol.toUpperCase()}`}
+              {transactionItem.type === 'BUY' ? '+' : '-'}
+              {`${transactionItem.count} ${coinData.symbol.toUpperCase()}`}
             </Typography>
           </Box>
         </StyledTableCell>
+
         <StyledTableCell align="center">
           <Box>
             <TransactionsMenu coinId={transactionItem.id} />

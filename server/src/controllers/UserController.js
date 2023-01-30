@@ -8,7 +8,12 @@ class UserController {
       const { login, password } = request.body;
 
       const user = await UserModel.find({ login, password });
-      response.status(200).json(user[0]);
+      
+      if (user.length === 1) {
+        response.status(200).json(user[0]);
+      } else {
+        response.status(500).json("User not found");
+      }
     } catch (error) {
       response.status(500).json(error);
     }

@@ -11,9 +11,8 @@ export const Assets = ({ portfolio }: AssetsProps) => (
     elevation={3}
     sx={{
       width: '100%',
-      pt: 1,
+      py: 2,
       px: 2,
-      pb: 1,
       backgroundColor: '#fff',
       borderRadius: 3,
       height: 'max-content',

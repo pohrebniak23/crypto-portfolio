@@ -44,6 +44,6 @@ export const loginByUsernameService = createAsyncThunk<
 
     return response.data;
   } catch (e: any) {
-    return rejectWithValue(e.message);
+    return rejectWithValue(e.response.data);
   }
 });

@@ -8,7 +8,7 @@ export const RequireAuth = ({ children }: { children: any }) => {
   const user = useSelector(getUserData);
 
   if (!user) {
-    return <Navigate to={RoutePath.register} state={{ from: location }} replace />;
+    return <Navigate to={RoutePath.login} state={{ from: location }} replace />;
   }
 
   return children;
