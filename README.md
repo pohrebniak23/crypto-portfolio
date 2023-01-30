@@ -1,15 +1,20 @@
-## Crypto portfolio (Front-end part)
+## Crypto portfolio app (Front-end + Back-end)
 
-[🚀 Demo link](https://crypto-portfolio-83ca3.web.app/)  
+🚀 App demo link - https://pohrebniak-crypto-portfolio23.onrender.com
 
-Demo login: admin@gmail.com  
-Demo password: 123456  
+You can test app using:
+  login: admin@gmail.com
+  password: 123456
 
-# Technology stack:
+Or register your own account - https://pohrebniak-crypto-portfolio23.onrender.com/register
+
+# Front-end part technology stack:
   * React
   * TypeScript
   * Redux Toolkit, RTK Query
   * Material UI
-  * Auth/Regiser with Firebase
   * Formik, Yup
-  * Rest API
+
+# Simple Back-end part stack:
+  * Express.js
+  * MongoDB
