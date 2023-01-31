@@ -1,5 +1,5 @@
 import { Paper } from '@mui/material';
-import { getPortfolioDataSelector } from 'entities/Portfolio';
+import { getPortfolioData } from 'entities/Portfolio';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Area,
@@ -18,7 +18,7 @@ interface StatData {
 }
 
 export const PriceStatistic: React.FC = React.memo(() => {
-  const portfolio = useAppSelector(getPortfolioDataSelector);
+  const portfolio = useAppSelector(getPortfolioData);
   const [statData, setStatData] = useState<StatData[] | null>(null);
 
   const getHistory = useCallback(async () => {

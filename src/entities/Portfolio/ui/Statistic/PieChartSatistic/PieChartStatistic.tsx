@@ -1,5 +1,5 @@
 import { Paper } from '@mui/material';
-import { getPortfolioDataSelector } from 'entities/Portfolio';
+import { getPortfolioData } from 'entities/Portfolio';
 import React, { useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { useAppSelector } from 'shared/hooks/redux';
@@ -10,7 +10,7 @@ interface PieChartData {
 }
 
 export const PieChartStatistic = React.memo(() => {
-  const portfolio = useAppSelector(getPortfolioDataSelector);
+  const portfolio = useAppSelector(getPortfolioData);
   const colors = useMemo(
     () => ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
     [],
@@ -62,8 +62,6 @@ export const PieChartStatistic = React.memo(() => {
           </Pie>
           <Tooltip />
         </PieChart>
-
-
       </ResponsiveContainer>
     </Paper>
   );

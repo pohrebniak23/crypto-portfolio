@@ -3,8 +3,9 @@ import { Box, Button, Input, Switch, Typography } from '@mui/material';
 import { Coin } from 'entities/Coin';
 import { getUserData } from 'entities/User';
 import { AddNewTransactionActions } from 'features/AddNewTransaction';
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { priceInputFormatter } from 'shared/helpers/priceInputFormatter';
 import { useAppDispatch } from '../../../../shared/hooks/redux';
 import { getAddNewTransactionStatus } from '../../model/selectors/getNewTransactionSelector';
 import { addTransactionService } from '../../model/services/addTransactionService';
@@ -22,34 +23,22 @@ export const AddNewTransactionItem = memo(
 
     const dispatch = useAppDispatch();
 
-    const [buyCount, setBuyCount] = useState<any>(0);
-    const [price, setPrice] = useState<any>(0);
+    const [buyCount, setBuyCount] = useState<string>('0');
+    const [price, setPrice] = useState<string>('0');
     const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
     const [customPrice, setCustomPrice] = useState<string>('0');
-    const status = useSelector(getAddNewTransactionStatus);
+    const transactionStatus = useSelector(getAddNewTransactionStatus);
     const user = useSelector(getUserData);
 
     useEffect(() => {
       if (isCustomPrice) {
-        setPrice(+(buyCount * +customPrice).toFixed(3));
+        setPrice(String((Number(buyCount) * Number(customPrice)).toFixed(3)));
       } else {
-        setPrice(+(buyCount * baseCurrencyCoin.current_price).toFixed(3));
+        setPrice(String((Number(buyCount) * baseCurrencyCoin.current_price).toFixed(3)));
       }
     }, [baseCurrencyCoin, buyCount, isCustomPrice, customPrice]);
 
     const customPriceToggle = () => setIsCustomPrice(!isCustomPrice);
-
-    const onQuantityInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.value.split('.').length - 1 === 2) {
-        event.target.value = event.target.value.replace(/[^0-9]/, '');
-
-        setBuyCount(event.target.value);
-      } else {
-        event.target.value = event.target.value.replace(/[^0-9.]/, '');
-
-        setBuyCount(event.target.value);
-      }
-    };
 
     const addTransaction = () => {
       if (user) {
@@ -137,7 +126,7 @@ export const AddNewTransactionItem = memo(
               }}
               disableUnderline
               value={customPrice}
-              onChange={(e) => setCustomPrice(e.target.value)}
+              onChange={(event) => priceInputFormatter(event, setCustomPrice)}
             />
           </Box>
 
@@ -160,7 +149,7 @@ export const AddNewTransactionItem = memo(
                 sx={{ pl: 0.5 }}
                 disableUnderline
                 value={buyCount}
-                onChange={onQuantityInput}
+                onChange={(event) => priceInputFormatter(event, setBuyCount)}
               />
 
               <Button
@@ -252,7 +241,7 @@ export const AddNewTransactionItem = memo(
 
           <LoadingButton
             variant="contained"
-            loading={status === 'loading'}
+            loading={transactionStatus === 'loading'}
             onClick={addTransaction}
             sx={{
               mt: 1,

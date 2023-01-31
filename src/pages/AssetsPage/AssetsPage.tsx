@@ -1,13 +1,14 @@
 import { Box, Grid, Paper } from '@mui/material';
-import { Coin, CoinListModal } from 'entities/Coin';
+import { Coin, CoinListModal, coinsAPI } from 'entities/Coin';
 import {
   Assets,
   PortfolioHeader,
   PortfolioInfo,
   Transactions,
   fetchPortfolioData,
+  getIsTransactionsOpen,
+  getPortfolioData,
   getPortfolioDataInited,
-  getPortfolioDataSelector,
 } from 'entities/Portfolio';
 import { getUserData } from 'entities/User';
 import {
@@ -21,10 +22,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 
-import { getIsTransactionsOpen } from 'entities/Portfolio/model/selectrors/getPortfolioDataSelector';
 import { Loader } from 'shared/ui/Loader/Loader';
 import { MessageCenter } from 'shared/ui/MessageCenter/MessageCenter';
-import { coinsAPI } from '../../services/CoinsService';
 
 export const AssetsPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -33,7 +32,7 @@ export const AssetsPage: React.FC = React.memo(() => {
   const isOpen = useSelector(getNewTransactionModalOpen);
   const baseEditing = useSelector(getBaseCurrencyEditing);
   const quoteEditing = useSelector(getQuoteCurrencyEditing);
-  const portfolioData = useAppSelector(getPortfolioDataSelector);
+  const portfolioData = useAppSelector(getPortfolioData);
   const isPortfolioDataInited = useSelector(getPortfolioDataInited);
   const isTransactionsOpen = useSelector(getIsTransactionsOpen);
 
@@ -70,10 +69,13 @@ export const AssetsPage: React.FC = React.memo(() => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData)
       dispatch(fetchPortfolioData(userData?.id));
     }
   }, [dispatch, userData]);
+
+  if (!portfolioData || !isPortfolioDataInited) {
+    return <MessageCenter text="Your portfolio is empty" />;
+  }
 
   return (
     <Paper
@@ -114,9 +116,7 @@ export const AssetsPage: React.FC = React.memo(() => {
 
           {isLoading && !isPortfolioDataInited && <Loader />}
 
-          {portfolioData &&
-            isPortfolioDataInited &&
-            (portfolioData.length > 0 ? (
+          {(portfolioData.length > 0 ? (
               <>
                 <Grid
                   container

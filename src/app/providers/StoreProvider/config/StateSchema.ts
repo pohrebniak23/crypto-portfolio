@@ -1,6 +1,7 @@
-import { AddNewTransactionSchema } from 'features/AddNewTransaction';
+import { coinsAPI } from 'entities/Coin';
 import { PortfolioSchema } from 'entities/Portfolio';
 import { UserSchema } from 'entities/User';
+import { AddNewTransactionSchema } from 'features/AddNewTransaction';
 import { LoginByUsernameSchema } from 'features/loginByUsername/model/types/loginByUsernameSchema';
 import { RegisterByUsernameSchema } from 'features/registerByUsername';
 
@@ -10,7 +11,7 @@ export interface StateSchema {
   portfolio: PortfolioSchema;
   addNewTransaction: AddNewTransactionSchema;
   user: UserSchema;
-  coinsAPI: any;
+  coinsAPI: ReturnType<typeof coinsAPI.reducer>;
 }
 
 export interface ThunkConfig<T> {

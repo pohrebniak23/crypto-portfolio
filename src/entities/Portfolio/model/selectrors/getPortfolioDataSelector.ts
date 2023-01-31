@@ -1,9 +1,9 @@
 import { StateSchema } from 'app/providers/StoreProvider';
 
-export const getPortfolioDataSelector = (state: StateSchema) =>
+export const getPortfolioData = (state: StateSchema) =>
   state.portfolio.portfolioData;
 
-export const getTransactionsDataSelector = (state: StateSchema) =>
+export const getTransactionsData = (state: StateSchema) =>
   state.portfolio.transactions;
 
 export const getPortfolioDataInited = (state: StateSchema) =>

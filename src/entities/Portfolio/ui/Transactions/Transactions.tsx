@@ -10,17 +10,17 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { coinsAPI } from 'entities/Coin';
 import { PortfolioActions } from 'entities/Portfolio/model/slices/PortfolioSlice';
 import { getUserData } from 'entities/User';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { StyledTableCell } from 'shared/ui/StyledTable/StyledTable';
-import { coinsAPI } from '../../../../services/CoinsService';
 import {
-  getPortfolioDataSelector,
+  getPortfolioData,
   getTransactionsCoin,
-  getTransactionsDataSelector,
+  getTransactionsData,
 } from '../../model/selectrors/getPortfolioDataSelector';
 import { fetchTransactionsData } from '../../model/services/fetchTransactionsData';
 import { Transaction } from '../../model/types/PortfolioSchema';
@@ -39,8 +39,8 @@ export const Transactions: React.FC = React.memo(() => {
     }
   }, [coinTicker, userData, dispatch]);
 
-  const transactions = useSelector(getTransactionsDataSelector);
-  const portfolio = useSelector(getPortfolioDataSelector);
+  const transactions = useSelector(getTransactionsData);
+  const portfolio = useSelector(getPortfolioData);
   const coinData = coinsList?.find((item) => item.id === coinTicker);
 
   const onCloseTransactions = () => {

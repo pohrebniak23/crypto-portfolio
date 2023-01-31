@@ -1,11 +1,11 @@
-import { Loader } from 'shared/ui/Loader/Loader';
+import { coinsAPI } from 'entities/Coin';
 import {
   getBaseCurrencyTicker,
   getQuoteCurrencyTicker,
 } from 'features/AddNewTransaction/model/selectors/getNewTransactionSelector';
 import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { coinsAPI } from 'services/CoinsService';
+import { Loader } from 'shared/ui/Loader/Loader';
 import { AddNewTransactionItem } from '../AddNewTransactionItem/AddNewTransactionItem';
 import { TabPanelItem } from '../TabPanelItem/TabPanelItem';
 
