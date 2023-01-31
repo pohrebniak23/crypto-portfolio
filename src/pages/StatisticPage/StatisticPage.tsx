@@ -1,13 +1,12 @@
 import { Box, Grid, Paper } from '@mui/material';
-import {
-  PortfolioHeader,
-  Statistic,
-  fetchPortfolioData,
-} from 'entities/Portfolio';
+import { fetchAssetsData } from 'entities/Assets';
+
+import { Statistic } from 'entities/Statistic';
 import { getUserData } from 'entities/User';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/hooks/redux';
+import { StatisticHeader } from './AssetsHeader/StatisticHeader';
 
 export const StatisticPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -16,7 +15,7 @@ export const StatisticPage: React.FC = React.memo(() => {
 
   useEffect(() => {
     if (userData) {
-      dispatch(fetchPortfolioData(userData?.id));
+      dispatch(fetchAssetsData(userData?.id));
     }
   }, [dispatch, userData]);
 
@@ -51,7 +50,7 @@ export const StatisticPage: React.FC = React.memo(() => {
             position: 'relative',
           }}
         >
-          <PortfolioHeader title="Statistic" />
+          <StatisticHeader title="Statistic" />
 
           <Statistic />
         </Grid>

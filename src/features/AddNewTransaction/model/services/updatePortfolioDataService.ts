@@ -1,24 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider';
 import axios from 'axios';
-import { Portfolio, fetchPortfolioData } from 'entities/Portfolio';
-import { getPortfolioData } from 'entities/Portfolio/model/selectrors/getPortfolioDataSelector';
+import { AssetsData, fetchAssetsData, getAssetsData } from 'entities/Assets';
 import { getUserData } from 'entities/User';
 import { NewPortfolioData } from '../types/AddNewTransactionSchema';
 
-export const updatePortfolioDataService = createAsyncThunk<
-  Portfolio,
+export const updateAssetsDataService = createAsyncThunk<
+  AssetsData,
   NewPortfolioData,
   ThunkConfig<string>
->('updatePortfolioDataService', async (transactionData, thunkAPI) => {
+>('addNewTransaction/updateAssetsData', async (transactionData, thunkAPI) => {
   const { rejectWithValue, getState, dispatch } = thunkAPI;
 
-  const portfolioData = getPortfolioData(getState());
+  const assetsData = getAssetsData(getState());
   const user = getUserData(getState());
 
   const isInPortfolio =
-    portfolioData.find((item) => item.ticker === transactionData.ticker) ||
-    null;
+    assetsData.find((item) => item.ticker === transactionData.ticker) || null;
 
   if (user) {
     if (isInPortfolio) {
@@ -31,7 +29,7 @@ export const updatePortfolioDataService = createAsyncThunk<
       }
 
       try {
-        const response = await axios.put<Portfolio>(
+        const response = await axios.put<AssetsData>(
           `${process.env.REACT_APP_API_URL}/assets/update`,
           {
             ...isInPortfolio,
@@ -41,7 +39,7 @@ export const updatePortfolioDataService = createAsyncThunk<
           },
         );
 
-        dispatch(fetchPortfolioData(user.id));
+        dispatch(fetchAssetsData(user.id));
 
         return response.data;
       } catch (e) {
@@ -49,7 +47,7 @@ export const updatePortfolioDataService = createAsyncThunk<
       }
     } else {
       try {
-        const response = await axios.post<Portfolio>(
+        const response = await axios.post<AssetsData>(
           `${process.env.REACT_APP_API_URL}/assets/add`,
           {
             userId: `${user?.id}`,
@@ -59,7 +57,7 @@ export const updatePortfolioDataService = createAsyncThunk<
           },
         );
 
-        dispatch(fetchPortfolioData(user.id));
+        dispatch(fetchAssetsData(user.id));
 
         return response.data;
       } catch (e) {

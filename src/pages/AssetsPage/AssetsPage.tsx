@@ -1,15 +1,17 @@
 import { Box, Grid, Paper } from '@mui/material';
-import { Coin, CoinListModal, coinsAPI } from 'entities/Coin';
 import {
   Assets,
-  PortfolioHeader,
-  PortfolioInfo,
-  Transactions,
-  fetchPortfolioData,
+  AssetsInfo,
+  fetchAssetsData,
+  getAssetsData,
+  getAssetsDataInited,
+} from 'entities/Assets';
+import { Coin, CoinListModal, coinsAPI } from 'entities/Coin';
+import {
+  TransactionsActions,
+  TransactionsList,
   getIsTransactionsOpen,
-  getPortfolioData,
-  getPortfolioDataInited,
-} from 'entities/Portfolio';
+} from 'entities/Transactions';
 import { getUserData } from 'entities/User';
 import {
   AddNewTransactionActions,
@@ -24,6 +26,7 @@ import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 
 import { Loader } from 'shared/ui/Loader/Loader';
 import { MessageCenter } from 'shared/ui/MessageCenter/MessageCenter';
+import { AssetsHeader } from './AssetsHeader/AssetsHeader';
 
 export const AssetsPage: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -32,8 +35,8 @@ export const AssetsPage: React.FC = React.memo(() => {
   const isOpen = useSelector(getNewTransactionModalOpen);
   const baseEditing = useSelector(getBaseCurrencyEditing);
   const quoteEditing = useSelector(getQuoteCurrencyEditing);
-  const portfolioData = useAppSelector(getPortfolioData);
-  const isPortfolioDataInited = useSelector(getPortfolioDataInited);
+  const assetsData = useAppSelector(getAssetsData);
+  const isAssetsDataInited = useSelector(getAssetsDataInited);
   const isTransactionsOpen = useSelector(getIsTransactionsOpen);
 
   const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
@@ -67,14 +70,32 @@ export const AssetsPage: React.FC = React.memo(() => {
     dispatch(AddNewTransactionActions.setQuoteEditing(false));
   };
 
+  const onTransactionsOpen = (ticker: string) => {
+    dispatch(TransactionsActions.setTransactionsToggle(true));
+    dispatch(TransactionsActions.setTransactionCoin(ticker));
+  };
+
   useEffect(() => {
     if (userData) {
-      dispatch(fetchPortfolioData(userData?.id));
+      dispatch(fetchAssetsData(userData?.id));
     }
   }, [dispatch, userData]);
 
-  if (!portfolioData || !isPortfolioDataInited) {
-    return <MessageCenter text="Your portfolio is empty" />;
+  if (!assetsData || !isAssetsDataInited) {
+    return (
+      <Paper
+        sx={{
+          width: '100%',
+          display: 'flex',
+          borderRadius: 3,
+          p: 1,
+          position: 'relative',
+        }}
+      >
+        {' '}
+        <MessageCenter text="Your portfolio is empty" />{' '}
+      </Paper>
+    );
   }
 
   return (
@@ -107,43 +128,46 @@ export const AssetsPage: React.FC = React.memo(() => {
             position: 'relative',
           }}
         >
-          <PortfolioHeader
+          <AssetsHeader
             title="Dashboard"
             subtitle="An overview of cryptocurrencies and markets"
             rightBarHandler={rightBarHandler}
             isRightBarOpen={isOpen}
           />
 
-          {isLoading && !isPortfolioDataInited && <Loader />}
+          {isLoading && !isAssetsDataInited && <Loader />}
 
-          {(portfolioData.length > 0 ? (
-              <>
-                <Grid
-                  container
-                  item
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  alignContent="start"
-                  rowSpacing={2}
-                  columnSpacing={2}
-                >
-                  <Grid item xl={12} sm={12}>
-                    <PortfolioInfo />
-                  </Grid>
-                </Grid>
-
+          {assetsData.length > 0 ? (
+            <>
+              <Grid
+                container
+                item
+                md={12}
+                lg={12}
+                xl={12}
+                alignContent="start"
+                rowSpacing={2}
+                columnSpacing={2}
+              >
                 <Grid item xl={12} sm={12}>
-                  {!isTransactionsOpen ? (
-                    <Assets portfolio={portfolioData} />
-                  ) : (
-                    <Transactions />
-                  )}
+                  <AssetsInfo />
                 </Grid>
-              </>
-            ) : (
-              <MessageCenter text="Your portfolio is empty" />
-            ))}
+              </Grid>
+
+              <Grid item xl={12} sm={12}>
+                {!isTransactionsOpen ? (
+                  <Assets
+                    transactionsToggle={onTransactionsOpen}
+                    assets={assetsData}
+                  />
+                ) : (
+                  <TransactionsList assets={assetsData} />
+                )}
+              </Grid>
+            </>
+          ) : (
+            <MessageCenter text="Your portfolio is empty" />
+          )}
         </Grid>
       </Box>
 

@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider';
 import axios from 'axios';
-import { fetchPortfolioData } from '../../../../entities/Portfolio/model/services/fetchPortfolioData';
-import { Transaction } from '../../../../entities/Portfolio/model/types/PortfolioSchema';
+import { fetchAssetsData } from 'entities/Assets';
+import { Transactions } from 'entities/Transactions';
 import { getUserData } from '../../../../entities/User/model/selectors/getUserData';
 import { NewTransactionData } from '../types/AddNewTransactionSchema';
 
 export const addTransactionService = createAsyncThunk<
-  Transaction,
+  Transactions,
   NewTransactionData,
   ThunkConfig<string>
 >('addTransactionService', async (transactionData, thunkAPI) => {
@@ -17,14 +17,14 @@ export const addTransactionService = createAsyncThunk<
 
   if (user) {
     try {
-      const response = await axios.post<Transaction>(
+      const response = await axios.post<Transactions>(
         `${process.env.REACT_APP_API_URL}/transactions/new`,
         {
           ...transactionData,
         },
       );
 
-      dispatch(fetchPortfolioData(user.id));
+      dispatch(fetchAssetsData(user.id));
 
       return response.data;
     } catch (e) {

@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { AssetsReducer } from 'entities/Assets';
 import { coinsAPI } from 'entities/Coin';
-import { PortfolioReducer } from 'entities/Portfolio';
+import { TransactionsReducer } from 'entities/Transactions';
 import { UserReducer } from 'entities/User';
 import { AddNewTransactionReducer } from 'features/AddNewTransaction';
 import { LoginByUsernameReducer } from 'features/loginByUsername';
@@ -10,7 +11,8 @@ import { StateSchema } from './StateSchema';
 const rootReducer = combineReducers<StateSchema>({
   loginByUsername: LoginByUsernameReducer,
   registerByUsername: RegisterByUsernameReducer,
-  portfolio: PortfolioReducer,
+  transactions: TransactionsReducer,
+  assets: AssetsReducer,
   addNewTransaction: AddNewTransactionReducer,
   user: UserReducer,
   [coinsAPI.reducerPath]: coinsAPI.reducer,

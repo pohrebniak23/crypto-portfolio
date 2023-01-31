@@ -1,12 +1,9 @@
-import { Portfolio } from 'entities/Portfolio';
+import { AssetsData } from 'entities/Assets';
 import { Coin } from 'entities/Coin';
 
-export const walletSum = (
-  coins: Coin[] | undefined,
-  portfolio: Portfolio[],
-) => {
+export const walletSum = (coins: Coin[] | undefined, assets: AssetsData[]) => {
   if (coins) {
-    return portfolio.reduce((prev, current) => {
+    return assets.reduce((prev, current) => {
       const item = coins.find((finded) => finded.id === current.ticker) || null;
 
       if (item) {
@@ -22,11 +19,12 @@ export const walletSum = (
 
 export const allTimeProfit = (
   coins: Coin[] | undefined,
-  portfolio: Portfolio[],
+  assets: AssetsData[],
 ) => {
   if (coins) {
-    return portfolio.reduce((prev, current) => {
-      const item = coins.find((coinItem: Coin) => coinItem.id === current.ticker) || null;
+    return assets.reduce((prev, current) => {
+      const item =
+        coins.find((coinItem: Coin) => coinItem.id === current.ticker) || null;
       if (item) {
         return (
           prev +
@@ -50,30 +48,30 @@ export interface TopGainerLooser {
 
 export interface TopGainerLooserProps {
   coins: Coin[] | undefined;
-  portfolio: Portfolio[];
+  assets: AssetsData[];
   type: 'gainer' | 'looser';
 }
 
 export const topGainerLooser = ({
   coins,
-  portfolio,
+  assets,
   type,
 }: TopGainerLooserProps) => {
   let gainer = 0;
   let result: TopGainerLooser | null = null;
 
   if (coins) {
-    portfolio.forEach((portfolioItem) => {
+    assets.forEach((assetsItem) => {
       const portfolioCoin = coins.find(
-        (coinItem) => coinItem.id === portfolioItem.ticker,
+        (coinItem) => coinItem.id === assetsItem.ticker,
       );
 
       if (portfolioCoin) {
         const profit =
-          portfolioCoin.current_price * portfolioItem.count -
-          portfolioItem.avgBuyPrice * portfolioItem.count;
+          portfolioCoin.current_price * assetsItem.count -
+          assetsItem.avgBuyPrice * assetsItem.count;
         const percent =
-          (profit / (portfolioItem.avgBuyPrice * portfolioItem.count)) * 100;
+          (profit / (assetsItem.avgBuyPrice * assetsItem.count)) * 100;
 
         if (type === 'gainer' && profit > gainer) {
           gainer = profit;
@@ -84,7 +82,7 @@ export const topGainerLooser = ({
             percent,
           };
         }
-        
+
         if (type === 'looser' && profit < gainer) {
           gainer = profit;
 

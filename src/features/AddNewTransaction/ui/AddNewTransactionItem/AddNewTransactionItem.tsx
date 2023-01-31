@@ -9,7 +9,7 @@ import { priceInputFormatter } from 'shared/helpers/priceInputFormatter';
 import { useAppDispatch } from '../../../../shared/hooks/redux';
 import { getAddNewTransactionStatus } from '../../model/selectors/getNewTransactionSelector';
 import { addTransactionService } from '../../model/services/addTransactionService';
-import { updatePortfolioDataService } from '../../model/services/updatePortfolioDataService';
+import { updateAssetsDataService } from '../../model/services/updatePortfolioDataService';
 
 interface AddNewTransactionItemProps {
   transactionType: 'BUY' | 'SELL';
@@ -34,7 +34,11 @@ export const AddNewTransactionItem = memo(
       if (isCustomPrice) {
         setPrice(String((Number(buyCount) * Number(customPrice)).toFixed(3)));
       } else {
-        setPrice(String((Number(buyCount) * baseCurrencyCoin.current_price).toFixed(3)));
+        setPrice(
+          String(
+            (Number(buyCount) * baseCurrencyCoin.current_price).toFixed(3),
+          ),
+        );
       }
     }, [baseCurrencyCoin, buyCount, isCustomPrice, customPrice]);
 
@@ -43,7 +47,7 @@ export const AddNewTransactionItem = memo(
     const addTransaction = () => {
       if (user) {
         dispatch(
-          updatePortfolioDataService({
+          updateAssetsDataService({
             ticker: baseCurrencyCoin.id,
             price: !isCustomPrice
               ? +baseCurrencyCoin.current_price
