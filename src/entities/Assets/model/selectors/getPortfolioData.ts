@@ -5,3 +5,6 @@ export const getAssetsData = (state: StateSchema) =>
 
 export const getAssetsDataInited = (state: StateSchema) =>
   state.assets.isInited;
+
+export const getIsAssetsLoading = (state: StateSchema) =>
+state.assets.isLoading;

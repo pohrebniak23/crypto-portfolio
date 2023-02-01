@@ -5,6 +5,7 @@ import {
   fetchAssetsData,
   getAssetsData,
   getAssetsDataInited,
+  getIsAssetsLoading,
 } from 'entities/Assets';
 import { Coin, CoinListModal, coinsAPI } from 'entities/Coin';
 import {
@@ -38,8 +39,9 @@ export const AssetsPage: React.FC = React.memo(() => {
   const assetsData = useAppSelector(getAssetsData);
   const isAssetsDataInited = useSelector(getAssetsDataInited);
   const isTransactionsOpen = useSelector(getIsTransactionsOpen);
+  const isAssetsLoading = useSelector(getIsAssetsLoading);
 
-  const { isLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { isLoading: isCoinsLoading } = coinsAPI.useFetchAllCoinsQuery('', {
     pollingInterval: 60000,
   });
 
@@ -81,23 +83,6 @@ export const AssetsPage: React.FC = React.memo(() => {
     }
   }, [dispatch, userData]);
 
-  if (!assetsData || !isAssetsDataInited) {
-    return (
-      <Paper
-        sx={{
-          width: '100%',
-          display: 'flex',
-          borderRadius: 3,
-          p: 1,
-          position: 'relative',
-        }}
-      >
-        {' '}
-        <MessageCenter text="Your portfolio is empty" />{' '}
-      </Paper>
-    );
-  }
-
   return (
     <Paper
       sx={{
@@ -135,9 +120,11 @@ export const AssetsPage: React.FC = React.memo(() => {
             isRightBarOpen={isOpen}
           />
 
-          {isLoading && !isAssetsDataInited && <Loader />}
+          {(isAssetsLoading || isCoinsLoading) && !isAssetsDataInited && (
+            <Loader />
+          )}
 
-          {assetsData.length > 0 ? (
+          {isAssetsDataInited && !isCoinsLoading && assetsData.length > 0 && (
             <>
               <Grid
                 container
@@ -165,7 +152,9 @@ export const AssetsPage: React.FC = React.memo(() => {
                 )}
               </Grid>
             </>
-          ) : (
+          )}
+
+          {isAssetsDataInited && assetsData.length === 0 && (
             <MessageCenter text="Your portfolio is empty" />
           )}
         </Grid>

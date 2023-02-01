@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { fetchAssetsData } from '../services/fetchAssetsData';
 import { AssetsData, AssetsSchema } from '../types/AssetsSchema';
 
 const initialState: AssetsSchema = {
@@ -18,7 +19,25 @@ export const AssetsSlice = createSlice({
       state.isInited = true;
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAssetsData.pending, (state) => {
+        state.error = undefined;
+        state.isLoading = true;
+      })
+      .addCase(
+        fetchAssetsData.fulfilled,
+        (state, action: PayloadAction<AssetsData[]>) => {
+          state.isLoading = false;
+          state.isInited = true;
+          state.assetsData = action.payload;
+        },
+      )
+      .addCase(fetchAssetsData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const { reducer: AssetsReducer, actions: AssetsActions } = AssetsSlice;

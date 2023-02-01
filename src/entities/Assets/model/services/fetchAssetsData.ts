@@ -1,15 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/StoreProvider/config/StateSchema';
 import axios from 'axios';
-import { AssetsActions } from '../slices/AssetsSlice';
 import { AssetsData } from '../types/AssetsSchema';
 
 export const fetchAssetsData = createAsyncThunk<
-  AssetsData,
+  AssetsData[],
   string,
   ThunkConfig<string>
 >('assets/fetchAssetsData', async (userId, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
+  const { rejectWithValue } = thunkAPI;
 
   try {
     const response = await axios.get(
@@ -24,9 +23,6 @@ export const fetchAssetsData = createAsyncThunk<
     if (!response.data) {
       rejectWithValue('Server error');
     }
-
-    dispatch(AssetsActions.setAssetsData(response.data));
-    dispatch(AssetsActions.setInited());
 
     return response.data;
   } catch (e: any) {
