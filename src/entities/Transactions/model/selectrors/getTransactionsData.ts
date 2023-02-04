@@ -8,3 +8,9 @@ export const getIsTransactionsOpen = (state: StateSchema) =>
 
 export const getTransactionsCoin = (state: StateSchema) =>
   state.transactions.transactionsCoin;
+
+export const getIsTransactionsLoading = (state: StateSchema) =>
+  state.transactions.isLoading;
+
+export const getIsTransactionInited = (state: StateSchema) =>
+state.transactions.isInited;

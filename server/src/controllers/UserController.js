@@ -21,7 +21,7 @@ class UserController {
 
   async createUser(request, response) {
     try {
-      const { login, password } = request.body;
+      const { login, password, name } = request.body;
 
       const isUser = await UserModel.find({ login, password });
 
@@ -31,7 +31,7 @@ class UserController {
         });
       }
 
-      const createUser = await UserModel.create({ login, password });
+      const createUser = await UserModel.create({ login, password, name });
 
       response.status(200).json(createUser);
     } catch (error) {

@@ -3,19 +3,34 @@ import { Coin } from 'entities/Coin';
 
 const COINGEKO_URL = 'https://api.coingecko.com/api/v3/';
 
+interface FetchCoinsProps {
+  currency?: string;
+  order?: string;
+  perPage?: string;
+  page?: string;
+  sparkline?: string;
+  interval?: string;
+}
+
 export const coinsAPI = createApi({
   reducerPath: 'coinsAPI',
   baseQuery: fetchBaseQuery({ baseUrl: `${COINGEKO_URL}` }),
   endpoints: (build) => ({
-    fetchAllCoins: build.query<Coin[], string>({
-      query: () => ({
-        url: 'coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=false&per_page=100/',
-      }),
-    }),
-    getCurrentPageCoins: build.query<Coin[], number>({
-      query: (perPage: number) => ({
-        url: `coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=false&per_page=${perPage}/`,
-      }),
+    fetchMarketCoins: build.query<Coin[], FetchCoinsProps>({
+      query: (args) => {
+        const {
+          currency = 'usd',
+          order = 'market_cap_desc',
+          perPage = '100',
+          page = '1',
+          sparkline = 'false',
+          interval = '7d',
+        } = args;
+
+        return {
+          url: `coins/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${interval}`,
+        };
+      },
     }),
   }),
 });

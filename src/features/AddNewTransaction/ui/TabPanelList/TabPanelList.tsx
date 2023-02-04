@@ -14,7 +14,7 @@ interface TabPanelListProps {
 }
 
 export const TabPanelList = memo(({ currentTab }: TabPanelListProps) => {
-  const { data: coins } = coinsAPI.useFetchAllCoinsQuery('');
+  const { data: coins } = coinsAPI.useFetchMarketCoinsQuery({});
   const baseCurrencyTicker = useSelector(getBaseCurrencyTicker);
   const quoteCurrencyTicker = useSelector(getQuoteCurrencyTicker);
 
@@ -34,6 +34,7 @@ export const TabPanelList = memo(({ currentTab }: TabPanelListProps) => {
           transactionType="BUY"
           baseCurrencyCoin={baseCoin}
           quoteCurrencyCoin={quoteCoin}
+          buttonText="Buy"
         />
       </TabPanelItem>
       <TabPanelItem value={currentTab} index={1}>
@@ -41,6 +42,7 @@ export const TabPanelList = memo(({ currentTab }: TabPanelListProps) => {
           transactionType="SELL"
           baseCurrencyCoin={baseCoin}
           quoteCurrencyCoin={quoteCoin}
+          buttonText="Sell"
         />
       </TabPanelItem>
     </>

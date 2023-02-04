@@ -15,11 +15,13 @@ interface AddNewTransactionItemProps {
   transactionType: 'BUY' | 'SELL';
   baseCurrencyCoin: Coin;
   quoteCurrencyCoin: Coin;
+  buttonText: string;
 }
 
 export const AddNewTransactionItem = memo(
   (props: AddNewTransactionItemProps) => {
-    const { transactionType, baseCurrencyCoin, quoteCurrencyCoin } = props;
+    const { transactionType, baseCurrencyCoin, quoteCurrencyCoin, buttonText } =
+      props;
 
     const dispatch = useAppDispatch();
 
@@ -253,7 +255,7 @@ export const AddNewTransactionItem = memo(
               width: '100%',
             }}
           >
-            Add to portfolio
+            {buttonText}
           </LoadingButton>
         </Box>
       </Box>

@@ -41,13 +41,13 @@ export const AssetsPage: React.FC = React.memo(() => {
   const isTransactionsOpen = useSelector(getIsTransactionsOpen);
   const isAssetsLoading = useSelector(getIsAssetsLoading);
 
-  const { isLoading: isCoinsLoading } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { isLoading: isCoinsLoading } = coinsAPI.useFetchMarketCoinsQuery({}, {
     pollingInterval: 60000,
   });
 
   const [perPage, setPerPage] = useState<number>(10);
 
-  const { data: coinsList } = coinsAPI.useGetCurrentPageCoinsQuery(perPage);
+  const { data: coinsList } = coinsAPI.useFetchMarketCoinsQuery({}, {});
 
   const updatePerPage = () => {
     setPerPage(perPage + 10);

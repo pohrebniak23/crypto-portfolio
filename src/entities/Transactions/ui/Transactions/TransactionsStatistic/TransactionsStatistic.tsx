@@ -22,6 +22,10 @@ export const TransactionsStatistic = ({
     const profit = marketPriceSum - buySum;
     const profitPercent = (profit / marketPriceSum) * 100;
 
+    if (portfolioCount === 0) {
+      return <Typography color="rgba(22,163,74,1)">$0 (0%)</Typography>;
+    }
+
     if (profit > 0) {
       return (
         <Typography color="rgba(22,163,74,1)">
@@ -91,7 +95,7 @@ export const TransactionsStatistic = ({
           <Typography variant="body2" sx={{ color: '#757575', mb: 0.5 }}>
             Total profit / loss
           </Typography>
-          <Typography>{profitLoss()}</Typography>
+          {profitLoss()}
         </Box>
       </Box>
     </Box>

@@ -12,7 +12,7 @@ import { getAssetsData } from '../../model/selectors/getPortfolioData';
 import { GainerLooser } from './GainerLooser/GainerLooser';
 
 export const AssetsInfo: React.FC = React.memo(() => {
-  const { data: coinsList } = coinsAPI.useFetchAllCoinsQuery('', {
+  const { data: coinsList } = coinsAPI.useFetchMarketCoinsQuery({}, {
     pollingInterval: 60000,
   });
   const assets = useAppSelector(getAssetsData);

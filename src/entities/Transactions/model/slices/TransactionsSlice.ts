@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { fetchTransactionsData } from '../services/fetchTransactionsData';
 import {
   Transactions,
   TransactionsSchema,
@@ -29,7 +30,25 @@ export const TransactionsSlice = createSlice({
       state.isInited = true;
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTransactionsData.pending, (state) => {
+        state.error = undefined;
+        state.isLoading = true;
+      })
+      .addCase(
+        fetchTransactionsData.fulfilled,
+        (state, action: PayloadAction<Transactions[]>) => {
+          state.isLoading = false;
+          state.isInited = true;
+          state.transactions = action.payload;
+        },
+      )
+      .addCase(fetchTransactionsData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const { reducer: TransactionsReducer, actions: TransactionsActions } =
