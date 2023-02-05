@@ -5,19 +5,20 @@ import { Loader } from 'shared/ui/Loader/Loader';
 import { CryptocurrenciesList } from './CryptocurrenciesList/CryptocurrenciesList';
 
 export const Cryptocurrencies = () => {
-  const [page, setPage] = useState<number>(0);
+  const [perPage, setPerPage] = useState<number>(50);
 
-  const { isLoading, data: cryptocurrencies, isFetching } =
-    coinsAPI.useFetchMarketCoinsQuery({
-      perPage: '15',
-      page,
-      sparkline: 'true',
-      interval: '24h',
-    });
+  const {
+    isLoading,
+    data: cryptocurrencies,
+    isFetching,
+  } = coinsAPI.useFetchMarketCoinsQuery({
+    perPage,
+    sparkline: 'true',
+    interval: '24h',
+  });
 
   const setNewPage = () => {
-    console.log(page)
-    setPage(currentPage => currentPage + 1);
+    setPerPage((currentPage) => currentPage + 50);
   };
 
   return (

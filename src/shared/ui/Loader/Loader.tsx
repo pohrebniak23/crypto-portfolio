@@ -1,15 +1,24 @@
 import { Box, CircularProgress } from '@mui/material';
-import React from 'react';
 
-export const Loader: React.FC = () => (
-  <Box
-    sx={{
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)'
-    }}
-  >
-    <CircularProgress />
-  </Box>
-);
+interface LoaderProps {
+  position?: string;
+  left?: string;
+  top?: string;
+}
+
+export const Loader = (props: LoaderProps) => {
+  const { position = 'absolute', left = '50%', top = '50%' } = props;
+
+  return (
+    <Box
+      sx={{
+        position,
+        left,
+        top,
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+};

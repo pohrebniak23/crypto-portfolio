@@ -132,6 +132,7 @@ export const RegisterByUsername = () => {
             >
               Register
             </LoadingButton>
+
             {error && error.length > 0 && (
               <Alert severity="error" sx={{ mt: 2 }}>
                 {error}

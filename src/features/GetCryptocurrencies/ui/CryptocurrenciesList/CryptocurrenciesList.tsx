@@ -8,7 +8,11 @@ import {
 } from '@mui/material';
 import { Coin } from 'entities/Coin';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { StyledTableCell } from 'shared/ui/StyledTable/StyledTable';
+import { Loader } from 'shared/ui/Loader/Loader';
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from 'shared/ui/StyledTable/StyledTable';
 import { CryptocurrenciesItem } from '../CryptocurrenciesItem/CryptocurrenciesItem';
 
 interface CryptocurrenciesListProps {
@@ -24,34 +28,40 @@ export const CryptocurrenciesList = ({
   isLoading,
   isFetching,
 }: CryptocurrenciesListProps) => {
-  const tableEl = useRef<any>();
+  const tableEl = useRef<any>(null);
   const [distanceBottom, setDistanceBottom] = useState(0);
-  const [hasMore] = useState(true);
 
   const scrollListener = useCallback(() => {
     const bottom = tableEl.current.scrollHeight - tableEl.current.clientHeight;
-    // if you want to change distanceBottom every time new data is loaded
-    // don't use the if statement
     if (!distanceBottom) {
-      // calculate distanceBottom that works for you
-      setDistanceBottom(Math.round(bottom * 0.2))
+      setDistanceBottom(Math.round(bottom * 0.2));
     }
-    if (tableEl.current.scrollTop > bottom - distanceBottom && hasMore && !isLoading && !isFetching) {
-      infiniteScrollCallback()
+
+    if (
+      tableEl.current.scrollTop > bottom - distanceBottom &&
+      !isLoading &&
+      !isFetching
+    ) {
+      infiniteScrollCallback();
     }
-  }, [hasMore, infiniteScrollCallback, isLoading, isFetching, distanceBottom])
+  }, [infiniteScrollCallback, isLoading, isFetching, distanceBottom]);
+
   useLayoutEffect(() => {
-    const tableRef = tableEl.current
-    tableRef.addEventListener('scroll', scrollListener)
+    const tableRef = tableEl.current;
+    tableRef.addEventListener('scroll', scrollListener);
     return () => {
-      tableRef.removeEventListener('scroll', scrollListener)
-    }
-  }, [scrollListener])
+      tableRef.removeEventListener('scroll', scrollListener);
+    };
+  }, [scrollListener]);
 
   return (
     <TableContainer
       component={Box}
-      style={{ maxWidth: '100%', margin: 'auto', maxHeight: '700px' }}
+      style={{
+        maxWidth: '100%',
+        margin: 'auto',
+        maxHeight: 'calc(100vh - 166px)',
+      }}
       ref={tableEl}
     >
       <Table sx={{ minWidth: 700 }} stickyHeader aria-label="customized table">
@@ -90,6 +100,17 @@ export const CryptocurrenciesList = ({
               cryptoItem={cryptocurrenciesItem}
             />
           ))}
+
+          <StyledTableRow
+            sx={{ border: 'none', backgroundColor: 'unset !important' }}
+          >
+            <StyledTableCell
+              colSpan={7}
+              sx={{ position: 'relative', height: '80px' }}
+            >
+              <Loader />
+            </StyledTableCell>
+          </StyledTableRow>
         </TableBody>
       </Table>
     </TableContainer>
