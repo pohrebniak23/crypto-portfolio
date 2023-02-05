@@ -2,7 +2,7 @@
 
 🚀 App demo link - https://crypto-portfolio23.onrender.com
 
-You can test app using:
+You can test app using credentials:
   * login: admin@gmail.com
   * password: 123456
 
