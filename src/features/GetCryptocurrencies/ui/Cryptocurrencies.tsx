@@ -1,11 +1,24 @@
 import { Paper, Typography } from '@mui/material';
 import { coinsAPI } from 'entities/Coin';
+import { useState } from 'react';
 import { Loader } from 'shared/ui/Loader/Loader';
 import { CryptocurrenciesList } from './CryptocurrenciesList/CryptocurrenciesList';
 
 export const Cryptocurrencies = () => {
-  const { isLoading, data: cryptocurrencies } =
-    coinsAPI.useFetchMarketCoinsQuery({ perPage: '100', sparkline: 'true', interval: '24h' });
+  const [page, setPage] = useState<number>(0);
+
+  const { isLoading, data: cryptocurrencies, isFetching } =
+    coinsAPI.useFetchMarketCoinsQuery({
+      perPage: '15',
+      page,
+      sparkline: 'true',
+      interval: '24h',
+    });
+
+  const setNewPage = () => {
+    console.log(page)
+    setPage(currentPage => currentPage + 1);
+  };
 
   return (
     <Paper
@@ -17,7 +30,7 @@ export const Cryptocurrencies = () => {
         backgroundColor: '#fff',
         borderRadius: 3,
         height: 'auto',
-        mb: 4
+        mb: 4,
       }}
     >
       <Typography variant="subtitle1" sx={{ mb: 1 }}>
@@ -27,7 +40,12 @@ export const Cryptocurrencies = () => {
       {isLoading && <Loader />}
 
       {cryptocurrencies && (
-        <CryptocurrenciesList cryptocurrencies={cryptocurrencies} />
+        <CryptocurrenciesList
+          cryptocurrencies={cryptocurrencies}
+          infiniteScrollCallback={setNewPage}
+          isLoading={isLoading}
+          isFetching={isFetching}
+        />
       )}
     </Paper>
   );
