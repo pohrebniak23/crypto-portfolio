@@ -60,11 +60,13 @@ export const CryptocurrenciesItem = React.memo(
             </Typography>
           </Box>
         </StyledTableCell>
-        <StyledTableCell>
-          <Typography variant="body2">${cryptoItem.current_price}</Typography>
+        <StyledTableCell align="center">
+          <Typography variant="body2">
+            {formatToCurrency.format(cryptoItem.current_price)}
+          </Typography>
         </StyledTableCell>
 
-        <StyledTableCell>
+        <StyledTableCell align="center">
           <Box
             sx={{
               color:
@@ -79,7 +81,7 @@ export const CryptocurrenciesItem = React.memo(
           </Box>
         </StyledTableCell>
 
-        <StyledTableCell>
+        <StyledTableCell align="center">
           <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
             {formatToCurrency.format(cryptoItem.market_cap)}
           </Typography>
