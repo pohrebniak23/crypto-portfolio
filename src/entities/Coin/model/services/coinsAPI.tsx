@@ -6,8 +6,8 @@ const COINGEKO_URL = 'https://api.coingecko.com/api/v3/';
 interface FetchCoinsProps {
   currency?: string;
   order?: string;
-  perPage?: string;
-  page?: string;
+  perPage?: string | number;
+  page?: string | number;
   sparkline?: string;
   interval?: string;
 }

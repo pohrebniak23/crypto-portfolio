@@ -16,7 +16,7 @@ export const HomePage: React.FC = () => {
         p: 2,
         position: 'relative',
         height: 'calc(100vh - 16px)',
-        overflowY: 'scroll'
+        overflowY: 'hidden'
       }}
     >
       <Box
