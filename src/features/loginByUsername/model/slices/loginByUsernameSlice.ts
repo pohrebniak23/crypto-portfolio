@@ -9,7 +9,7 @@ const initialState: LoginByUsernameSchema = {
 };
 
 export const loginByUsernameSlice = createSlice({
-  name: 'auth',
+  name: 'loginByUsername',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

@@ -41,7 +41,11 @@ export const registerByUsernameService = createAsyncThunk<
     navigate('/');
 
     return response.data;
-  } catch (e) {
-    return rejectWithValue('Error');
+  } catch (e: any) {
+    if (e.message) {
+      return rejectWithValue(e.message);
+    }
+
+    return rejectWithValue('Error, something went wrong');
   }
 });

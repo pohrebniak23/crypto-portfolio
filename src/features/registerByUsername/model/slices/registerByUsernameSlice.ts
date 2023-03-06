@@ -9,7 +9,7 @@ const initialState: RegisterByUsernameSchema = {
 };
 
 export const registerByUsernameSlice = createSlice({
-  name: 'auth',
+  name: 'registerByUsername',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

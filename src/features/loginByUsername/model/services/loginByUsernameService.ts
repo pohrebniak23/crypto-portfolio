@@ -24,7 +24,7 @@ export const loginByUsernameService = createAsyncThunk<
       `${process.env.REACT_APP_API_URL}/users/login`,
       {
         login: data.username,
-        password: data.password
+        password: data.password,
       },
       {
         headers: {
@@ -44,6 +44,10 @@ export const loginByUsernameService = createAsyncThunk<
 
     return response.data;
   } catch (e: any) {
-    return rejectWithValue(e.response.data);
+    if (e.message) {
+      return rejectWithValue(e.message);
+    }
+
+    return rejectWithValue('Error, something went wrong');
   }
 });
