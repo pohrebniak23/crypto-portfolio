@@ -32,5 +32,8 @@ export const coinsAPI = createApi({
         };
       },
     }),
+    getCoinById: build.query<any, string>({
+      query: (id) => ({ url: `coins/${id}` }),
+    }),
   }),
 });

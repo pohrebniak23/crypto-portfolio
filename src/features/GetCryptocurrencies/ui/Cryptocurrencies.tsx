@@ -1,4 +1,5 @@
-import { Paper, Typography } from '@mui/material';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { coinsAPI } from 'entities/Coin';
 import { useState } from 'react';
 import { Loader } from 'shared/ui/Loader/Loader';
@@ -11,6 +12,8 @@ export const Cryptocurrencies = () => {
     isLoading,
     data: cryptocurrencies,
     isFetching,
+    error,
+    refetch,
   } = coinsAPI.useFetchMarketCoinsQuery({
     perPage,
     sparkline: 'true',
@@ -20,6 +23,11 @@ export const Cryptocurrencies = () => {
   const setNewPage = () => {
     setPerPage((currentPage) => currentPage + 50);
   };
+
+  const resetPage = () => {
+    setPerPage(50);
+    refetch();
+  }
 
   return (
     <Paper
@@ -40,13 +48,34 @@ export const Cryptocurrencies = () => {
 
       {isLoading && <Loader />}
 
-      {cryptocurrencies && (
+      {cryptocurrencies && !error && (
         <CryptocurrenciesList
           cryptocurrencies={cryptocurrencies}
           infiniteScrollCallback={setNewPage}
           isLoading={isLoading}
           isFetching={isFetching}
         />
+      )}
+
+      {error && (
+        <Box
+          display="flex"
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+        >
+          <Typography variant="h6" my={2}>
+            Something went wrong, please reload page
+          </Typography>
+          <Button
+            onClick={resetPage}
+            variant="contained"
+            sx={{ marginBottom: '10px' }}
+          >
+            <ReplayIcon sx={{ marginRight: '6px' }} />
+            Reload
+          </Button>
+        </Box>
       )}
     </Paper>
   );

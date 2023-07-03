@@ -16,10 +16,10 @@ export const CryptocurrenciesItem = React.memo(
   ({ cryptoItem }: CryptocurrenciesItemProps) => {
     const formatedChartData = useCallback(
       () =>
-        cryptoItem.sparkline_in_7d.price.map((item) => ({
+        cryptoItem?.sparkline_in_7d.price.map((item) => ({
           value: item,
         })),
-      [cryptoItem.sparkline_in_7d.price],
+      [cryptoItem?.sparkline_in_7d.price],
     );
 
     const formatToCurrency = new Intl.NumberFormat('ja-JP', {
@@ -76,7 +76,7 @@ export const CryptocurrenciesItem = React.memo(
             }}
           >
             <Typography variant="body2" sx={{ lineHeight: '100%', mb: 0.5 }}>
-              {cryptoItem.price_change_percentage_24h.toFixed(2)} %
+              {cryptoItem?.price_change_percentage_24h?.toFixed(2)} %
             </Typography>
           </Box>
         </StyledTableCell>

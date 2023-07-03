@@ -41,13 +41,15 @@ export const AssetsPage: React.FC = React.memo(() => {
   const isTransactionsOpen = useSelector(getIsTransactionsOpen);
   const isAssetsLoading = useSelector(getIsAssetsLoading);
 
-  const { isLoading: isCoinsLoading } = coinsAPI.useFetchMarketCoinsQuery({}, {
-    pollingInterval: 60000,
-  });
+  const { data: coinsList, isLoading: isCoinsLoading } =
+    coinsAPI.useFetchMarketCoinsQuery(
+      {},
+      {
+        pollingInterval: 60000,
+      },
+    );
 
   const [perPage, setPerPage] = useState<number>(10);
-
-  const { data: coinsList } = coinsAPI.useFetchMarketCoinsQuery({}, {});
 
   const updatePerPage = () => {
     setPerPage(perPage + 10);
@@ -124,37 +126,40 @@ export const AssetsPage: React.FC = React.memo(() => {
             <Loader />
           )}
 
-          {isAssetsDataInited && !isCoinsLoading && assetsData.length > 0 && (
-            <>
-              <Grid
-                container
-                item
-                md={12}
-                lg={12}
-                xl={12}
-                alignContent="start"
-                rowSpacing={2}
-                columnSpacing={2}
-              >
-                <Grid item xl={12} sm={12}>
-                  <AssetsInfo />
+          {isAssetsDataInited &&
+            !isCoinsLoading &&
+            assetsData?.length > 0 &&
+            coinsList && (
+              <>
+                <Grid
+                  container
+                  item
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  alignContent="start"
+                  rowSpacing={2}
+                  columnSpacing={2}
+                >
+                  <Grid item xl={12} sm={12}>
+                    <AssetsInfo />
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid item xl={12} sm={12}>
-                {!isTransactionsOpen ? (
-                  <Assets
-                    transactionsToggle={onTransactionsOpen}
-                    assets={assetsData}
-                  />
-                ) : (
-                  <TransactionsList assets={assetsData} />
-                )}
-              </Grid>
-            </>
-          )}
+                <Grid item xl={12} sm={12}>
+                  {!isTransactionsOpen ? (
+                    <Assets
+                      transactionsToggle={onTransactionsOpen}
+                      assets={assetsData}
+                    />
+                  ) : (
+                    <TransactionsList assets={assetsData} />
+                  )}
+                </Grid>
+              </>
+            )}
 
-          {isAssetsDataInited && assetsData.length === 0 && (
+          {isAssetsDataInited && assetsData?.length === 0 && (
             <MessageCenter text="Your portfolio is empty" />
           )}
         </Grid>
